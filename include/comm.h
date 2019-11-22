@@ -29,9 +29,13 @@ template <typename... Args> inline void elog(const char *s, Args... args) {
 // turn bit is reduced, as we assume small boards are all black players turn
 // we want to encode it as we MSB style, so we start from 63 and go down to 
 // zero. The sequence is shown below in GenNeededBits.
-// the following are their corresponding sequence in vector 'NeededBits' and 'Encode'
-extern std::vector<uint8_t> NeededBit; // needed bits generated at GenNeededBit
-extern std::vector<std::pair<uint8_t, uint8_t>> Encode; // start and end of the value stored
+// the following are their corresponding sequence in 
+// vector 'encode_size' and 'encode_lr'
+
+// needed bits generated at GenNeededBit
+extern std::vector<uint8_t> encode_size; 
+// start and end of the value stored
+extern std::vector<std::pair<uint8_t, uint8_t>> encode_lr; 
 
 namespace GoBitState {
 
@@ -71,7 +75,7 @@ const GoCoordId BORDER_R = ROW;
 const GoCoordId BORDER_C = COL;
 const GoCoordId SMALLBOARDSIZE = ROW*COL;
 const GoCoordId COORD_PASS = -1; // pass
-const GoCoordId COORD_UNSET = -2; // meaning the coord is UNSET, does not contain value.
+const GoCoordId COORD_UNSET = -2; // does not contain valid value.
 const GoCoordId COORD_RESIGN = -3; // resign (surrender)
 
 const GoCoordId DELTA_SIZE = 4;
