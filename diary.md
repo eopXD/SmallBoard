@@ -65,7 +65,7 @@ the class `Timer` us constructed to measure performance.
 
 ## 2019/11/22
 
-Finished basic structure on `comm`.
+##### Finished basic structure on `comm`.
 
 Notable
 
@@ -79,3 +79,13 @@ Notable
 	  table that corresponds (id/coordinate) to its neighbor (id/coordinate).
 	  
 `timer` also done.
+
+
+##### Finish basic structure of GoBlock
+
+Notable
+
+- ❗️ if `SMALLBOARDSIZE` exceeds `64`, then there will be modification needed on bitstate storage of stone and liberty
+
+
+### TODO: later todo after work-out, experiment on bit-op vs. bitset.
