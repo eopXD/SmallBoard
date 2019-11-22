@@ -53,6 +53,7 @@ using GoSerial = uint64_t; // serial number to represent the board position
 using GoStoneColor = uint8_t; // color of stone on the board
 using GoCoordId = int8_t; // Id that corresponds to the coordination
 using GoBlockId = int8_t; // Blocks on the board (check GoBlock)
+using GoCounter = uint16_t; // size of counters
 
 using GoPosition = std::pair<GoCoordId, GoCoordId>;
 using GoHashPair = std::pair<uint64_t, uint64_t>;
