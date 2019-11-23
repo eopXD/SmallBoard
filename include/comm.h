@@ -51,7 +51,7 @@ extern void CreateEncode ();
 // 3 stands for Black/White/Empty
 // log2 ( 3^25 ) ~ 39.624
 using GoSerial = uint64_t; // serial number to represent the board position
-
+using GoHash = uint64_t; // for Zobrist Hash
 // all declaration can fit into uint8_t because we are dealing with small
 // boards right now.
 using GoStoneColor = uint8_t; // color of stone on the board
