@@ -25,13 +25,13 @@ void CreateEncoding {
 	call_once(
 		CreateEncoding_once,
 		[] () {
-			int start_bit = 63;
+			int start_bit = 63; // Most Significant Bit
 
-			CreateEncode(pow(3.0, SMALLBOARDSIZE), start_bit);	
-			CreateEncode(SMALLBOARDSIZE+3, start_bit);
-			CreateEncode(SMALLBOARDSIZE+1, start_bit);
-			CreateEncode(4, start_bit);
-			CreateEncode(2*SMALLBOARDSIZE+2, start_bit);
+			CreateEncode(pow(3.0, SMALLBOARDSIZE), start_bit);	// serial
+			CreateEncode(SMALLBOARDSIZE+3, start_bit);			// ko_and_pass
+			CreateEncode(SMALLBOARDSIZE+1, start_bit);			// out_degree
+			CreateEncode(4, start_bit);							// game_result
+			CreateEncode(2*SMALLBOARDSIZE+2, start_bit);		// board_score
 
 			if ( start_bit < -1 ) {
 				elog("64 bit is not enough to encode the given ROW & COL\n");
