@@ -13,7 +13,24 @@
 #include "comm.h"
 
 struct GoBlock {
-// public:
+
+	bool in_use; 				// whether the block is inuse
+	GoCounter liberty_count; 	// count of liberty
+	GoCounter stone_count; 		// count of stone
+	GoStoneColor color; 		// player that owns the block
+	
+	GoStone *stones; 			// stones that belongs to the block
+	GoCoordId head, tail;		// stone records
+
+// LSB style, lowest bit is represents the 0th in 'id'
+// liberty_state[idx] = 1 means that there is liberty on the position 'idx'
+	uint64_t liberty_state;
+/* virtual liberty represents the place not occupied by the GoBlock
+    virtual_liberty_state[idx] = 1 means the position 'idx' is not occupied */
+	uint64_t virtual_liberty_state;
+// stone_state[idx] = 1 means that there us a stone on the position 'idx'
+	uint64_t stone_state;
+
 	void Reset () { // reset the block (for re-use)
 		in_use = false;
 		liberty_count = stone_count = 0;
@@ -44,9 +61,16 @@ struct GoBlock {
 		return (liberty_count = __builtin_popcountll(liberty_state));
 	}
 	bool IsNoLiberty () {
-		return (0 == this->CountLiberty());
+		return (0 == this->CountLiberty())
 	}
 	
+	GoStone* GetHead const () {
+		return (this->stones+this->head);
+	}
+	GoStone* GetTail const () {
+		return (this->stones+this->tail);
+	}
+
 	inline void TryMergeBlocks ( const GoBlock &a ) {
 		this->stone_count += a.stone_count;
 		this->stone_state |= a.stone_state;
@@ -56,20 +80,12 @@ struct GoBlock {
 		this->liberty_state &= virtual_liberty_state;
 	}
 
-// private:
-	bool in_use; // whether the block is inuse
-	GoCounter liberty_count; // count of liberty
-	GoCounter stone_count; // count of stone
-	GoStoneColor color; // player that owns the block
+	void MergeBlocks ( const GoBlock &a ) {
+		a.GetTail()->next_id = this->GetHead()->self_id;
+		this->head = a.head;
+		a.GetTail()->parent_id = this->GetTail()->self_id;
+	}
 
-// LSB style, lowest bit is represents the 0th in 'id'
-// liberty_state[idx] = 1 means that there is liberty on the position 'idx'
-	uint64_t liberty_state;
-/* virtual liberty represents the place not occupied by the GoBlock
-    virtual_liberty_state[idx] = 1 means the position 'idx' is not occupied */
-	uint64_t virtual_liberty_state;
-// stone_state[idx] = 1 means that there us a stone on the position 'idx'
-	uint64_t stone_state;
 
 }
 #endif
