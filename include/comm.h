@@ -81,6 +81,8 @@ const GoCoordId COORD_RESIGN = -3; // resign (surrender)
 const GoCoordId DELTA_SIZE = 4;
 const GoCoordId COORD_DX[DELTA_SIZE] = {0, 1, 0, -1};
 const GoCoordId COORD_DY[DELTA_SIZE] = {-1, 0, 1, 0};
+
+const GoBlockId MAX_BLOCK_SIZE = 1<<4;
 } // namespace GoConstant
 
 
