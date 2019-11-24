@@ -26,24 +26,6 @@ template <typename... Args> inline void elog(const char *s, Args... args) {
     fflush(stderr);
 }
 
-// turn bit is reduced, as we assume small boards are all black players turn
-// we want to encode it as we MSB style, so we start from 63 and go down to 
-// zero. The sequence is shown below in GenNeededBits.
-// the following are their corresponding sequence in 
-// vector 'encode_size' and 'encode_lr'
-
-// needed bits generated at GenNeededBit
-extern std::vector<uint8_t> encode_size; 
-// start and end of the value stored
-extern std::vector<std::pair<uint8_t, uint8_t>> encode_lr; 
-
-namespace GoBitState {
-
-extern void CreateEncoding ();
-extern void CreateEncode ();
-
-} // namespace GoBitState
-
 /****** TYPE DEFINITION ******/
 /* the reason why we need different declaration names is to increase the 
    readability of the code */
@@ -61,6 +43,34 @@ using GoCounter = uint16_t; // size of counters
 
 using GoPosition = std::pair<GoCoordId, GoCoordId>;
 using GoHashPair = std::pair<uint64_t, uint64_t>;
+
+/****************************************************************************/
+
+// turn bit is reduced, as we assume small boards are all black players turn
+// we want to encode it as we MSB style, so we start from 63 and go down to 
+// zero. The sequence is shown below in GenNeededBits.
+// the following are their corresponding sequence in 
+// vector 'encode_size' and 'encode_lr'
+
+// needed bits generated at GenNeededBit
+extern std::vector<uint8_t> encode_size; 
+// start and end of the value stored
+extern std::vector<std::pair<uint8_t, uint8_t>> encode_lr; 
+
+namespace GoBitState {
+
+extern void CreateEncoding ();
+extern void CreateEncode ();
+
+// the encoding sequence of values (also check CreateEncoding)
+const int ENCODE_SERIAL = 0;
+const int ENCODE_KOPASS = 1;
+const int ENCODE_OUTDEG = 2;
+const int ENCODE_RESULT = 3;
+const int ENCODE_SCORE = 4;
+
+} // namespace GoBitState
+
 
 namespace GoConstant {
 
@@ -83,6 +93,7 @@ const GoCoordId COORD_DX[DELTA_SIZE] = {0, 1, 0, -1};
 const GoCoordId COORD_DY[DELTA_SIZE] = {-1, 0, 1, 0};
 
 const GoBlockId MAX_BLOCK_SIZE = 1<<4;
+const GoBlockId BLOCK_UNSET = -1;
 } // namespace GoConstant
 
 
@@ -101,7 +112,8 @@ extern uint8_t cached_neighbor_size[GoConstant::SMALLBOARDSIZE];
 // pre-calculated neighbor ID/Coord
 extern uint64_t cached_neighbor_id[GoConstant::SMALLBOARDSIZE][4];
 // pre-calculated neighbor Coord
-extern vector<GoPosition> cached_neighbor_coord[GoConstant::BORDER_R][GoConstant::BORDER_C];
+extern vector<GoPosition> 
+ cached_neighbor_coord[GoConstant::BORDER_R][GoConstant::BORDER_C];
 
 namespace GoFunction {
 
@@ -125,5 +137,6 @@ extern void CreateZobristHash ();
 extern void CreateNeighborCache ();
 
 } // namespace GoFunction
+
 
 #endif
