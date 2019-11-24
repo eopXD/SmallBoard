@@ -42,7 +42,8 @@ void CreateEncoding {
 }
 void CreateEncode ( uint64_t diff_value, int &start_bit ) {
 	encode_size.push_back( ceil(log(diff_value)/log(2)) );
-	encode_lr.push_back(make_pair(start_bit - encode_size.back() + 1, start_bit));
+	encode_lr.push_back(make_pair(start_bit, 
+	 start_bit - encode_size.back() + 1));
 	start_bit -= encode_size.back();
 }
 
