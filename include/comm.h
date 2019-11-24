@@ -138,5 +138,16 @@ extern void CreateNeighborCache ();
 
 } // namespace GoFunction
 
+/* conventional for-loops */
+
+
+// nb is short for neighbor
+// for the neighbor of the (id), we put the neighbor's id into pointer nb
+#define FOR_NEIGHBOR(id, nb) for ( GoCoordId *nb=cached_neighbor_id[(id)],i=0;\
+	i<cached_neighbor_size[(id)]; ++i, ++nb )
+
+#define FOR_EACH_COORD (id) for ( GoCoordId id=0;\
+	id<GoConstant::SMALLBOARDSIZE; ++id)
+
 
 #endif
