@@ -15,8 +15,10 @@
 #ifndef SMALLBOARD_COMMON_H
 #define SMALLBOARD_COMMON_H
 
+#include <cstdio>
 #include <inttypes.h>
 #include <vector>
+#include <utility>
 
 // error logger
 template <typename... Args> inline void elog(const char *s, Args... args) {
@@ -111,7 +113,7 @@ extern uint8_t cached_neighbor_size[GoConstant::SMALLBOARDSIZE];
 // pre-calculated neighbor ID/Coord
 extern uint64_t cached_neighbor_id[GoConstant::SMALLBOARDSIZE][4];
 // pre-calculated neighbor Coord
-extern vector<GoPosition> 
+extern std::vector<GoPosition> 
  cached_neighbor_coord[GoConstant::BORDER_R][GoConstant::BORDER_C];
 
 namespace GoFunction {
