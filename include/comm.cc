@@ -13,12 +13,14 @@
 
 #define x first
 #define y second
+#define L first
+#define R second
 
 using namespace std;
 using namespace GoConstant;
 
 
-vector<uint8_t> encode_size; // needed bits generated at GenNeededBit
+vector<uint8_t> encode_size;
 vector<pair<uint8_t, uint8_t>> encode_lr; // pair(l, r)
 
 namespace GoBitState {
@@ -43,6 +45,13 @@ void CreateEncoding () {
 			CreateEncode(4, start_bit);							// game_result
 			CreateEncode(2*SMALLBOARDSIZE+2, start_bit);		// board_score
 
+			if ( start_bit > 0 ) { // make things compact
+
+				for ( int i=0; i<5; ++i ) {
+					encode_lr[i].L -= start_bit+1;
+					encode_lr[i].R -= start_bit+1;
+				}
+			}
 			if ( start_bit < -1 ) {
 				elog("64 bit is not enough to encode the given ROW & COL\n");
 				exit(1);
@@ -50,7 +59,6 @@ void CreateEncoding () {
 		}
 	);
 }
-
 
 } // namespace GoBitState
 
@@ -203,5 +211,7 @@ void CreateNeighborCache () {
 
 } // namespace GoFunction
 
+#undef R
+#undef L
 #undef y
 #undef x
