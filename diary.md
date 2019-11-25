@@ -88,4 +88,25 @@ Notable
 - ❗️ if `SMALLBOARDSIZE` exceeds `64`, then there will be modification needed on bitstate storage of stone and liberty
 
 
-### TODO: later todo after work-out, experiment on bit-op vs. bitset.
+## 2019/11/24
+
+Measured performance on basic bit operation. **_Decide to use `std::bitset` with bit operation fetch._** Though I have admit that the overhead is not as huge as expected when I concatenate the two operations in one code. The overhead seems to be small enough to emit... **_Maybe it will show greater difference when I aggregate the operation to more complicate structure._**
+
+The `GoBitState` can be established now since I have done the experiment.
+
+Also I started to build the move generation on `GoBoard`. The main operation is the move generation of the Board. To build the move generation, I hence found out that `GoStone` structure is crucial because I need to know which `GoBlock` this stone belongs to. This means that I need to do a report on the structure on how much space a `GoBoard` takes.
+
+The move generation relies on the maintenance of **liberty(氣)**, which is maintained by `GoBlock`.
+
+For a stone to be placed on some position on the board, it first check on its neighboring blocks to see whether it is an illegal move (如果那個地方下下去的話是會被吃的動作，就不能動那邊，所以要知道 neighbor block 是屬於誰的，要知道 neighbor block 資訊，這個 block 中含有的 stone 有哪些就也必須知道) 在實作的過程中一路往最底層蓋...
+
+- 原本要蓋的是 move generation 函數: `TryMove`
+- 因為要知道相鄰的 `GoBlock` 所以需要函數: `GetNeighborBlocks`
+- 因為要知道這個 `GoBlock` 的 `GoBlockId`，所以需要函數: `GetBlockIdByCoord`
+- 對這個 `GoBlock` 我需要知道他是誰，這個資訊被記錄在 ancestor stone （因為 stone 以 linked-list 的形式記錄起來) 所以需要函數: `FindCoord`
+
+#### Notable ToDo
+
+- Do measurement on `GoState` when it is complete
+- Do report on space on `GoBoard`
+
