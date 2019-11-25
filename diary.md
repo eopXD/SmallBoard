@@ -90,7 +90,7 @@ Notable
 
 ## 2019/11/24
 
-Measured performance on basic bit operation. **_Decide to use `std::bitset` with bit operation fetch._** Though I have admit that the overhead is not as huge as expected when I concatenate the two operations in one code. The overhead seems to be small enough to emit... **_Maybe it will show greater difference when I aggregate the operation to more complicate structure._**
+Measured performance on basic bit operation. I have to admit that the overhead is not as huge as expected when I concatenate the two operations in one code. The overhead seems to be small enough to emit... **_Maybe it will show greater difference when I aggregate the operation to more complicate structure._**
 
 The `GoBitState` can be established now since I have done the experiment.
 
@@ -110,3 +110,59 @@ For a stone to be placed on some position on the board, it first check on its ne
 - Do measurement on `GoState` when it is complete
 - Do report on space on `GoBoard`
 
+## 2019/11/25
+
+Notable
+
+- since i have id numbered from $[0, R \times C)$, so a board with no Ko will have `ko_position = R*C`, `pass_count = 0`.
+- GoScore is unsigned integer with its range from $[0, 2 \times R \times C]$, where $R \times C$ represents $0$ and $0$ represents black loses the most... $-R \times C$
+
+#### Compilation
+
+- comm
+
+```
+g++ -std=c++11 -D ROW=5 -D COL=5 -c comm.cc
+```
+
+This compiles `comm.h` into object file that is link-able when we are going to compile an executable.
+
+Today I am implemeting `GoState`, the structure to interact disk I/O.
+
+I face 2 decisions, whether to do it in `bitset` or `uint64_t`. Let me list out the Pros and Cons...
+
+##### `std::bitset`
+
+Strength:
+
+- compact, saves memory
+
+Weakness:
+
+- encode/decode goes through for-loop
+- `reset` of a `std::bitset` is called by sending a pointer of the bitset to `memset`.
+- need to transfer `bitset` to `uint64_t` when sorting.
+
+##### `uint64_t`
+
+Strength:
+
+- sortState does not need to go through a transformation from `std::bitset`
+
+Weakness:
+
+- overhead of the extra memories (take example of 5x5 smallboard, the overhead is 7/64 ~ 10%)
+
+##### 小結：在不同的 stage 使用不同的 GoState 感覺並不衝突。所以到時因應需求來使用需要的 GoState.
+
+
+
+#### parameters I specified in `makefile`
+
+- `ROW`: column of the board
+- `COL`: row of the board
+- `ENCODE_LENGTH`: the encoding length that can be calculated via easy math.
+
+今天把 GoState 蓋好了！算是生產力不錯？XD 接下來就繼續蓋 `TryMove` ，目標是明天把 `TryMove` 完成。
+
+把 `TryMove` 完成之後可以開始進行 SmallBoard 實驗的，在蓋實驗的過程中應該就會知道需要再多補充哪些函數了。
