@@ -59,6 +59,7 @@ private :
 // score calculation: neighbors if consist both black and white, then both
 // add 1, else add score to the corresponding color. Also add stones as
 // scores. score = black - white (since we are reducing)
-	GoCounter board_score;
+// let it be an unsigned integer, so we add ROW*COL to the score.
+	GoScore board_score;
 }
 #endif
