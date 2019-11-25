@@ -17,14 +17,21 @@
 using namespace std;
 using namespace GoConstant;
 
-namespace GoBitState {
-
 
 vector<uint8_t> encode_size; // needed bits generated at GenNeededBit
 vector<pair<uint8_t, uint8_t>> encode_lr; // pair(l, r)
 
+namespace GoBitState {
+
+void CreateEncode ( uint64_t diff_value, int &start_bit ) {
+	encode_size.push_back( ceil(log(diff_value)/log(2)) );
+	encode_lr.push_back(make_pair(start_bit - encode_size.back() + 1,
+	 start_bit));
+	start_bit -= encode_size.back();
+}
+
 once_flag CreateEncoding_once;
-void CreateEncoding {
+void CreateEncoding () {
 	call_once(
 		CreateEncoding_once,
 		[] () {
@@ -43,12 +50,7 @@ void CreateEncoding {
 		}
 	);
 }
-void CreateEncode ( uint64_t diff_value, int &start_bit ) {
-	encode_size.push_back( ceil(log(diff_value)/log(2)) );
-	encode_lr.push_back(make_pair(start_bit - encode_size.back() + 1),
-	 start_bit);
-	start_bit -= encode_size.back();
-}
+
 
 } // namespace GoBitState
 
@@ -73,19 +75,19 @@ bool IsPass ( const GoCoordId id ) {
 	return (COORD_PASS == id);
 }
 bool IsPass ( const GoCoordId x, const GoCoordId y ) {
-	return (COORD_PASS == CoordtoId(x, y));
+	return (COORD_PASS == CoordToId(x, y));
 }
 bool IsUnset ( const GoCoordId id ) {
 	return (COORD_UNSET == id);
 }
 bool IsUnset ( const GoCoordId x, const GoCoordId y ) {
-	return (COORD_UNSET == CoordtoId(x, y));
+	return (COORD_UNSET == CoordToId(x, y));
 }
 bool IsResign ( const GoCoordId id ) {
 	return (COORD_RESIGN == id);
 }
 bool IsResign ( const GoCoordId x, const GoCoordId y ) {
-	return (COORD_RESIGN == CoordtoId(x, y));
+	return (COORD_RESIGN == CoordToId(x, y));
 }
 
 
