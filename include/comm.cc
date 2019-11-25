@@ -6,6 +6,9 @@
 	\project Efficient & Succinct Small Board Go
 */
 
+#include <cmath>
+#include <mutex>
+
 #include "comm.h"
 
 #define x first
@@ -18,7 +21,7 @@ namespace GoBitState {
 
 
 vector<uint8_t> encode_size; // needed bits generated at GenNeededBit
-vector<pair<uint8_t, uint8_t>> encode_lr; // pair(start-bit, end-bit)
+vector<pair<uint8_t, uint8_t>> encode_lr; // pair(l, r)
 
 once_flag CreateEncoding_once;
 void CreateEncoding {
@@ -42,8 +45,8 @@ void CreateEncoding {
 }
 void CreateEncode ( uint64_t diff_value, int &start_bit ) {
 	encode_size.push_back( ceil(log(diff_value)/log(2)) );
-	encode_lr.push_back(make_pair(start_bit, 
-	 start_bit - encode_size.back() + 1));
+	encode_lr.push_back(make_pair(start_bit - encode_size.back() + 1),
+	 start_bit);
 	start_bit -= encode_size.back();
 }
 
