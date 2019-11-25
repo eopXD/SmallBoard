@@ -16,9 +16,7 @@
 #define SMALLBOARD_COMMON_H
 
 #include <inttypes.h>
-#include <cmath>
 #include <vector>
-#include <mutex>
 
 // error logger
 template <typename... Args> inline void elog(const char *s, Args... args) {
@@ -38,6 +36,7 @@ using GoHash = uint64_t; // for Zobrist Hash
 // boards right now.
 using GoStoneColor = uint8_t; // color of stone on the board
 using GoCoordId = int8_t; // Id that corresponds to the coordination
+using GoScore = uint8_t; // Score of the board
 using GoBlockId = int8_t; // Blocks on the board (check GoBlock)
 using GoCounter = uint16_t; // size of counters
 
