@@ -17,12 +17,26 @@
 // Right here GoBoard is smallBoard, can be extended to official size of Go.
 class GoBoard {
 
+public:
+
+// THE ACTUAL FUNCTION THAT MOVES THE BOARD
+// be called after GetPossibleMove
+// returns 0 if success
+// error code:
+//	-1: not a legal move
+//	-2: a self-eat move
+	int Move ( const GoCoordId id );
+	int Move ( const GoCoordId x, const GoCoordId y );
 
 protected:
 // returns own color
 	GoStoneColor SelfColor ();
 // returns opponent color
 	GoStoneColor OpponentColor ();
+// Give the turn to opponen
+	inline void HandOff ();
+// return whether the move is legal
+	inline bool IsLegal ( const GoCoordId id );
 // finds ancestor stone (it is used to find block_id of the ancestor stone)
 	GoCoordId FindCoord ( const GoCoordId id );
 // get BlockId of some 'id' on the board
@@ -31,8 +45,7 @@ protected:
 // the BlockId saved into 'nb_id'
 // a stone is placed on 'target_id' inside 'blk'
 	void GetNeighborBlocks ( GoBlock &blk, const GoCoordId target_id, 
-		GoBlockId *nb_id );
-
+		GoBlockId *nb_id );	
 // recycle the block, save it into stack
 	void RecycleBlock ( const GoBlockId blk_id );
 // get new block (from idx - 'block_in_use') or re-used GoBlock (from stack)
@@ -53,9 +66,13 @@ private :
 	GoStone stones[GoConstant::SMALLBOARDSIZE]; // stones are like linked-list
 	GoStoneColor board_state[GoConstant::SMALLBOARDSIZE];
 	GoStoneColor current_player, opponent_player;
-	GoCoordId previous_position;
+	GoCoordId previous_move;
 	GoCoordId ko_position, pass_count;
+// status of the board
 	GoCounter game_length;
+	// sequence of existence of blocks
+	GoCounter visited_position[GoConstant::MAX_BLOCK_SIZE]; // 這個東東的用意還有待商榷
+	bool is_double_pass;
 /* Zobrist Hash to forbid Basic Ko (we allow Positional SuperKo) */
 	GoHash record_zobrist[4];
 	GoHash current_zobrist_value;
@@ -72,16 +89,20 @@ private :
 
 /* conventional for-loop */
 
+// for all the GoBlocks such that in_use = true
+#define FOR_BLOCK_IN_USE (i)\
+ for ( GoBlockId i=0; i<block_in_use; ++i )
+
 // stones[] are maintained in a linked-list style
 // iteration around stones of a GoBoard
-#define FOR_BLOCK_STONE (id, blk, loop_body) {
-	GoCoordId id = (blk).head;
-	while ( 1 ) {
-		loop_body
-		if ( id == stones[id].next_id) {
-			break;
-		}
-		id = stones[id].next_id;
-	}
+#define FOR_BLOCK_STONE (id, blk, loop_body) {\
+	GoCoordId id = (blk).head;\
+	while ( 1 ) {\
+		loop_body\
+		if ( id == stones[id].next_id) {\
+			break;\
+		}\
+		id = stones[id].next_id;\
+	}\
 }
 #endif
