@@ -19,20 +19,26 @@ class GoBoard {
 
 
 protected:
-
+// returns own color
+	GoStoneColor SelfColor ();
+// returns opponent color
+	GoStoneColor OpponentColor ();
 // finds ancestor stone (it is used to find block_id of the ancestor stone)
 	GoCoordId FindCoord ( const GoCoordId id );
 // get BlockId of some 'id' on the board
 	void GetBlockIdByCoord ( const GoCoordId id );
 // get neighbor blocks of of 'target_id', which is at most 4 blocks
 // the BlockId saved into 'nb_id'
+// a stone is placed on 'target_id' inside 'blk'
 	void GetNeighborBlocks ( GoBlock &blk, const GoCoordId target_id, 
 		GoBlockId *nb_id );
 
-// try to do the move on 'target_id'
-	GoCounter TryMove ();
+// recycle the block, save it into stack
+	void RecycleBlock ( const GoBlockId blk_id );
 // get new block (from idx - 'block_in_use') or re-used GoBlock (from stack)
 	void GetNewBlock ( GoBlockId &blk_id );
+// try to do the move on 'target_id'
+	GoCounter TryMove ();
 // get all possible move for the current board position
 	void GetPossibleMove ();
 
@@ -46,7 +52,7 @@ private :
 /* Naiive informations of Board State */
 	GoStone stones[GoConstant::SMALLBOARDSIZE]; // stones are like linked-list
 	GoStoneColor board_state[GoConstant::SMALLBOARDSIZE];
-	GoStoneColor current_player;
+	GoStoneColor current_player, opponent_player;
 	GoCoordId previous_position;
 	GoCoordId ko_position, pass_count;
 	GoCounter game_length;
@@ -61,5 +67,21 @@ private :
 // scores. score = black - white (since we are reducing)
 // let it be an unsigned integer, so we add ROW*COL to the score.
 	GoScore board_score;
+}
+
+
+/* conventional for-loop */
+
+// stones[] are maintained in a linked-list style
+// iteration around stones of a GoBoard
+#define FOR_BLOCK_STONE (id, blk, loop_body) {
+	GoCoordId id = (blk).head;
+	while ( 1 ) {
+		loop_body
+		if ( id == stones[id].next_id) {
+			break;
+		}
+		id = stones[id].next_id;
+	}
 }
 #endif
