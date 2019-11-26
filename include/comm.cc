@@ -62,12 +62,13 @@ void CreateEncoding () {
 
 } // namespace GoBitState
 
-uint64_t g_zobrist_player_hash_weight[3];
-uint64_t g_zobrist_board_hash_weight[3][SMALLBOARDSIZE];
-uint64_t g_zobrist_ko_hash_weight[SMALLBOARDSIZE];
+GoHash zobrist_player_hash_weight[3];
+GoHash zobrist_board_hash_weight[3][SMALLBOARDSIZE];
+GoHash zobrist_ko_hash_weight[SMALLBOARDSIZE];
+GoHash zobrist_switch_player; 
 
 uint8_t cached_neighbor_size[SMALLBOARDSIZE];
-uint64_t cached_neighbor_id[SMALLBOARDSIZE][4];
+GoCoordId cached_neighbor_id[SMALLBOARDSIZE][4];
 vector<GoPosition> cached_neighbor_coord[BORDER_R][BORDER_C];
 
 namespace GoFunction {
@@ -167,17 +168,21 @@ static int rand_r(unsigned int *seed)
 void CreateZobristHash () {
 	uint32_t seed = 0xdeadbeef;
 	for ( int i=0; i<3; ++i ) {
-		g_zobrist_player_hash_weight[i] = (uint64_t) rand_r(&seed) << 32 
+		zobrist_player_hash_weight[i] = (uint64_t) rand_r(&seed) << 32 
 		 | rand_r(&seed);
 		for ( int j=0; j<SMALLBOARDSIZE; ++j ) {
-			g_zobrist_board_hash_weight[i][j] = (uint64_t) rand_r(&seed) << 32 
+			zobrist_board_hash_weight[i][j] = (uint64_t) rand_r(&seed) << 32 
 			 | rand_r(&seed);
 		}
 	}
 	for ( int i=0; i<SMALLBOARDSIZE; ++i ) {
-		g_zobrist_ko_hash_weight[i] = (uint64_t) rand_r(&seed) << 32 
+		zobrist_ko_hash_weight[i] = (uint64_t) rand_r(&seed) << 32 
 		 | rand_r(&seed);
 	}
+	
+	zobrist_switch_player = 0;
+	zobrist_switch_player ^= zobrist_player_hash_weight[BlackStone];
+	zobrist_switch_player ^= zobrist_player_hash_weight[WhiteStone];
 }
 
 void CreateNeighborCache () {
