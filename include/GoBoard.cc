@@ -1,13 +1,116 @@
 #include "GoBoard.h"
 
 using namespace GoConstant;
+using namespace GoFunction;
+
+// THE ACTUAL FUNCTION THAT MOVES THE BOARD
+// be called after GetPossibleMove
+// returns 0 if success
+// error code:
+//	-1: not a legal move
+//	-2: a self-eat move
+int GoBoard::Move ( const GoCoordId id ) {
+	if ( not IsLegal(id) ) {
+		return (-1);
+	}
+	++game_length;
+	
+	is_double_pass = IsPass(previous_move) and IsPass(id);
+	previous_move = id;
+	ko_position = COORD_UNSET;
+
+// update Zobrist Hash
+	{
+		current_zobrist_value ^= zobrist_switch_player;
+		if ( not IsPass(id) ) {
+			current_zobrist_value ^= zobrist_board_hash_weight[SelfColor()][id];
+		}
+	}	
+	if ( IsPass(id) ) {
+		goto NEXT_TURN;
+	}
+// nb_id[0] and die_id[0] is counter, 
+	GoBlockId blk_id, nb_id[5], die_id[5];
+// opponent stone eaten when the move occurs
+	GoSize cnt; // 這個應該可以省略，留作之後參考
+	
+	GetNewBlock(blk_id);
+	GoBlock &blk = block_pool[blk_id];
+
+	if ( (cnt = TryMove(blk, nb_id, die_id)) < 0 ) { // this is a self-eat move
+		return (-2);
+	}
+	stones[id].Reset(blk_id);
+	blk.in_use = true;
+	blk.head = blk.tail = id;
+	for ( GoBlockId i=1; i<=nb_id[0]; ++i ) {
+		GoBlock &nb_blk = block_pool[nb_id[i]];
+		visited_position[nb_id[i]] = game_length;
+		nb_blk.ResetLiberty(id);
+		if ( SelfColor() == blk.color ) {
+			blk.MergeBlocks(nb_blk);
+			RecycleBlock(nb_id[i]);
+		}
+	}
+	visited_position[blk_id] = game_length;
+	for ( GoBlockId i=1; i<=die_id[0]; ++i ) {
+		if ( 1 == block_pool[die_id[i]] and 1 == blk.stone_count 
+		 and 1 == blk.CountLiberty() ) {
+		// this is a Ko!
+			ko_position = block_pool[die_id[i]].head;
+		}
+		// for the stones of the killed GoBlock...
+		FOR_BLOCK_STONE(dead_stone, block_pool[die_id[i]], 
+			// for the neighbor of the stones
+			FOR_NEIGHBOR(dead_stone, nb) {
+				// if the neighbor is my color, add liberty to my stone
+				if ( SelfColor() == board_state[*nb] ) {
+					GoBlockId my_blk_id = GetBlockIdByCoord(*nb);
+
+					visited_position[my_blk_id] = game_length;
+					block_pool[my_blk_id].SetLiberty(dead_stone);
+				}
+			}
+			board_state[dead_stone] = EmptyStone;
+			current_zobrist_value ^= 
+			 zobrist_board_hash_weight[OpponentColor()][dead_stone];
+		);
+		RecycleBlock(die_id[i]);
+	}
+	// update the blocks that is effected in this move, update the liberty
+	FOR_BLOCK_IN_USE(i) {
+		if ( block_pool[i].in_use and visited_position[i] == game_length ) {
+			block_pool[i].CountLiberty();
+		}
+	}
+	board_state[id] = SelfColor();
+
+NEXT_TURN:
+	HandOff();
+	GetPossibleMove();
+	record_zobrist[(game_length-1+4)&3] = current_zobrist_value;
+	return (0);
+
+}
+int GoBoard::Move ( const GoCoordId x, const GoCoordId y ) {
+	return (Move(CoordToId(x, y)));
+}
 
 // returns own color
-GoStoneColor SelfColor () {
+GoStoneColor GoBoard::SelfColor () {
 	return (current_player);
 }
-GoStoneColor OpponentColor () {
+// return opponent color
+GoStoneColor GoBoard::OpponentColor () {
 	return (opponent_player);
+}
+// give the turn to opponent
+inline void GoBoard::HandOff () {
+	swap(current_player, opponent)
+}
+// return whether the move is legal
+inline bool IsLegal ( const GoCoordId id ) {
+	return ((id == IsPass(id)) or legal_move_map[id]);
 }
 
 // this finds the most "head" parent_id of the block (since blocks are 
@@ -19,7 +122,7 @@ GoCoordId GoBoard::FindCoord ( const GoCoordId id ) {
 	return (stones[id].parent_id = FindCoord(stones[id].parent_id));
 }
 
-// get BlockId of some 'id' on the board
+// get GoBlockId of some 'id' on the board
 void GoBoard::GetBlockIdByCoord ( const GoCoordId id ) {
 	if ( EmptyStone == board_state[id] ) {
 		return (BLOCK_UNSET);
@@ -98,8 +201,8 @@ GoCounter GoBoard::TryMove ( GoBlock &blk, const CoordId target_id,
 }
 
 // recycle the block, save it into stack
-void RecycleBlock ( const GoBlockId blk_id ) {
-	block_pool[blk_id].in_used = false;
+void GoBoard::RecycleBlock ( const GoBlockId blk_id ) {
+	block_pool[blk_id].in_use = false;
 	recycled_block.push(blk_id);
 }
 
@@ -161,7 +264,7 @@ void GoBoard::GetPossibleMove () {
 
 			GoBlockId *die_id = tmp[1];
 			for ( GoBlockId i=1; i<=die_id[0]; ++i ) {
-				FOR_BOCK_STONE(id, block_pool[die_id[i]],
+				FOR_BLOCK_STONE(id, block_pool[die_id[i]],
 					new_zobrist_value ^= zobrist_board_hash_weight[OpponentColor()][id];
 				);
 			}
@@ -173,3 +276,4 @@ void GoBoard::GetPossibleMove () {
 	}
 	RecycleBlock(blk_id);
 }
+
