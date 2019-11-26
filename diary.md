@@ -107,8 +107,9 @@ For a stone to be placed on some position on the board, it first check on its ne
 
 #### Notable ToDo
 
-- Do measurement on `GoState` when it is complete
-- Do report on space on `GoBoard`
+- [ ] Do measurement on `GoState` performance
+
+- [ ] Do report on space on `GoBoard`
 
 ## 2019/11/25
 
@@ -166,3 +167,19 @@ Weakness:
 今天把 GoState 蓋好了！算是生產力不錯？XD 接下來就繼續蓋 `TryMove` ，目標是明天把 `TryMove` 完成。
 
 把 `TryMove` 完成之後可以開始進行 SmallBoard 實驗的，在蓋實驗的過程中應該就會知道需要再多補充哪些函數了。
+
+## 2019/11/26
+
+今天要把 `TryMove` 還有 `GetPossibleMove` 完成。突然想到，在做 Retrograde Analysis 的時候，需要有 `GetPossibleParent`。
+
+值得注意的是，
+
+- `GoBoard::GetNeighborBlocks`，這個函數是要幫一個 `blk` 以及 `target_id` 來取得 `target_id` 周圍的 `GoBlock` ，這個函數也會在 `blk` 中的 stone_state 在 `target_id` 的位置加上一顆石頭。
+- 如果 neighbor_block 只剩一個氣，然後我下在那裡就表示我把對方吃掉了，這樣我的 block 連在一起的東東也增加了。
+
+剛剛做完 possible move generation ，接著做 actual moving ，然後再來是跟 GoState 之間的互動。
+
+#### Notable ToDo
+
+- [ ] `GetPossibleParent`
+
