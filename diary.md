@@ -179,7 +179,54 @@ Weakness:
 
 剛剛做完 possible move generation ，接著做 actual moving ，然後再來是跟 GoState 之間的互動。
 
+每個 `GoBoard` 裡面有 `SMALLBOARDSIZE` 這麼多個 `GoStone`， 石頭是用 Circular linked-list 串連起來的。然後 head 被記在 `GoBlock` 裡頭。
+
+#### `GoBoard::Move`
+
+`GoBoard::Move` 跟 `GoBoard::TryMove` 很像。
+
+因為已經判斷出有哪些是合法的走步了，所以只要實際的把 board detail 做改變即可。其中複雜度很高的部分，是會把對方的 `GoBlock` 吃掉，而這部分對吃掉的 Block 需要看這個 Block 裏頭每個 stone 的 neighbor 是否含有友方 block ，如果是友方 block 的話需要更新他的 liberty 狀態。（見下方 code segment）
+
+```
+for ( GoBlockId i=1; i<=die_id[0]; ++i ) {
+	if ( 1 == block_pool[die_id[i]] and 1 == blk.stone_count 
+	 and 1 == blk.CountLiberty() ) {
+	// this is a Ko!
+		ko_position = block_pool[die_id[i]].head;
+	}
+	// for the stones of the killed GoBlock...
+	FOR_BLOCK_STONE(dead_stone, block_pool[die_id[i]], 
+		// for the neighbor of the stones
+		FOR_NEIGHBOR(dead_stone, nb) {
+			// if the neighbor is my color, add liberty to my stone
+			if ( SelfColor() == board_state[*nb] ) {
+				GoBlockId my_blk_id = GetBlockIdByCoord(*nb);
+
+				visited_position[my_blk_id] = game_length;
+				block_pool[my_blk_id].SetLiberty(dead_stone);
+			}
+		}
+		board_state[dead_stone] = EmptyStone;
+		current_zobrist_value ^= 
+		 zobrist_board_hash_weight[OpponentColor()][dead_stone];
+	);
+	RecycleBlock(die_id[i]);
+}
+```
+
 #### Notable ToDo
 
 - [ ] `GetPossibleParent`
 
+
+#### Interesting finding
+
+##### Is it meanful to optimize swap?
+
+CPU speeds compared to memory speeds have risen astronomically. Accessing memory has become the major bottleneck in application performance. All the swap algorithms will be spending most of their time waiting for data to be fetched from memory. Modern OS's can have up to 5 levels of memory:
+
+- Cache Level 1 - runs at the same speed as the CPU, has negligible access time, but is small
+- Cache Level 2 - runs a bit slower than L1 but is larger and has a bigger overhead to access (usually, data needs to be moved to L1 first)
+- Cache Level 3 - (not always present) Often external to the CPU, slower and bigger than L2
+- RAM - the main system memory, usually implements a pipeline so there's latency in read requests (CPU requests data, message sent to RAM, RAM gets data, RAM sends data to CPU)
+- Hard Disk - when there's not enough RAM, data is paged to HD which is really slow, not really under CPU control as such.
