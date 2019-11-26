@@ -18,7 +18,18 @@
 class GoBoard {
 
 public:
+// constructor
+	GoBoard ();
+	GoBoard ( const GoBoard &rhs );
+// destructor
+	~GoBoard();
+// copy
+	void CopyFrom ( const GoState &src );
+protected:
+// redirect the '*stone' pointer in GoBlock to the stones[] after CopyFrom()
+	void FixBlockInfo ();
 
+public:
 // THE ACTUAL FUNCTION THAT MOVES THE BOARD
 // be called after GetPossibleMove
 // returns 0 if success

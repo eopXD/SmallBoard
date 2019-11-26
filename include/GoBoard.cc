@@ -3,6 +3,49 @@
 using namespace GoConstant;
 using namespace GoFunction;
 
+GoBoard::GoBoard () {
+	CreateGlobalVariable();
+
+	FOR_EACH_COORD(i) {
+		stones[i].self_id = i;
+	}
+	FOR_EACH_BLOCK(i) {
+		block_pool[i].in_use = false;
+		block_pool[i].self_id = i;
+		block_pool[i].stones = stones;
+	}
+	while ( not recycled_block.empty() ) {
+		recycled_block.pop();
+	}
+	memset(board_state, 0, sizeof(board_state));
+	memset(visited_position, 0, sizeof(visited_position));
+	legal_move_map.reset();
+
+
+	block_in_use = 0;
+	
+	current_player = BlackStone;
+	ko_position = COORD_UNSET;
+	is_double_pass = false;
+	
+	game_length = 0;
+	current_zobrist_value = 0;
+}
+GoBoard::GoBoard ( const GoBoard &rhs ) : GoState() {
+	CopyFrom(rhs);
+}
+
+void GoBoard::CopyFrom ( const GoBoard &src ) {
+	*this = src;
+	FixBlockInfo();
+}
+
+void FixBlockInfo () {
+	FOR_EACH_BLOCK(i) {
+		block_pool[i].stones = stones;
+	}
+}
+
 // THE ACTUAL FUNCTION THAT MOVES THE BOARD
 // be called after GetPossibleMove
 // returns 0 if success
