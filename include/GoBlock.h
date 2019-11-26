@@ -13,13 +13,13 @@
 #include "comm.h"
 
 struct GoBlock {
-
+	GoBlockId self_id;			// id of this block
 	bool in_use; 				// whether the block is inuse
 	GoCounter liberty_count; 	// count of liberty
 	GoCounter stone_count; 		// count of stone
 	GoStoneColor color; 		// player that owns the block
 	
-	GoStone *stones; 			// stones that belongs to the block
+	GoStone *stones; 			// array pointer, copied from GoBoard.stones
 	GoCoordId head, tail;		// stone records (circular linked-list)
 
 // LSB style, lowest bit is represents the 0th in 'id'
