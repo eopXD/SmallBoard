@@ -20,9 +20,11 @@ struct GoStone {
 
 	// inline void SetSelfId(GoCoordId id) { self_id = id; }
 
-	inline void Reset ( GoBlockId id=GoConstant::BLOCK_UNSET ) {
+// this function mainly used when... GoBoard::Move, 
+// set the stone to the blk_id
+	inline void Reset ( GoBlockId blk_id=GoConstant::BLOCK_UNSET ) {
 		next_id = parent_id = self_id;
-		block_id = id;
+		block_id = blk_id;
 	}
 };
 
