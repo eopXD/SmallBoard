@@ -20,7 +20,7 @@ struct GoBlock {
 	GoStoneColor color; 		// player that owns the block
 	
 	GoStone *stones; 			// stones that belongs to the block
-	GoCoordId head, tail;		// stone records
+	GoCoordId head, tail;		// stone records (circular linked-list)
 
 // LSB style, lowest bit is represents the 0th in 'id'
 // liberty_state[idx] = 1 means that there is liberty on the position 'idx'
