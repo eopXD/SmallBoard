@@ -74,27 +74,27 @@ private :
 	std::stack<GoBlockId> recycled_block;
 	GoCounter block_in_use;
 /* Naiive informations of Board State */
-	GoStone stones[GoConstant::SMALLBOARDSIZE]; // stones are like linked-list
+	GoStone stones[GoConstant::SMALLBOARDSIZE]; // one-way linked-list
 	GoStoneColor board_state[GoConstant::SMALLBOARDSIZE];
 	GoStoneColor current_player, opponent_player;
 	GoCoordId previous_move;
 	GoCoordId ko_position, pass_count;
 // status of the board
 	GoCounter game_length;
-	// sequence of existence of blocks
-	GoCounter visited_position[GoConstant::MAX_BLOCK_SIZE]; // 這個東東的用意還有待商榷
+	// sequence of existence of blocks, to deternine if need to update block
+	GoCounter visited_position[GoConstant::MAX_BLOCK_SIZE];
 	bool is_double_pass;
 /* Zobrist Hash to forbid Basic Ko (we allow Positional SuperKo) */
 	GoHash record_zobrist[4];
-	GoHash current_zobrist_value;
-/* important features */
-// legal_move_map[idx] = 1 means we can play a stone onto that position
-	bitset<GoConstant::SMALLBOARDSIZE> legal_move_map; 
+	GoHash current_zobrist_value;	
 // score calculation: neighbors if consist both black and white, then both
 // add 1, else add score to the corresponding color. Also add stones as
 // scores. score = black - white (since we are reducing)
 // let it be an unsigned integer, so we add ROW*COL to the score.
 	GoScore board_score;
+/* important features */
+// legal_move_map[idx] = 1 means we can play a stone onto that position
+	bitset<GoConstant::SMALLBOARDSIZE> legal_move_map; 
 }
 
 
