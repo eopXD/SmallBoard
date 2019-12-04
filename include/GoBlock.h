@@ -3,7 +3,6 @@
 	\brief GoBlock: stones together forms 'string', we mainly care about the
 	 liberty of the string. We also need to maintain the merge between strings.
 
-
 	\author Yueh-Ting Chen (eopXD)
 	\project Efficient & Succinct Small Board Go
 */
@@ -14,22 +13,22 @@
 
 struct GoBlock {
 	GoBlockId self_id;			// id of this block
-	bool in_use; 				// whether the block is inuse
+	bool in_use; 				// whether the block is in-use
 	GoCounter liberty_count; 	// count of liberty
 	GoCounter stone_count; 		// count of stone
 	GoStoneColor color; 		// player that owns the block
 	
-	GoStone *stones; 			// array pointer, copied from GoBoard.stones
-	GoCoordId head, tail;		// stone records (circular linked-list)
+	GoStone *stones; 			// array pointer to GoBoard.stones
+	GoCoordId head, tail;		// head and tail position stones of the block
 
 // LSB style, lowest bit is represents the 0th in 'id'
 // liberty_state[idx] = 1 means that there is liberty on the position 'idx'
-	uint64_t liberty_state;
+	uint32_t liberty_state;
 /* virtual liberty represents the place not occupied by the GoBlock
     virtual_liberty_state[idx] = 1 means the position 'idx' is not occupied */
-	uint64_t virtual_liberty_state;
+	uint32_t virtual_liberty_state;
 // stone_state[idx] = 1 means that there us a stone on the position 'idx'
-	uint64_t stone_state;
+	uint32_t stone_state;
 
 	void Reset () { // reset the block (for re-use)
 		in_use = false;
@@ -58,16 +57,19 @@ struct GoBlock {
 		return (liberty_state & (1ull << id));
 	}
 	inline GoCounter CountLiberty () {
-		return (liberty_count = __builtin_popcountll(liberty_state));
+		return (liberty_count = __builtin_popcount(liberty_state));
+	}
+	inline GoCounter CountStone () {
+		return (stone_count = __builtin_popcount(stone_state));
 	}
 	bool IsNoLiberty () {
-		return (0 == this->CountLiberty())
+		return (0 == this->CountLiberty());
 	}
 	
-	GoStone* GetHead const () {
+	GoStone* GetHead () const () {
 		return (this->stones+this->head);
 	}
-	GoStone* GetTail const () {
+	GoStone* GetTail () const () {
 		return (this->stones+this->tail);
 	}
 
@@ -80,10 +82,14 @@ struct GoBlock {
 		this->liberty_state &= virtual_liberty_state;
 	}
 
-	void MergeBlocks ( const GoBlock &a ) {
+	// manipulating on GoBoard.stones[]
+	void MergeBlocks ( const GoBlock &a ) { // chain the stones of the block
+	/* this is one-way link list, so make a.head the head
+	 and connect the tail to this->head */
 		a.GetTail()->next_id = this->GetHead()->self_id;
 		this->head = a.head;
-		a.GetTail()->parent_id = this->GetTail()->self_id;
+	/* disjoint-set, let a's tail link to this->tail */
+		a.GetHead()->parent_id = a.GetTail()->parent_id = this->GetTail()->self_id;
 	}
 
 
