@@ -193,8 +193,8 @@ void GoBoard::GetNeighborBlocks ( GoBlock &blk, const GoCoordId target_id,
 	nb_id[0] = unique(nb_id+1, nb_id+nb_id[0]+1) - nb_id - 1;
 }
 
-// blk is the GoBlock we are potentially adding if we are placing the stone on
-// 'target_id'
+// blk is the GoBlock we are 'potentially' adding if we are placing the stone
+// on 'target_id'
 // if the move is illegal, return -1
 // else, return the number of opponent stone can be eaten in this move
 GoCounter GoBoard::TryMove ( GoBlock &blk, const CoordId target_id, 
@@ -205,7 +205,7 @@ GoCounter GoBoard::TryMove ( GoBlock &blk, const CoordId target_id,
  	GoCounter cnt = 0;
  	
  	blk.Reset();
- 	blk.stone_count - 1;
+ 	blk.stone_count = 1;
  	blk.color = SelfColor();
 
  	GetNeighborBlocks(blk, target_id, nb_id);
