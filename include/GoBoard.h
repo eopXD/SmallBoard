@@ -10,8 +10,10 @@
 #define SMALLBOARD_GOBOARD_H
 
 #include <stack>
+#include <bitset>
 
 #include "comm.h"
+#include "GoStone.h"
 #include "GoBlock.h"
 
 // Right here GoBoard is smallBoard, can be extended to official size of Go.
@@ -24,7 +26,7 @@ public:
 // destructor
 	~GoBoard();
 // copy
-	void CopyFrom ( const GoState &src );
+	void CopyFrom ( const GoBoard &src );
 protected:
 // redirect the '*stone' pointer in GoBlock to the stones[] after CopyFrom()
 	void FixBlockInfo ();
@@ -94,8 +96,8 @@ private :
 	GoScore board_score;
 /* important features */
 // legal_move_map[idx] = 1 means we can play a stone onto that position
-	bitset<GoConstant::SMALLBOARDSIZE> legal_move_map; 
-}
+	std::bitset<GoConstant::SMALLBOARDSIZE> legal_move_map; 
+};
 
 
 /* conventional for-loop */
