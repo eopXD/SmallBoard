@@ -1,5 +1,5 @@
 // Copyright (C) 2019 Yueh-Ting Chen (eopXD)
-/*! \file comm.hpp
+/*! \file comm.h
 	\brief Error logger - elog()
 	 GoBitState: The structure associates I/O with disk. Information stored 
 	  compact and MSB style.
@@ -49,6 +49,18 @@ using GoHashPair = std::pair<uint64_t, uint64_t>;
 
 /****************************************************************************/
 
+namespace MemoryConstant {
+
+/* !!!! CAUTION !!!!
+// THIS SETTING NEED TO BE ADJUSTED ACCORDING TO ENVIRONMENT
+*/
+const uint64_t MEM_BLOCK_SIZE = 16000000ull;
+
+// and because we are not saving it compactly, so 8 byte servers for 1 state.
+const uint64_t STATE_PER_FILE = MEM_BLOCK_SIZE / 8;
+
+};
+
 namespace GoConstant {
 
 // GoStone (3 possibility as a Stone, reflects on zobrist_hash)
@@ -71,6 +83,8 @@ const GoCoordId COORD_DY[DELTA_SIZE] = {-1, 0, 1, 0};
 
 const GoBlockId MAX_BLOCK_SIZE = 1<<4;
 const GoBlockId BLOCK_UNSET = -1;
+
+const GoSerial MAX_SERIAL = pow(3.0, GoConstant::SMALLBOARDSIZE);
 } // namespace GoConstant
 
 
