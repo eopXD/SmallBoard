@@ -66,11 +66,11 @@ struct GoBlock {
 		return (0 == this->CountLiberty());
 	}
 	
-	GoStone* GetHead () const () {
-		return (this->stones+this->head);
+	GoStone* GetHead () const {
+		return this->stones+this->head;
 	}
-	GoStone* GetTail () const () {
-		return (this->stones+this->tail);
+	GoStone* GetTail () const {
+		return this->stones+this->tail;
 	}
 
 	inline void TryMergeBlocks ( const GoBlock &a ) {
@@ -93,5 +93,5 @@ struct GoBlock {
 	}
 
 
-}
+};
 #endif
