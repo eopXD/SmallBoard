@@ -67,10 +67,10 @@ struct GoBlock {
 	}
 	
 	GoStone* GetHead () const {
-		return this->stones+this->head;
+		return (this->stones+this->head);
 	}
 	GoStone* GetTail () const {
-		return this->stones+this->tail;
+		return (this->stones+this->tail);
 	}
 
 	inline void TryMergeBlocks ( const GoBlock &a ) {
