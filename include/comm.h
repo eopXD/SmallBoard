@@ -47,6 +47,9 @@ using GoCounter = uint16_t; // size of counters
 using GoPosition = std::pair<GoCoordId, GoCoordId>;
 using GoHashPair = std::pair<uint64_t, uint64_t>;
 
+// for error handling
+using GoError = uint8_t;
+
 /****************************************************************************/
 
 namespace MemoryConstant {
@@ -67,6 +70,7 @@ namespace GoConstant {
 const GoStoneColor EmptyStone = 0;
 const GoStoneColor BlackStone = 1;
 const GoStoneColor WhiteStone = 2;
+const char COLOR_CHAR[] = "EBW";
 const char *const COLOR_STRING[] = {"Empty", "Black", "White"};
 
 // GoCoordId
