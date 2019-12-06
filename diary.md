@@ -442,11 +442,44 @@ std::map<int, bool> isEat;
 
 Total of `2020` byte per `Board`.
 
-### 小記錄
+### 小結
 
 - 果然還是找到一些 bug ～ＯＡＯ
 - 論文中使用的 code, structure 有些地方花得過於冗贅，記錄了過往的所有歷史，明明只並不需要這麼多資訊才對？
 
+## 12/5
 
-##### 
+### FindAllPossibleSerial
 
+這是第一階段，也就是找到所有可能的 Serial Number 。
+看到這個一定會問，為什麼會有非法的？因為有些盤面是不可能存在的，像是盤面不應該存在任何 `GoBlock` 他的 liberty 是零。（要不然就應該要被移除），所以這個階段是把非法盤面都過濾掉。
+
+首先要定義 `BLOCKSIZE` 也就是我們切分 state 的數量。
+
+先暫時依照論文中的 code ⋯⋯ `#define BLOCKSIZE 16000000LL`
+
+再來我之前寫的 `Move()` 是一個在遊戲進行中，所會用到的 move 。
+
+內心OS：原來自己在開發的時候其實也會走過軟體工程的流程（不過是小型的），先生出需求，再來把原型刻出來，然後 debug 以及產出 interface。
+
+#### `GoBoard::SetStone(id, color_of_stone)`
+
+我現在需要生成盤面的話，裡面棋子黑白的數量不一定會相等，所以我需要 move 來放置棋子到盤面上，對於放置棋子，需要與不需要：
+
+- 不需要
+	- 不需要 `HandOff` 或是記錄 Pass/Ko
+	- 不需要 `IsLegal` 的判斷
+	- 不需要 維護 Zobrist Hash
+	- 不需要 `GetPossibleMove`
+- 需要
+	- 需要維護 `GoStone`
+	- 需要 `GoBlock` 的設置，也需要判斷說這個放下這個子之後會不會吃子。
+	- 可能會有自吃步 （透過 `TryMove` 檢驗）
+
+	- 詢問是否需要 game detail 的 initialization 
+		- no history of move, no game_length, no previous move or ko/pass
+		- no current\_hash\_value ? （這個還有待商榷）
+
+###### Note-able changes
+
+- add a variable `uint8_t error_code` into `GoBoard` for error handling.
