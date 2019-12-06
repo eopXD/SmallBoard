@@ -31,9 +31,10 @@ GoBoard::GoBoard () {
 	game_length = 0;
 	current_zobrist_value = 0;
 }
-GoBoard::GoBoard ( const GoBoard &rhs ) : GoState() {
+GoBoard::GoBoard ( const GoBoard &rhs ) : GoBoard() {
 	CopyFrom(rhs);
 }
+
 
 void GoBoard::CopyFrom ( const GoBoard &src ) {
 	*this = src;
@@ -52,7 +53,7 @@ void FixBlockInfo () {
 // error code:
 //	-1: not a legal move
 //	-2: a self-eat move
-int GoBoard::Move ( const GoCoordId id ) {
+GoError GoBoard::Move ( const GoCoordId id ) {
 	if ( not IsLegal(id) ) {
 		return (-1);
 	}
@@ -75,12 +76,12 @@ int GoBoard::Move ( const GoCoordId id ) {
 // nb_id[0] and die_id[0] is counter, 
 	GoBlockId blk_id, nb_id[5], die_id[5];
 // opponent stone eaten when the move occurs
-	GoSize cnt; // 這個應該可以省略，留作之後參考
+	GoCounter cnt; // 這個應該可以省略，留作之後參考
 	
 	GetNewBlock(blk_id);
 	GoBlock &blk = block_pool[blk_id];
 
-	if ( (cnt = TryMove(blk, nb_id, die_id)) < 0 ) { // this is a self-eat move
+	if ( (cnt = TryMove(blk, id, nb_id, die_id)) < 0 ) { // this is a self-eat move
 		return (-2);
 	}
 	stones[id].Reset(blk_id);
@@ -135,8 +136,131 @@ NEXT_TURN:
 	return (0);
 
 }
-int GoBoard::Move ( const GoCoordId x, const GoCoordId y ) {
+GoError GoBoard::Move ( const GoCoordId x, const GoCoordId y ) {
 	return (Move(CoordToId(x, y)));
+}
+
+void GoBoard::DisplayBoard () const {
+	FOR_EACH_COORD(id) {
+		if ( (!id) and ((id%BORDER_C)==0) ) {
+			putchar("\n");
+		}
+		putchar(COLOR_CHAR[board_state[id]]);
+	}
+}
+
+// get serial number of this->board_state[][], also cache it into this->serial
+GoSerial GoBoard::GetSerial () {
+	serial = 0;
+	for ( GoCoordId id=SMALLBOARDSIZE-1; i>=0; i-- ) {
+		serial = serial*3 + board_state[id];
+	}
+	return (serial);
+}
+
+// rotate clock-wise (90 degree)
+void GoBoard::RotateClockwise () {
+	GoStoneColor tmp[SMALLBOARDSIZE];
+	FOR_EACH_COORD(id) {
+		int x, y;
+		IdToCoord(id, x, y);
+		
+		tmp[CoordToId(y, BORDER_C-1-x)] = board_state[id];
+	}
+	memcpy(board_state, tmp, sizeof(tmp));
+}
+
+// flip in a LR symmetric matter
+void GoBoard::FlipLR () {
+	GoCoordId id = 0;
+	for ( GoCoordId x=0; x<BORDER_R; ++x ) {
+		for ( GoCoordId y=0; y<BORDER_C/2; ++y ) {
+			swap(board_state[id], board_state[id+BORDER_C-1-y]);
+			++id;
+		}
+	}
+}
+
+// Uses SetStone to setup the board, 'initialze' can be set to 1 if want
+// the board details to be initialized for future play. 
+// error code may be set
+//   0: success
+//	-1: construct fail
+GoBoard::GoBoard ( const GoSerial _serial, bool initialize=0 ) : GoBoard() {
+	for ( GoCoordId id=SMALLBOARDSIZE-1; i>=0; i-- ) {
+		GoStoneColor stone_color = serial%3;
+		serial /= 3;
+		if ( SetStone(id, stone_color) != 0 ) { // see error code below
+			error_code = -1;
+			goto END_CONSTRUCT;
+		}
+	}
+	error_code = 0;
+END_CONSTRUCT:
+/* build initialization of board detail for 
+playing on the phase 'CheckKoStates'*/
+	if ( initialize ) {
+		/* do some initialization */ 
+	}
+}
+
+// Place stones onto the board, but don't need maintenance of detail
+// board position or check if it is legal, only check for self-eat or eat move
+// The stone will be placed onto the board_state.
+// error code:
+//   0: success
+//	-1: self-eat move
+//  -2: eat-opponent move
+GoBoard::GoError SetStone ( const GoCoordId id, const GoStoneColor stone_color ) {
+// nb_id[0] and die_id[0] is counter, 
+	GoBlockId blk_id, nb_id[5], die_id[5];
+// opponent stone eaten when the move occurs
+	GoCounter cnt;
+	
+	GetNewBlock(blk_id);
+	GoBlock &blk = block_pool[blk_id];
+
+	if ( (cnt = TryMove(blk, id, nb_id, die_id)) < 0 ) { // this is a self-eat move
+		return (-1);
+	}
+	if ( die_id[0] != 0 ) { // this is an eating move
+		return (-2);
+	}
+	stones[id].Reset(blk_id);
+	blk.in_use = true;
+	blk.head = hlk.tail = id;
+	for ( GoBlockId i=1; i<=nb_id[0]; ++i ) {
+		GoBlock &nb_blk = block_pool[nb_id[i]];
+		visited_position[nb_id[i]] = game_length;
+		nb_blk.ResetLiberty(id);
+		if ( SelfColor() == blk.color ) {
+			blk.MergeBlocks(nb_blk);
+			RecycleBlock(nb_id[i]);
+		}
+	}
+	for ( GoBlockId i=1; i<=die_id[0]; ++i ) {
+		// for the stones of the killed GoBlock...
+		FOR_BLOCK_STONE(dead_stone, block_pool[die_id[i]], 
+			// for the neighbor of the stones
+			FOR_NEIGHBOR(dead_stone, nb) {
+				// if the neighbor is my color, add liberty to my stone
+				if ( SelfColor() == board_state[*nb] ) {
+					GoBlockId my_blk_id = GetBlockIdByCoord(*nb);
+					block_pool[my_blk_id].SetLiberty(dead_stone);
+				}
+			}
+			board_state[dead_stone] = EmptyStone;
+		);
+		RecycleBlock(die_id[i]);
+	}
+	board_state[id] = stone_color;
+	return (0);
+/*
+NOTES: you can compare this function to GoBoard::Move(id), because this
+is a reduced version of move, because we only care about initializing the 
+stones onto the board and don't need to do any maintanence on the gaming
+detail.
+*/
 }
 
 // returns own color
@@ -152,7 +276,7 @@ inline void GoBoard::HandOff () {
 	swap(current_player, opponent)
 }
 // return whether the move is legal
-inline bool IsLegal ( const GoCoordId id ) {
+inline bool GoBoard::IsLegal ( const GoCoordId id ) {
 	return ((id == IsPass(id)) or legal_move_map[id]);
 }
 
@@ -197,7 +321,7 @@ void GoBoard::GetNeighborBlocks ( GoBlock &blk, const GoCoordId target_id,
 // on 'target_id'
 // if the move is illegal, return -1
 // else, return the number of opponent stone can be eaten in this move
-GoCounter GoBoard::TryMove ( GoBlock &blk, const CoordId target_id, 
+GoError GoBoard::TryMove ( GoBlock &blk, const CoordId target_id, 
  GoBlockId *nb_id, GoBlockId* die_id, GoCoordId max_lib=SMALLBOARDSIZE ) {
  	if ( !legal_move_map[target_id] ) {
  		return (-1);
@@ -303,6 +427,8 @@ void GoBoard::GetPossibleMove () {
 	// check for basic Ko
 		if ( game_length > 2 ) {
 			GoHash new_zobrist_value = current_zobrist_value;
+			
+			new_zobrist_value ^= zobrist_board_hash_weight[SelfColor()][i];
 			new_zobrist_value ^= zobrist_switch_player;
 
 			GoBlockId *die_id = tmp[1];

@@ -31,22 +31,56 @@ protected:
 // redirect the '*stone' pointer in GoBlock to the stones[] after CopyFrom()
 	void FixBlockInfo ();
 
+
+/* Crucial function: Move */
+// this function actually modifies the board_state, and stones with zero
+// liberty after the move will be removed
 public:
 // THE ACTUAL FUNCTION THAT MOVES THE BOARD
 // be called after GetPossibleMove
-// returns 0 if success
 // error code:
+//   0: success
 //	-1: not a legal move
 //	-2: a self-eat move
-	int Move ( const GoCoordId id );
-	int Move ( const GoCoordId x, const GoCoordId y );
+	GoError Move ( const GoCoordId id );
+	GoError Move ( const GoCoordId x, const GoCoordId y );
+
+/* Display, only for debug purpose */
+public:
+	void DisplayBoard ();
+
+/* Board Manipulation */
+public:
+// get serial of the current board
+	GoSerial GetSerial ();
+// rotate clock-wise (90 degree)
+	void RotateClockwise ();
+// flip in a LR symmetric matter
+	void FlipLR ();
+
+
+/* for initialization via serial number */
+public: 
+// Uses SetStone to setup the board, 'initialze' can be set to 1 if want
+// the board details to be initialized for future play. 
+// error code may be set 
+	GoBoard ( const GoSerial _serial, bool initialize=0 );
+protected:
+// Place stones onto the board, but don't need maintenance of detail
+// board position or check if it is legal, only check for self-eat or eat move
+// The stone will be placed onto the board_state.
+// error code:
+//   0:
+//	-1:
+//	-2:
+	GoError SetStone ( const GoCoordId id );
 
 protected:
 // returns own color
 	GoStoneColor SelfColor ();
 // returns opponent color
 	GoStoneColor OpponentColor ();
-// Give the turn to opponen
+// Give the turn to opponent
 	inline void HandOff ();
 // return whether the move is legal
 	inline bool IsLegal ( const GoCoordId id );
@@ -64,7 +98,7 @@ protected:
 // get new block (from idx - 'block_in_use') or re-used GoBlock (from stack)
 	void GetNewBlock ( GoBlockId &blk_id );
 // try to do the move on 'target_id'
-	GoCounter TryMove ();
+	GoError TryMove ();
 // get all possible move for the current board position
 	void GetPossibleMove ();
 
@@ -89,6 +123,8 @@ private :
 /* Zobrist Hash to forbid Basic Ko (we allow Positional SuperKo) */
 	GoHash record_zobrist[4];
 	GoHash current_zobrist_value;	
+/* for error handling */
+	GoError error_code;
 // score calculation: neighbors if consist both black and white, then both
 // add 1, else add score to the corresponding color. Also add stones as
 // scores. score = black - white (since we are reducing)
