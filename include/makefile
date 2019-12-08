@@ -1,0 +1,13 @@
+G_PLUS_PLUS=g++ -std=c++14 -O2 -Wall
+STATE_ULL=-D BITSTATE_ULL
+STATE_BITSET=-D BITSTATE_BST 
+
+
+2x2=-D ROW=2 -D COL=2 -D ENCODE_LENGTH=19
+3x3=-D ROW=3 -D COL=3 -D ENCODE_LENGTH=30
+5x5=-D ROW=5 -D COL=5 -D ENCODE_LENGTH=58
+
+board:
+	$(G_PLUS_PLUS) $(STATE_ULL) $(3x3) comm.o -c GoBoard.cc
+common:
+	$(G_PLUS_PLUS) $(STATE_ULL) $(3x3) -c comm.cc

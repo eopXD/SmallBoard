@@ -1,13 +1,15 @@
+#include "comm.h"
 #include "GoBoard.h"
 
 using namespace GoConstant;
 using namespace GoFunction;
+using namespace std;
 
 GoBoard::GoBoard () {
 	CreateGlobalVariable();
 
-	FOR_EACH_COORD(i) {
-		stones[i].self_id = i;
+	FOR_EACH_COORD(id) {
+		stones[id].self_id = id;
 	}
 	FOR_EACH_BLOCK(i) {
 		block_pool[i].in_use = false;
@@ -35,13 +37,15 @@ GoBoard::GoBoard ( const GoBoard &rhs ) : GoBoard() {
 	CopyFrom(rhs);
 }
 
+GoBoard::~GoBoard () {};
+
 
 void GoBoard::CopyFrom ( const GoBoard &src ) {
 	*this = src;
 	FixBlockInfo();
 }
 
-void FixBlockInfo () {
+void GoBoard::FixBlockInfo () {
 	FOR_EACH_BLOCK(i) {
 		block_pool[i].stones = stones;
 	}
@@ -71,8 +75,10 @@ GoError GoBoard::Move ( const GoCoordId id ) {
 		}
 	}	
 	if ( IsPass(id) ) {
-		goto NEXT_TURN;
-	}
+		HandOff();
+		GetPossibleMove();
+		record_zobrist[(game_length-1+4)&3] = current_zobrist_value;
+	}	
 // nb_id[0] and die_id[0] is counter, 
 	GoBlockId blk_id, nb_id[5], die_id[5];
 // opponent stone eaten when the move occurs
@@ -98,8 +104,8 @@ GoError GoBoard::Move ( const GoCoordId id ) {
 	}
 	visited_position[blk_id] = game_length;
 	for ( GoBlockId i=1; i<=die_id[0]; ++i ) {
-		if ( 1 == block_pool[die_id[i]] and 1 == blk.stone_count 
-		 and 1 == blk.CountLiberty() ) {
+		if ( (1 == block_pool[die_id[i]].stone_count) and (1 == blk.stone_count) 
+		 and (1 == blk.CountLiberty()) ) {
 		// this is a Ko!
 			ko_position = block_pool[die_id[i]].head;
 		}
@@ -129,7 +135,6 @@ GoError GoBoard::Move ( const GoCoordId id ) {
 	}
 	board_state[id] = SelfColor();
 
-NEXT_TURN:
 	HandOff();
 	GetPossibleMove();
 	record_zobrist[(game_length-1+4)&3] = current_zobrist_value;
@@ -140,10 +145,10 @@ GoError GoBoard::Move ( const GoCoordId x, const GoCoordId y ) {
 	return (Move(CoordToId(x, y)));
 }
 
-void GoBoard::DisplayBoard () const {
+void GoBoard::DisplayBoard () {
 	FOR_EACH_COORD(id) {
 		if ( (!id) and ((id%BORDER_C)==0) ) {
-			putchar("\n");
+			putchar('\n');
 		}
 		putchar(COLOR_CHAR[board_state[id]]);
 	}
@@ -152,7 +157,7 @@ void GoBoard::DisplayBoard () const {
 // get serial number of this->board_state[][], also cache it into this->serial
 GoSerial GoBoard::GetSerial () {
 	serial = 0;
-	for ( GoCoordId id=SMALLBOARDSIZE-1; i>=0; i-- ) {
+	for ( GoCoordId id=SMALLBOARDSIZE-1; id>=0; id-- ) {
 		serial = serial*3 + board_state[id];
 	}
 	return (serial);
@@ -162,7 +167,7 @@ GoSerial GoBoard::GetSerial () {
 void GoBoard::RotateClockwise () {
 	GoStoneColor tmp[SMALLBOARDSIZE];
 	FOR_EACH_COORD(id) {
-		int x, y;
+		GoCoordId x, y;
 		IdToCoord(id, x, y);
 		
 		tmp[CoordToId(y, BORDER_C-1-x)] = board_state[id];
@@ -186,8 +191,8 @@ void GoBoard::FlipLR () {
 // error code may be set
 //   0: success
 //	-1: construct fail
-GoBoard::GoBoard ( const GoSerial _serial, bool initialize=0 ) : GoBoard() {
-	for ( GoCoordId id=SMALLBOARDSIZE-1; i>=0; i-- ) {
+GoBoard::GoBoard ( GoSerial _serial, bool initialize ) : GoBoard() {
+	for ( GoCoordId id=SMALLBOARDSIZE-1; id>=0; id-- ) {
 		GoStoneColor stone_color = _serial%3;
 		_serial /= 3;
 		if ( SetStone(id, stone_color) != 0 ) { // see error code below
@@ -196,6 +201,7 @@ GoBoard::GoBoard ( const GoSerial _serial, bool initialize=0 ) : GoBoard() {
 		}
 	}
 	error_code = 0;
+
 END_CONSTRUCT:
 /* build initialization of board detail for 
 playing on the phase 'CheckKoStates'*/
@@ -211,7 +217,7 @@ playing on the phase 'CheckKoStates'*/
 //   0: success
 //	-1: self-eat move
 //  -2: eat-opponent move
-GoBoard::GoError SetStone ( const GoCoordId id, const GoStoneColor stone_color ) {
+GoError GoBoard::SetStone ( const GoCoordId id, const GoStoneColor stone_color ) {
 // nb_id[0] and die_id[0] is counter, 
 	GoBlockId blk_id, nb_id[5], die_id[5];
 // opponent stone eaten when the move occurs
@@ -228,7 +234,7 @@ GoBoard::GoError SetStone ( const GoCoordId id, const GoStoneColor stone_color )
 	}
 	stones[id].Reset(blk_id);
 	blk.in_use = true;
-	blk.head = hlk.tail = id;
+	blk.head = blk.tail = id;
 	for ( GoBlockId i=1; i<=nb_id[0]; ++i ) {
 		GoBlock &nb_blk = block_pool[nb_id[i]];
 		visited_position[nb_id[i]] = game_length;
@@ -273,7 +279,7 @@ GoStoneColor GoBoard::OpponentColor () {
 }
 // give the turn to opponent
 inline void GoBoard::HandOff () {
-	swap(current_player, opponent)
+	swap(current_player, opponent_player);
 }
 // return whether the move is legal
 inline bool GoBoard::IsLegal ( const GoCoordId id ) {
@@ -290,7 +296,7 @@ GoCoordId GoBoard::FindCoord ( const GoCoordId id ) {
 }
 
 // get GoBlockId of some 'id' on the board
-void GoBoard::GetBlockIdByCoord ( const GoCoordId id ) {
+GoBlockId GoBoard::GetBlockIdByCoord ( const GoCoordId id ) {
 	if ( EmptyStone == board_state[id] ) {
 		return (BLOCK_UNSET);
 	} 
@@ -304,7 +310,7 @@ void GoBoard::GetBlockIdByCoord ( const GoCoordId id ) {
 void GoBoard::GetNeighborBlocks ( GoBlock &blk, const GoCoordId target_id, 
  GoBlockId *nb_id ) {
 	nb_id[0] = 0;
-	blk.SetStoneState(target_id);
+	blk.SetStone(target_id);
 	FOR_NEIGHBOR(target_id, nb) {
 		blk.SetVirtLiberty(*nb);
 		if ( EmptyStone == board_state[*nb] ) {
@@ -321,8 +327,8 @@ void GoBoard::GetNeighborBlocks ( GoBlock &blk, const GoCoordId target_id,
 // on 'target_id'
 // if the move is illegal, return -1
 // else, return the number of opponent stone can be eaten in this move
-GoError GoBoard::TryMove ( GoBlock &blk, const CoordId target_id, 
- GoBlockId *nb_id, GoBlockId* die_id, GoCoordId max_lib=SMALLBOARDSIZE ) {
+GoError GoBoard::TryMove ( GoBlock &blk, const GoCoordId target_id, 
+ GoBlockId *nb_id, GoBlockId* die_id, GoCoordId max_lib ) {
  	if ( !legal_move_map[target_id] ) {
  		return (-1);
  	}
@@ -353,7 +359,7 @@ GoError GoBoard::TryMove ( GoBlock &blk, const CoordId target_id,
  	}
 
  	blk.ResetLiberty(target_id);
- 	if ( blk.CountLiberty() >= lib_count ) {
+ 	if ( blk.CountLiberty() >= max_lib ) {
  		return (cnt);
  	}
  	if ( 0 != die_id[0] ) {
@@ -380,7 +386,7 @@ void GoBoard::GetNewBlock ( GoBlockId &blk_id ) {
 		blk_id = recycled_block.top();
 		recycled_block.pop();
 	} else {
-		id = block_in_use++;
+		blk_id = block_in_use++;
 	}
 	block_pool[blk_id].Reset();
 }
@@ -421,7 +427,7 @@ void GoBoard::GetPossibleMove () {
 		TryMove(blk, i, tmp[0], tmp[1]);
 		blk.CountLiberty();
 		if ( blk.liberty_count <= 0 ) {
-			legal_move_map[i].reset(i);
+			legal_move_map.reset(i);
 			continue;
 		}
 	// check for basic Ko

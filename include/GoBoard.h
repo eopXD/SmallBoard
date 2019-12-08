@@ -9,6 +9,7 @@
 #ifndef SMALLBOARD_GOBOARD_H
 #define SMALLBOARD_GOBOARD_H
 
+#include <cstdio>
 #include <stack>
 #include <bitset>
 
@@ -24,7 +25,7 @@ public:
 	GoBoard ();
 	GoBoard ( const GoBoard &rhs );
 // destructor
-	~GoBoard();
+	~GoBoard ();
 // copy
 	void CopyFrom ( const GoBoard &src );
 protected:
@@ -73,7 +74,7 @@ protected:
 //   0:
 //	-1:
 //	-2:
-	GoError SetStone ( const GoCoordId id );
+	GoError SetStone ( const GoCoordId id, const GoStoneColor stone_color );
 
 protected:
 // returns own color
@@ -87,7 +88,7 @@ protected:
 // finds ancestor stone (it is used to find block_id of the ancestor stone)
 	GoCoordId FindCoord ( const GoCoordId id );
 // get BlockId of some 'id' on the board
-	void GetBlockIdByCoord ( const GoCoordId id );
+	GoBlockId GetBlockIdByCoord ( const GoCoordId id );
 // get neighbor blocks of of 'target_id', which is at most 4 blocks
 // the BlockId saved into 'nb_id'
 // a stone is placed on 'target_id' inside 'blk'
@@ -98,7 +99,8 @@ protected:
 // get new block (from idx - 'block_in_use') or re-used GoBlock (from stack)
 	void GetNewBlock ( GoBlockId &blk_id );
 // try to do the move on 'target_id'
-	GoError TryMove ();
+	GoError TryMove ( GoBlock &blk, const GoCoordId target_id, 
+ GoBlockId *nb_id, GoBlockId* die_id, GoCoordId max_lib=GoConstant::SMALLBOARDSIZE );
 // get all possible move for the current board position
 	void GetPossibleMove ();
 
@@ -139,12 +141,12 @@ private :
 /* conventional for-loop */
 
 // for all the GoBlocks such that in_use = true
-#define FOR_BLOCK_IN_USE (i)\
+#define FOR_BLOCK_IN_USE(i)\
  for ( GoBlockId i=0; i<block_in_use; ++i )
 
 // stones[] are maintained in a linked-list style
 // iteration around stones of a GoBoard
-#define FOR_BLOCK_STONE (id, blk, loop_body) {\
+#define FOR_BLOCK_STONE(id, blk, loop_body) {\
 	GoCoordId id = (blk).head;\
 	while ( 1 ) {\
 		loop_body\
@@ -154,4 +156,6 @@ private :
 		id = stones[id].next_id;\
 	}\
 }
+
+
 #endif
