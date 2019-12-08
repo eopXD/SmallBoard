@@ -188,8 +188,8 @@ void GoBoard::FlipLR () {
 //	-1: construct fail
 GoBoard::GoBoard ( const GoSerial _serial, bool initialize=0 ) : GoBoard() {
 	for ( GoCoordId id=SMALLBOARDSIZE-1; i>=0; i-- ) {
-		GoStoneColor stone_color = serial%3;
-		serial /= 3;
+		GoStoneColor stone_color = _serial%3;
+		_serial /= 3;
 		if ( SetStone(id, stone_color) != 0 ) { // see error code below
 			error_code = -1;
 			goto END_CONSTRUCT;
