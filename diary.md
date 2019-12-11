@@ -483,3 +483,74 @@ Total of `2020` byte per `Board`.
 ###### Note-able changes
 
 - add a variable `uint8_t error_code` into `GoBoard` for error handling.
+
+## 12/7 
+輕鬆寫完 `GoBoard(serial)` 之後，debug 看看有沒有出錯⋯⋯
+
+這邊會測試到的函數有：同一層代表互相沒有呼叫關係。
+
+- `GoBoard(serial)`
+	- `SetStone`
+		- `TryMove`
+			- `GetNeighborBlock`
+				- `GetBlockId`
+					- `CoordId`
+			- `MergeBlock`
+
+明天睡醒繼續。
+
+## 12/8
+
+這兩天看展加上寫 Compiler 作業，所以沒有新進度。
+喔喔還比了一場 codeforeces ， rating 現在 1795 ，距離紫色還有 105 積分！！！！！！
+
+## 12/9
+
+教訓： `#define XXX(a, b, c)` ，其中 '`XXX`' 還有 '`(`' 之間不能夠有空白。
+
+
+
+## 12/11
+
+- unsigned 還有 signed 之間要注意。如果變數宣告是 unsigned 然後回傳 -1 就會爆掉。
+
+我現在要重新改寫 `TryMove` 我應該直接把檢查並放置石頭多加在 SetStone 當中，因為 SetStone 並沒有敵我的概念，而 `TryMove` 中下的棋子是基於 `GoBoard.SelfColor()` 以及 `GoBoard.OpponentColor()`.
+
+- 重新審視之後，我發現 TryMove 其實有很大一部份是在維護 die_id 的部分，但我們在創建盤面時不允許有吃子的發生，所以可以省略多許多檢查的部分。
+- 我發現 `GoBoard::SetStone` 與 `GoBlock::SetStone` 同名，在這邊做解釋
+	- `GoBoard::SetStone` 是在初始化盤面時試圖把石頭放到盤面上。
+	- `GoBlock::SetStone` 是對該 `blk.stone_state` 這個 bit state 去做更改。
+
+- 找到 bug ⋯⋯好恐怖⋯⋯ `nb_blk` 打成 `blk` 。
+
+耶～完成 FindAllPossibleState 階段。符合論文所述。
+
+
+##### 2x2
+
+```
+total legal states: 57
+
+real	0m0.008s
+user	0m0.003s
+sys	0m0.003s
+```
+
+##### 3x3
+
+```
+total legal states: 12675
+
+real	0m0.030s
+user	0m0.021s
+sys	0m0.003s
+```
+##### 4x4
+
+``` 4x4
+total legal states: 24318165
+
+real	0m29.613s
+user	0m29.481s
+sys	0m0.050s
+```
