@@ -28,9 +28,9 @@ Actually not that many function is related in this phase, because I only want to
 
 ### Some Psuedo Codes
 
-- for all possible `serial`...
+- For all possible `serial`...
 	- `GoBoard(serial)`
-		- calls `SetStone` for each stone on the `serial`, which the `GoStone` is on position `id`
+		- Calls `SetStone` for each stone on the `serial`, which the `GoStone` is on position `id`
 			- Create a new `GoBlock`
 			- Get neighboring `GoBlocks` of `id` using `GetNeighborBlocks`
 				- `GetNeighborBlocks` calls `GetBlockIdByCoord` for each neighboring position
@@ -39,5 +39,20 @@ Actually not that many function is related in this phase, because I only want to
 			- If neighboring block is opponent and with only 1 liberty left, the construction fails (**ERROR CODE -2**)
 			- If the merged block of my own have no liberty, then the construction fails (**ERROR CODE -1**)
 			- After `GoBlock::MergeBlock`, use `GoBoard::RecycleBlock` to recycle the blocks.
+	- If construction does not fail, we try `RotateClockwise` and do once `FlipLR` for every rotation.
+		- If `GetSerial` returns numbers that is smaller than the current `serial`, then is should be reduce-able.
+	- If it is not reduce-able, then we acccumulate an `1` bit onto the file
+	- Else we accumulate a `0` bit onto the file.
+
+
+### Generating Data
+
+By the master thesis, there are about `414.2G` of states in a `5x5` board. I would save the 1 bit per state
+
+- If legel, an `1` bit will be appended
+- else , a `0` bit will be appended.
+
+That means I would need `48.1G` byte to save all the legal states.
+I split the states, into 25 files, `2G` bytes per file. So in this phase I would generate 25 subfiles.
 
 
