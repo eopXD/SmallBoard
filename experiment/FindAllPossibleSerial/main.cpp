@@ -51,7 +51,7 @@ EEB */
 // buffer
 	const int BUFFER_SIZE = 65536;
 	unsigned char *buffer;
-	buffer = new unsigned char [BUFFER_SIZE];
+	buffer = new unsigned char [BUFFER_SIZE+5];
 	int buf_idx = 0;
 	unsigned compact = 0;
 // statistics of state
@@ -109,13 +109,23 @@ EEB */
 			}
 
 			compact += is_smallest;
-			if ( (serial&7) == 7 ) {
+			if ( (serial&7ull) == 7ull ) {
 				buffer[buf_idx++] = compact;
 				if ( buf_idx == BUFFER_SIZE ) {
 					fwrite(buffer, sizeof(unsigned char), BUFFER_SIZE, output_file);	
+					buf_idx = 0;
 				}
-				buf_idx = 0;
+				compact = 0;
 			}
+		}
+		if ( ((end_serial-1)&7) != 7ull ) {
+			buffer[buf_idx++] = compact;
+			compact = 0;
+		}
+		printf("buf_idx: %d\n", buf_idx);
+		if ( buf_idx > 0 ) {
+			fwrite(buffer, sizeof(unsigned char), BUFFER_SIZE, output_file);	
+			buf_idx = 0;
 		}
 		fclose(output_file);
 	}
