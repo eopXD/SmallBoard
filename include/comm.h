@@ -48,7 +48,7 @@ using GoPosition = std::pair<GoCoordId, GoCoordId>;
 using GoHashPair = std::pair<uint64_t, uint64_t>;
 
 // for error handling
-using GoError = uint8_t;
+using GoError = int8_t;
 
 /****************************************************************************/
 
