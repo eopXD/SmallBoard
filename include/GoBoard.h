@@ -10,6 +10,7 @@
 #define SMALLBOARD_GOBOARD_H
 
 #include <cstdio>
+#include <iostream>
 #include <stack>
 #include <bitset>
 
@@ -66,16 +67,18 @@ public:
 // the board details to be initialized for future play. 
 // error code may be set 
 	GoBoard ( const GoSerial _serial, bool initialize=0 );
+	/* for error handling, can be direct accessed by outside */
+	GoError error_code;
+
 protected:
 // Place stones onto the board, but don't need maintenance of detail
 // board position or check if it is legal, only check for self-eat or eat move
 // The stone will be placed onto the board_state.
 // error code:
-//   0:
-//	-1:
-//	-2:
+//   0: ok
+//	-1: self-eat move 
+//	-2: eat-opponent move
 	GoError SetStone ( const GoCoordId id, const GoStoneColor stone_color );
-
 protected:
 // returns own color
 	GoStoneColor SelfColor ();
@@ -100,7 +103,8 @@ protected:
 	void GetNewBlock ( GoBlockId &blk_id );
 // try to do the move on 'target_id'
 	GoError TryMove ( GoBlock &blk, const GoCoordId target_id, 
- GoBlockId *nb_id, GoBlockId* die_id, GoCoordId max_lib=GoConstant::SMALLBOARDSIZE );
+ GoBlockId *nb_id, GoBlockId* die_id, 
+ GoCoordId max_lib=GoConstant::SMALLBOARDSIZE );
 // get all possible move for the current board position
 	void GetPossibleMove ();
 
@@ -125,8 +129,6 @@ private :
 /* Zobrist Hash to forbid Basic Ko (we allow Positional SuperKo) */
 	GoHash record_zobrist[4];
 	GoHash current_zobrist_value;	
-/* for error handling */
-	GoError error_code;
 // score calculation: neighbors if consist both black and white, then both
 // add 1, else add score to the corresponding color. Also add stones as
 // scores. score = black - white (since we are reducing)
