@@ -202,7 +202,6 @@ GoBoard::GoBoard ( GoSerial _serial, bool initialize ) : GoBoard() {
 			continue;
 		}
 		GoError err = SetStone(id, stone_color);
-		//cout << "id: " << (int)id << ", err: " << (int)err << "\n";
 		if ( err != 0 ) { // see error code below
 			error_code = -1;
 			goto END_CONSTRUCT;
@@ -232,7 +231,6 @@ GoError GoBoard::SetStone ( const GoCoordId id, const GoStoneColor stone_color )
 	GetNewBlock(blk_id);
 	GoBlock &blk = block_pool[blk_id];
 
-	//printf("id: %d, blk_id: %d, color: %d\n", (int)id, (int)blk_id, stone_color);
 
 // opponent stone eaten when the move occurs
 	//blk.Reset();
@@ -246,7 +244,6 @@ GoError GoBoard::SetStone ( const GoCoordId id, const GoStoneColor stone_color )
 		GoBlock &nb_blk = block_pool[nb_id[i]];
 		if ( stone_color != nb_blk.color ) {
 			if ( 1 == nb_blk.CountLiberty() ) {
-				//nb_blk.DisplayStone();
 			// eat-able!
 				return (-2);
 			}
@@ -270,7 +267,7 @@ GoError GoBoard::SetStone ( const GoCoordId id, const GoStoneColor stone_color )
 		nb_blk.ResetLiberty(id);
 		if ( stone_color == nb_blk.color ) {
 			blk.MergeBlocks(nb_blk);
-			//printf("recycling block: %d\n", (int)nb_id[i]);
+
 			RecycleBlock(nb_id[i]);
 		}
 	}
@@ -327,12 +324,10 @@ void GoBoard::GetNeighborBlocks ( GoBlock &blk, const GoCoordId target_id,
 	nb_id[0] = 0;
 	blk.SetStone(target_id);
 	FOR_NEIGHBOR(target_id, nb) {
-		//printf("neighbor: %d\n", (int)*nb);
 		blk.SetVirtLiberty(*nb);
 		if ( EmptyStone == board_state[*nb] ) {
 			blk.SetLiberty(*nb);
 		} else {
-			//printf("nb_blkId: %d, color: %d\n", GetBlockIdByCoord(*nb), (int)block_pool[GetBlockIdByCoord(*nb)].color);
 			nb_id[++nb_id[0]] = GetBlockIdByCoord(*nb);
 		}
 	}
@@ -377,7 +372,6 @@ GoError GoBoard::TryMove ( GoBlock &blk, const GoCoordId target_id,
 
  	blk.ResetLiberty(target_id);
  	if ( blk.CountLiberty() >= max_lib ) {
- 		puts("nani!!!");
  		return (cnt);
  	}
  	if ( 0 != die_id[0] ) {
@@ -401,7 +395,6 @@ void GoBoard::RecycleBlock ( const GoBlockId blk_id ) {
 void GoBoard::GetNewBlock ( GoBlockId &blk_id ) {
 	blk_id = BLOCK_UNSET;
 	if ( !recycled_block.empty() ) {
-		//puts("get recycle");
 		
 		blk_id = recycled_block.top();
 		recycled_block.pop();
@@ -414,7 +407,7 @@ void GoBoard::GetNewBlock ( GoBlockId &blk_id ) {
 // get all possible move for the current board position
 void GoBoard::GetPossibleMove () {
 	GoBlockId blk_id;
-// [0][[?] is neighbor block_id, [1][?] is block_id killed
+// [0][?] is neighbor block_id, [1][?] is block_id killed
 // [?][0] is the counter, from [?][1]~[?][4] stores the value
 	GoBlockId tmp[2][5];  
 	
