@@ -128,6 +128,7 @@ EEB */
 			buf_idx = 0;
 		}
 		fclose(output_file);
+		printf("write data %s\n", filename);
 	}
 	printf("\ntotal_illegal_state: %lld\n", total_illegal_state);
 	for ( int file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
