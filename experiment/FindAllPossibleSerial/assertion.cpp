@@ -22,7 +22,7 @@ int main ()
 
 
 // the real process to select out the legal boards
-	const GoSerial STATE_PER_FILE = 16777216ll; // 2^32 = 2G
+	const GoSerial STATE_PER_FILE = (1ll<<10); // 2^32 = 2G
 	const GoSerial NUMBER_OF_FILE = MAX_SERIAL/STATE_PER_FILE + 1;
 
 	char filename[105];
@@ -32,7 +32,7 @@ int main ()
 	buffer = new unsigned char [BUFFER_SIZE+5];
 	
 	for ( int file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
-		sprintf(filename, "data.SparseLegalState.part%05d", file_num);
+		sprintf(filename, "data/data.SparseLegalState.part%05d", file_num);
 		FILE *input_file = fopen(filename, "rb");
 
 		GoSerial start_serial = file_num * STATE_PER_FILE;
@@ -41,7 +41,7 @@ int main ()
 			end_serial = MAX_SERIAL;
 		}
 		
-		printf("start: %lld %lld\n", start_serial, end_serial);
+		//printf("start: %lld %lld\n", start_serial, end_serial);
 		GoSerial serial = start_serial;
 		
 		while ( fread(buffer, BUFFER_SIZE, sizeof(unsigned char), input_file) ) {
@@ -85,7 +85,7 @@ int main ()
 			}
 
 		}
-		printf("the end: %lld %lld\n", serial, end_serial);
+		//printf("the end: %lld %lld\n", serial, end_serial);
 		assert(serial == end_serial);
 		fclose(input_file);
 		printf("asserted %s\n", filename);

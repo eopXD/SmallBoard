@@ -45,7 +45,7 @@ EEB */
 
 
 // the real process to select out the legal boards
-	const GoSerial STATE_PER_FILE = 16777216ll; // 2^32 = 2G
+	const GoSerial STATE_PER_FILE = (1ll<<10); // 2^32 = 2G
 	const GoSerial NUMBER_OF_FILE = MAX_SERIAL/STATE_PER_FILE + 1;
 
 	char filename[105];
@@ -71,7 +71,7 @@ EEB */
 	std::cout << "NUMBER_OF_FILE: " << NUMBER_OF_FILE << "\n";
 	
 	for ( GoSerial file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
-		sprintf(filename, "data.SparseLegalState.part%05lld", file_num);
+		sprintf(filename, "data/data.SparseLegalState.part%05lld", file_num);
 		FILE *output_file = fopen(filename, "wb");
 		
 		GoSerial start_serial = file_num * STATE_PER_FILE;
@@ -126,7 +126,7 @@ EEB */
 			buffer[buf_idx++] = compact;
 			compact = 0;
 		}
-		printf("buf_idx: %d\n", buf_idx);
+		//printf("buf_idx: %d\n", buf_idx);
 		if ( buf_idx > 0 ) {
 			fwrite(buffer, sizeof(unsigned char), BUFFER_SIZE, output_file);	
 			buf_idx = 0;
