@@ -97,7 +97,7 @@ GoError GoBoard::Move ( const GoCoordId id ) {
 		GoBlock &nb_blk = block_pool[nb_id[i]];
 		visited_position[nb_id[i]] = game_length;
 		nb_blk.ResetLiberty(id);
-		if ( SelfColor() == blk.color ) {
+		if ( SelfColor() == nb_blk.color ) {
 			blk.MergeBlocks(nb_blk);
 			RecycleBlock(nb_id[i]);
 		}
@@ -147,11 +147,12 @@ GoError GoBoard::Move ( const GoCoordId x, const GoCoordId y ) {
 
 void GoBoard::DisplayBoard () {
 	FOR_EACH_COORD(id) {
-		if ( (!id) and ((id%BORDER_C)==0) ) {
+		if ( id and ((id%BORDER_C)==0) ) {
 			putchar('\n');
 		}
+		
 		putchar(COLOR_CHAR[board_state[id]]);
-	}
+	} putchar('\n');
 }
 
 // get serial number of this->board_state[][], also cache it into this->serial
@@ -192,10 +193,17 @@ void GoBoard::FlipLR () {
 //   0: success
 //	-1: construct fail
 GoBoard::GoBoard ( GoSerial _serial, bool initialize ) : GoBoard() {
-	for ( GoCoordId id=SMALLBOARDSIZE-1; id>=0; id-- ) {
+	FOR_EACH_COORD(id) {
 		GoStoneColor stone_color = _serial%3;
 		_serial /= 3;
-		if ( SetStone(id, stone_color) != 0 ) { // see error code below
+		
+		if ( stone_color == EmptyStone ) {
+		// don't need to set stone for empty stone.
+			continue;
+		}
+		GoError err = SetStone(id, stone_color);
+		//cout << "id: " << (int)id << ", err: " << (int)err << "\n";
+		if ( err != 0 ) { // see error code below
 			error_code = -1;
 			goto END_CONSTRUCT;
 		}
@@ -220,44 +228,51 @@ playing on the phase 'CheckKoStates'*/
 GoError GoBoard::SetStone ( const GoCoordId id, const GoStoneColor stone_color ) {
 // nb_id[0] and die_id[0] is counter, 
 	GoBlockId blk_id, nb_id[5], die_id[5];
-// opponent stone eaten when the move occurs
-	GoCounter cnt;
 	
 	GetNewBlock(blk_id);
 	GoBlock &blk = block_pool[blk_id];
 
-	if ( (cnt = TryMove(blk, id, nb_id, die_id)) < 0 ) { // this is a self-eat move
+	//printf("id: %d, blk_id: %d, color: %d\n", (int)id, (int)blk_id, stone_color);
+
+// opponent stone eaten when the move occurs
+	//blk.Reset();
+	blk.stone_count = 1;
+	blk.color = stone_color;
+
+	GetNeighborBlocks(blk, id, nb_id);
+// check if we are killing anybody
+	die_id[0] = 0;
+	for ( GoBlockId	i=1; i<=nb_id[0]; ++i ) {
+		GoBlock &nb_blk = block_pool[nb_id[i]];
+		if ( stone_color != nb_blk.color ) {
+			if ( 1 == nb_blk.CountLiberty() ) {
+				//nb_blk.DisplayStone();
+			// eat-able!
+				return (-2);
+			}
+		} else {
+			blk.TryMergeBlocks(nb_blk);
+		}
+	}
+
+	blk.ResetLiberty(id);
+
+	if ( 0 == blk.CountLiberty() ) { 
+	// self-eat!
 		return (-1);
 	}
-	if ( die_id[0] != 0 ) { // this is an eating move
-		return (-2);
-	}
+
 	stones[id].Reset(blk_id);
 	blk.in_use = true;
 	blk.head = blk.tail = id;
 	for ( GoBlockId i=1; i<=nb_id[0]; ++i ) {
 		GoBlock &nb_blk = block_pool[nb_id[i]];
-		visited_position[nb_id[i]] = game_length;
 		nb_blk.ResetLiberty(id);
-		if ( SelfColor() == blk.color ) {
+		if ( stone_color == nb_blk.color ) {
 			blk.MergeBlocks(nb_blk);
+			//printf("recycling block: %d\n", (int)nb_id[i]);
 			RecycleBlock(nb_id[i]);
 		}
-	}
-	for ( GoBlockId i=1; i<=die_id[0]; ++i ) {
-		// for the stones of the killed GoBlock...
-		FOR_BLOCK_STONE(dead_stone, block_pool[die_id[i]], 
-			// for the neighbor of the stones
-			FOR_NEIGHBOR(dead_stone, nb) {
-				// if the neighbor is my color, add liberty to my stone
-				if ( SelfColor() == board_state[*nb] ) {
-					GoBlockId my_blk_id = GetBlockIdByCoord(*nb);
-					block_pool[my_blk_id].SetLiberty(dead_stone);
-				}
-			}
-			board_state[dead_stone] = EmptyStone;
-		);
-		RecycleBlock(die_id[i]);
 	}
 	board_state[id] = stone_color;
 	return (0);
@@ -312,10 +327,12 @@ void GoBoard::GetNeighborBlocks ( GoBlock &blk, const GoCoordId target_id,
 	nb_id[0] = 0;
 	blk.SetStone(target_id);
 	FOR_NEIGHBOR(target_id, nb) {
+		//printf("neighbor: %d\n", (int)*nb);
 		blk.SetVirtLiberty(*nb);
 		if ( EmptyStone == board_state[*nb] ) {
 			blk.SetLiberty(*nb);
 		} else {
+			//printf("nb_blkId: %d, color: %d\n", GetBlockIdByCoord(*nb), (int)block_pool[GetBlockIdByCoord(*nb)].color);
 			nb_id[++nb_id[0]] = GetBlockIdByCoord(*nb);
 		}
 	}
@@ -334,7 +351,7 @@ GoError GoBoard::TryMove ( GoBlock &blk, const GoCoordId target_id,
  	}
  	GoCounter cnt = 0;
  	
- 	blk.Reset();
+ 	//blk.Reset();
  	blk.stone_count = 1;
  	blk.color = SelfColor();
 
@@ -360,6 +377,7 @@ GoError GoBoard::TryMove ( GoBlock &blk, const GoCoordId target_id,
 
  	blk.ResetLiberty(target_id);
  	if ( blk.CountLiberty() >= max_lib ) {
+ 		puts("nani!!!");
  		return (cnt);
  	}
  	if ( 0 != die_id[0] ) {
@@ -383,6 +401,8 @@ void GoBoard::RecycleBlock ( const GoBlockId blk_id ) {
 void GoBoard::GetNewBlock ( GoBlockId &blk_id ) {
 	blk_id = BLOCK_UNSET;
 	if ( !recycled_block.empty() ) {
+		//puts("get recycle");
+		
 		blk_id = recycled_block.top();
 		recycled_block.pop();
 	} else {
