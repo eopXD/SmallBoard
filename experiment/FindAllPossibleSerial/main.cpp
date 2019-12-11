@@ -71,7 +71,7 @@ EEB */
 	std::cout << "NUMBER_OF_FILE: " << NUMBER_OF_FILE << "\n";
 	
 	for ( GoSerial file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
-		sprintf(filename, "data.SparseLegalState.part%03lld", file_num);
+		sprintf(filename, "data.SparseLegalState.part%05lld", file_num);
 		FILE *output_file = fopen(filename, "wb");
 		
 		GoSerial start_serial = file_num * STATE_PER_FILE;
@@ -136,21 +136,21 @@ EEB */
 	}
 	printf("\ntotal_illegal_state: %lld\n", total_illegal_state);
 	for ( int file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
-		printf("SparseLegalState.part%03d: %lld\n", file_num, illegal_state_of_file[file_num]);
+		printf("SparseLegalState.part%05d: %lld\n", file_num, illegal_state_of_file[file_num]);
 	}
 
 	printf("\ntotal_legal_state: %lld\n", total_legal_state);
 	for ( int file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
-		printf("SparseLegalState.part%03d: %lld\n", file_num, legal_state_of_file[file_num]);
+		printf("SparseLegalState.part%05d: %lld\n", file_num, legal_state_of_file[file_num]);
 	}
 	printf("\ntotal_reduced_legal_state: %lld\n", total_reduced_legal_state);
 	for ( int file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
-		printf("SparseLegalState.part%03d: %lld\n", file_num, reduced_legal_state_of_file[file_num]);
+		printf("SparseLegalState.part%05d: %lld\n", file_num, reduced_legal_state_of_file[file_num]);
 	}
 
 	printf("\ntotal_remain_legal_state: %lld\n", total_remain_legal_state);
 	for ( int file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
-		printf("SparseLegalState.part%03d: %lld\n", file_num, remain_legal_state_of_file[file_num]);
+		printf("SparseLegalState.part%05d: %lld\n", file_num, remain_legal_state_of_file[file_num]);
 	}
 
 

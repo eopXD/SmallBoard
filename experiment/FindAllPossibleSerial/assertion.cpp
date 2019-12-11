@@ -32,7 +32,7 @@ int main ()
 	buffer = new unsigned char [BUFFER_SIZE+5];
 	
 	for ( int file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
-		sprintf(filename, "data.SparseLegalState.part%03d", file_num);
+		sprintf(filename, "data.SparseLegalState.part%05d", file_num);
 		FILE *input_file = fopen(filename, "rb");
 
 		GoSerial start_serial = file_num * STATE_PER_FILE;
