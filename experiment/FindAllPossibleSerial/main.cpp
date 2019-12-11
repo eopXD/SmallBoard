@@ -36,19 +36,52 @@ void write_bitset ( BITSET &bst, char *filename ) {
 
 int main ()
 {
-	char file_name[105];
-	BITSET legal_state;	
+	//char file_name[105];
+	//BITSET legal_state;	
+
+	const GoSerial a = 6981;
+/* this is a legal board
+EWB
+EWB
+EEB
+*/
+	GoBoard test_board(a);
+	test_board.DisplayBoard();
+	std::cout << "error code: " << (int) test_board.error_code << "\n";
+
+	const GoSerial b = 11355;
+/*
+EWB
+EWB
+EWB
+*/
+	GoBoard another_test_board(b);
+	another_test_board.DisplayBoard();
+	std::cout << "error code: " << (int) another_test_board.error_code << "\n";
+
+	const GoSerial c = 5299;
+/*
+BWE
+BWE
+BWE
+*/
+	GoBoard another_another_test_board(c);
+	another_test_board.DisplayBoard();
+	std::cout << "error code: " << (int) another_another_test_board.error_code << "\n";
+	
+	//return (0);
 
 	uint64_t total_legal_state = 0;	
-	uint64_t reduced_rotate_state = 0;
-	uint64_t reduced_symmetric_state = 0;
+	//uint64_t reduced_rotate_state = 0;
+	//uint64_t reduced_symmetric_state = 0;
 
-	cout << MAX_SERIAL << "\n";
-
-	const GoSerial test_serial = 100120120;
-	
-	GoBoard test_board(test_serial);
-	
+	for ( int i=0; i<MAX_SERIAL; ++i ) {
+		GoBoard board(i);
+		if ( board.error_code == 0 ) {
+			++total_legal_state;
+		}
+	}
+	printf("total legal states: %lld\n", total_legal_state);
 
 	return (0);
 }
