@@ -16,6 +16,7 @@
 #define SMALLBOARD_COMMON_H
 
 #include <cstdio>
+#include <cstring>
 #include <cmath>
 #include <inttypes.h>
 #include <vector>

@@ -10,9 +10,11 @@
 #define SMALLBOARD_GOBOARD_H
 
 #include <cstdio>
+#include <cstring>
 #include <iostream>
 #include <stack>
 #include <bitset>
+#include <algorithm>
 
 #include "comm.h"
 #include "GoStone.h"
