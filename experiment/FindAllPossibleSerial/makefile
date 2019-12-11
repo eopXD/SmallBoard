@@ -1,4 +1,4 @@
-G_PLUS_PLUS=g++ -std=c++17 -O2 -Wall
+G_PLUS_PLUS=g++ -std=c++17 -O2 -Wall -pthread
 STATE_ULL=-D BITSTATE_ULL
 STATE_BITSET=-D BITSTATE_BST 
 

@@ -45,7 +45,7 @@ EEB */
 
 
 // the real process to select out the legal boards
-	const GoSerial STATE_PER_FILE = 2147483648ll * 8; // 2^32 = 2G
+	const GoSerial STATE_PER_FILE = 16777216ll; // 2^32 = 2G
 	const GoSerial NUMBER_OF_FILE = MAX_SERIAL/STATE_PER_FILE + 1;
 
 	char filename[105];

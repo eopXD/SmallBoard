@@ -22,7 +22,7 @@ int main ()
 
 
 // the real process to select out the legal boards
-	const GoSerial STATE_PER_FILE = 2147483648ll * 8; // 2^32 = 2G
+	const GoSerial STATE_PER_FILE = 16777216ll; // 2^32 = 2G
 	const GoSerial NUMBER_OF_FILE = MAX_SERIAL/STATE_PER_FILE + 1;
 
 	char filename[105];
@@ -41,7 +41,7 @@ int main ()
 			end_serial = MAX_SERIAL;
 		}
 		
-		//printf("start: %lld %lld\n", start_serial, end_serial);
+		printf("start: %lld %lld\n", start_serial, end_serial);
 		GoSerial serial = start_serial;
 		
 		while ( fread(buffer, BUFFER_SIZE, sizeof(unsigned char), input_file) ) {
@@ -80,9 +80,12 @@ int main ()
 					break;
 				}
 			}
+			if ( serial == end_serial ) {
+				break;
+			}
 
 		}
-		//printf("the end: %lld %lld\n", serial, end_serial);
+		printf("the end: %lld %lld\n", serial, end_serial);
 		assert(serial == end_serial);
 		fclose(input_file);
 		printf("asserted %s\n", filename);
