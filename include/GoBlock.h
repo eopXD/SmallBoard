@@ -84,14 +84,31 @@ struct GoBlock {
 
 	// manipulating on GoBoard.stones[]
 	void MergeBlocks ( const GoBlock &a ) { // chain the stones of the block
-	/* this is one-way link list, so make a.head the head
-	 and connect the tail to this->head */
+	/* one-way link list, so make a.head the head
+	 and connect a.tail to my head */
 		a.GetTail()->next_id = this->GetHead()->self_id;
 		this->head = a.head;
 	/* disjoint-set, let a's tail link to this->tail */
 		a.GetHead()->parent_id = a.GetTail()->parent_id = this->GetTail()->self_id;
 	}
 
+/* display for debugging */
+	void DisplayBitBoard ( uint32_t bit_state ) const {
+		
+		FOR_EACH_COORD(id) {
+			if ( id and id%GoConstant::BORDER_C == 0 ) {
+				putchar('\n');
+			}
+			putchar(bit_state&1 ? '1' : '0');
+			bit_state >>= 1;
+		} putchar('\n');
+	}
+	void DisplayStone () const {
+		DisplayBitBoard(stone_state);
+	}
+	void DisplayLiberty () const {
+		DisplayBitBoard(liberty_state);
+	}
 
 };
 #endif
