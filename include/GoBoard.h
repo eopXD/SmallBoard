@@ -51,10 +51,13 @@ public:
 public:
 	void DisplayBoard ();
 
-/* Board Manipulation */
+/* Board Manipulation for checking if state if reduce-able */
 public:
+// check if this board can be represented by a smaller serial number
+	bool CanBeReduceable ();
 // get serial of the current board
 	GoSerial GetSerial ();
+//protected:
 // rotate clock-wise (90 degree)
 	void RotateClockwise ();
 // flip in a LR symmetric matter

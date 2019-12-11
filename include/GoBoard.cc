@@ -166,7 +166,7 @@ GoSerial GoBoard::GetSerial () {
 
 // rotate clock-wise (90 degree)
 void GoBoard::RotateClockwise () {
-	GoStoneColor tmp[SMALLBOARDSIZE];
+	GoStoneColor tmp[SMALLBOARDSIZE] = {};
 	FOR_EACH_COORD(id) {
 		GoCoordId x, y;
 		IdToCoord(id, x, y);
@@ -178,11 +178,9 @@ void GoBoard::RotateClockwise () {
 
 // flip in a LR symmetric matter
 void GoBoard::FlipLR () {
-	GoCoordId id = 0;
 	for ( GoCoordId x=0; x<BORDER_R; ++x ) {
 		for ( GoCoordId y=0; y<BORDER_C/2; ++y ) {
-			swap(board_state[id], board_state[id+BORDER_C-1-y]);
-			++id;
+			swap(board_state[CoordToId(x, y)], board_state[CoordToId(x, BORDER_C-1-y)]);
 		}
 	}
 }
@@ -193,6 +191,7 @@ void GoBoard::FlipLR () {
 //   0: success
 //	-1: construct fail
 GoBoard::GoBoard ( GoSerial _serial, bool initialize ) : GoBoard() {
+	serial = _serial;
 	FOR_EACH_COORD(id) {
 		GoStoneColor stone_color = _serial%3;
 		_serial /= 3;
@@ -208,7 +207,6 @@ GoBoard::GoBoard ( GoSerial _serial, bool initialize ) : GoBoard() {
 		}
 	}
 	error_code = 0;
-
 END_CONSTRUCT:
 /* build initialization of board detail for 
 playing on the phase 'CheckKoStates'*/
