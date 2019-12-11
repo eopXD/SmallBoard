@@ -10,6 +10,7 @@
 #include <cstdio>
 #include <iostream>
 #include <bitset>
+#include <algorithm>
 
 #include "GoBoard.h"
 
@@ -69,12 +70,15 @@ EEB */
 	std::cout << "STATE_PER_FILE: " << STATE_PER_FILE << "\n";
 	std::cout << "NUMBER_OF_FILE: " << NUMBER_OF_FILE << "\n";
 	
-	for ( int file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
-		sprintf(filename, "data.SparseLegalState.part%03d", file_num);
+	for ( GoSerial file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
+		sprintf(filename, "data.SparseLegalState.part%03lld", file_num);
 		FILE *output_file = fopen(filename, "wb");
 		
 		GoSerial start_serial = file_num * STATE_PER_FILE;
-		GoSerial end_serial = min(STATE_PER_FILE*(file_num+1ll), MAX_SERIAL);
+		GoSerial end_serial = STATE_PER_FILE*(file_num+1ull);
+		if ( MAX_SERIAL < end_serial ) {
+			end_serial = MAX_SERIAL;
+		}
 		//printf("%lld %lld\n", start_serial, end_serial);
 
 		for ( int serial=start_serial; serial<end_serial; ++serial, compact<<=1 ) {

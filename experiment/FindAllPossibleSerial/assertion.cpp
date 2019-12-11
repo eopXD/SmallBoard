@@ -36,7 +36,10 @@ int main ()
 		FILE *input_file = fopen(filename, "rb");
 
 		GoSerial start_serial = file_num * STATE_PER_FILE;
-		GoSerial end_serial = min(STATE_PER_FILE*(file_num+1ll), MAX_SERIAL);
+		GoSerial end_serial = STATE_PER_FILE*(file_num+1ull);
+		if ( MAX_SERIAL < end_serial ) {
+			end_serial = MAX_SERIAL;
+		}
 		
 		//printf("start: %lld %lld\n", start_serial, end_serial);
 		GoSerial serial = start_serial;
