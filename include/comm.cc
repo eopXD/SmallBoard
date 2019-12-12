@@ -107,7 +107,7 @@ void IdToCoord ( const GoCoordId id, GoCoordId &x, GoCoordId &y ) {
 	else if ( COORD_RESIGN == id ) {
 		x = y = COORD_RESIGN;
 	}
-	else if ( !InBoard(x, y) ) {
+	else if ( !InBoard(id) ) {
 		x = y = COORD_UNSET;
 	}
 	else {

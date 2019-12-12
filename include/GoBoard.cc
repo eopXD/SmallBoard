@@ -166,13 +166,13 @@ GoSerial GoBoard::GetSerial () {
 
 // rotate clock-wise (90 degree)
 void GoBoard::RotateClockwise () {
-	GoStoneColor tmp[SMALLBOARDSIZE] = {};
+	GoStoneColor tmp[SMALLBOARDSIZE];
 	FOR_EACH_COORD(id) {
 		GoCoordId x, y;
-		IdToCoord(id, x, y);
-		
+		IdToCoord(id, x, y);	
 		tmp[CoordToId(y, BORDER_C-1-x)] = board_state[id];
 	}
+	
 	memcpy(board_state, tmp, sizeof(tmp));
 }
 

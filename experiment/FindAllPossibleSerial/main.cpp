@@ -25,14 +25,16 @@ int main ()
 EWB
 EWB
 EEB */
-/*	const GoSerial a = 6981;
+/*
+	const GoSerial a = 6981;
 	GoBoard test_board(a);
 	test_board.DisplayBoard();
 	std::cout << "error code: " << (int) test_board.error_code << "\n";
 	std::cout << "current serial: " << test_board.GetSerial() << "\n";
 	for ( int i=0; i<4; ++i ) {
 		test_board.RotateClockwise();
-		//test_board.DisplayBoard();
+		//test_board.FlipLR();
+		////test_board.DisplayBoard();
 		//puts("OAO~~~~~~~~~~~~~~~~~~~~~~~~~");
 		for ( int j=0; j<2; ++j ) {
 			std::cout << "serial: " << test_board.GetSerial() << "\n";
@@ -41,9 +43,10 @@ EEB */
 		}
 		puts("==============");
 	}
+
+
+	return (0);
 */
-
-
 // the real process to select out the legal boards
 	const GoSerial STATE_PER_FILE = (1ll<<10); // 2^32 = 2G
 	const GoSerial NUMBER_OF_FILE = MAX_SERIAL/STATE_PER_FILE + 1;
