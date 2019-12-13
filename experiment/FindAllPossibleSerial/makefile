@@ -9,7 +9,7 @@ STATE_BITSET=-D BITSTATE_BST
 5x5=-D ROW=5 -D COL=5 -D ENCODE_LENGTH=58 
 
 INCLUDE=-I ../../include/ 
-NOW=$(3x3)
+NOW=$(5x5)
 
 all:
 	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) -c ../../include/comm.cc
