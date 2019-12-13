@@ -195,7 +195,6 @@ GoBoard::GoBoard ( GoSerial _serial, bool initialize ) : GoBoard() {
 	FOR_EACH_COORD(id) {
 		GoStoneColor stone_color = _serial%3;
 		_serial /= 3;
-		
 		if ( stone_color == EmptyStone ) {
 		// don't need to set stone for empty stone.
 			continue;
@@ -393,7 +392,6 @@ void GoBoard::RecycleBlock ( const GoBlockId blk_id ) {
 void GoBoard::GetNewBlock ( GoBlockId &blk_id ) {
 	blk_id = BLOCK_UNSET;
 	if ( !recycled_block.empty() ) {
-		
 		blk_id = recycled_block.top();
 		recycled_block.pop();
 	} else {
