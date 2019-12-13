@@ -58,6 +58,7 @@ int main ()
 						for ( int i=0; i<4; ++i ) { // rotate 4 times
 							board.RotateClockwise();
 							for ( int j=0; j<2; ++j ) { // flip 2 times
+								board.FlipLR();
 								if ( board.GetSerial() < serial ) {
 									check = 0;
 									break;
