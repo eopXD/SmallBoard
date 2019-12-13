@@ -554,3 +554,95 @@ real	0m29.613s
 user	0m29.481s
 sys	0m0.050s
 ```
+
+因為這裡我在確認他是否合法時都已經把 GoBoard 建立好了，所以在這邊做 flip / rotation 其實是最省時的。所以我現在要確認 `RotateClockwise` 還有 `FlipLR` 是正確的。
+
+完成 data saving 的確認。接著去 `@white.sinica` 上面來確認跨檔案時的讀寫。
+
+莫名其妙 Segmentation Fault... 可能要寄信去問發生什麼事情。解決 seg fault 了，是因為 compiler 要加上 `pthread` 的 option 才能用 `#include<mutex>` 。
+
+##### Current compile option 
+
+```
+G_PLUS_PLUS=g++ -std=c++17 -O2 -Wall -pthread
+STATE_ULL=-D BITSTATE_ULL
+
+
+3x3=-D ROW=3 -D COL=3 -D ENCODE_LENGTH=30
+
+INCLUDE=-I ../../include/
+NOW=$(3x3)
+
+all:
+	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) -c ../../include/comm.cc
+	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) comm.o -c ../../include/GoBoard.cc
+	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) *.o main.cpp -o exec.main
+	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) *.o assertion.cpp -o exec.assertion
+```
+
+## 12/12
+
+
+看來好像在 linux environment 中 `GoBoard::RotateClockwise` 會出問題。
+因為在工作站上也出現跟在 white 上面一樣的問題，所以來找找看錯誤。
+
+原來 bug 是出在 `comm.cc::IdToCoord` 中邊界 `id` 的判斷。
+
+
+## 12/13
+
+現在實驗動輒要跑一個小時，實在是很難進行測試。
+
+#### bug 1
+
+剛剛找到一個 bug ，`FinaAllPossibleSerial/main.cpp` 中，我 iteration 用的 `serial` 竟然是以 `int` 來宣告，實在是慘慘慘⋯⋯ 
+更改之後他就可以順利的跑道 `part00004` 了。
+
+#### bug 2
+
+```
+eopXD@white:/tmp2/b04705001/SmallBoard/experiment/FindAllPossibleSerial/data$ ll
+total 691094
+drwxrwxr-x 2 eopXD eopXD         9 Dec 13 17:47 .
+drwxrwxr-x 3 eopXD eopXD        10 Dec 13 17:52 ..
+-rw-rw-r-- 1 eopXD eopXD       301 Dec 12 03:05 README.md
+-rw-rw-r-- 1 eopXD eopXD 134217728 Dec 13 16:49 data.SparseLegalState.part00000
+-rw-rw-r-- 1 eopXD eopXD 134217728 Dec 13 17:03 data.SparseLegalState.part00001
+-rw-rw-r-- 1 eopXD eopXD 134217728 Dec 13 17:18 data.SparseLegalState.part00002
+-rw-rw-r-- 1 eopXD eopXD 134217728 Dec 13 17:32 data.SparseLegalState.part00003
+-rw-rw-r-- 1 eopXD eopXD 134217728 Dec 13 17:47 data.SparseLegalState.part00004
+-rw-rw-r-- 1 eopXD eopXD  37027840 Dec 13 17:51 data.SparseLegalState.part00005
+```
+
+跑到第 6 個 part 時， segfault 了⋯⋯ＯＡＯ
+
+必須來看看發生什麼事情了。
+歐歐歐！！！好險這個 bug 是 reproducable 的，他固定都會卡在 `37027840` 。去跑個步，等等回來看發生什麼鳥事。
+
+- 會固定卡在 `37027840 `
+
+原來是 `MAX_BLOCK_SIZE` 不過造成 allocation 爛掉⋯⋯
+
+```
+serial number = 5664941825
+
+WBEBW
+EWBWE
+WBEBW
+BWBWB
+BEEEE
+```
+
+上面這個 serial 所產生的盤面，在 `id = 20` 時，對新的那顆黑色的石頭會先 allocate 一個 `GoBlock` 給他，所以在這邊需要 17 個 `GoBlock`，於是造成了 Seg Fault.
+
+我還發現我在做 check minimal serial number 的時候忘記呼叫 `FlipLR` ，實在是慘XDDDD
+
+這個階段應該算是完成了。接下來是對一個盤面要去他所以可能的 KoPosition 。
+
+
+## `FindAllKoPosition`
+
+這邊也是要用 bit 來存，一個 serial number potentially 有 `SMALLBOARDSIZE` 這麼多個 KoPosition ，現在面積是 `5x5=25` 所以我用 4 byte 來存一個 KoPosition。
+
+我先來看看學長是怎麼做的。
+
