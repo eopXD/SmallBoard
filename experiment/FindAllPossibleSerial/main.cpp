@@ -21,12 +21,9 @@ using namespace std;
 int main ()
 {
 
-/* this is a legal board
-EWB
-EWB
-EEB */
 /*
-	const GoSerial a = 6981;
+// test on a certain serial number
+	const GoSerial a = 5664941825;
 	GoBoard test_board(a);
 	test_board.DisplayBoard();
 	std::cout << "error code: " << (int) test_board.error_code << "\n";
@@ -34,7 +31,7 @@ EEB */
 	for ( int i=0; i<4; ++i ) {
 		test_board.RotateClockwise();
 		//test_board.FlipLR();
-		////test_board.DisplayBoard();
+		//test_board.DisplayBoard();
 		//puts("OAO~~~~~~~~~~~~~~~~~~~~~~~~~");
 		for ( int j=0; j<2; ++j ) {
 			std::cout << "serial: " << test_board.GetSerial() << "\n";
@@ -43,12 +40,12 @@ EEB */
 		}
 		puts("==============");
 	}
-
-
 	return (0);
 */
+
+
 // the real process to select out the legal boards
-	const GoSerial STATE_PER_FILE = (1ll<<10); // 2^32 = 2G
+	const GoSerial STATE_PER_FILE = (1ll<<30); // 2^32 = 2G
 	const GoSerial NUMBER_OF_FILE = MAX_SERIAL/STATE_PER_FILE + 1;
 
 	char filename[105];
@@ -87,6 +84,7 @@ EEB */
 		for ( GoSerial serial=start_serial; serial<end_serial; ++serial, compact<<=1 ) {
 			bool is_smallest = 1;
 			GoBoard board(serial);
+
 			if ( board.error_code != 0 ) {
 				is_smallest = 0;
 				++total_illegal_state;
@@ -97,6 +95,7 @@ EEB */
 				for ( int i=0; i<4; ++i ) { // rotate 4 times
 					board.RotateClockwise();
 					for ( int j=0; j<2; ++j ) { // flip 2 times
+						board.FlipLR();
 						if ( board.GetSerial() < serial ) {
 							is_smallest = 0;
 							break;
@@ -114,7 +113,6 @@ EEB */
 					++remain_legal_state_of_file[file_num];
 				}
 			}
-
 			compact += is_smallest;
 			if ( (serial&7ull) == 7ull ) {
 				buffer[buf_idx++] = compact;
