@@ -84,7 +84,7 @@ EEB */
 		}
 		//printf("%lld %lld\n", start_serial, end_serial);
 
-		for ( int serial=start_serial; serial<end_serial; ++serial, compact<<=1 ) {
+		for ( GoSerial serial=start_serial; serial<end_serial; ++serial, compact<<=1 ) {
 			bool is_smallest = 1;
 			GoBoard board(serial);
 			if ( board.error_code != 0 ) {

@@ -31,11 +31,11 @@ int main ()
 	unsigned char *buffer;
 	buffer = new unsigned char [BUFFER_SIZE+5];
 	
-	for ( int file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
+	for ( GoSerial file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
 		sprintf(filename, "data/data.SparseLegalState.part%05d", file_num);
 		FILE *input_file = fopen(filename, "rb");
 
-		GoSerial start_serial = file_num * STATE_PER_FILE;
+		GoSerial start_serial = STATE_PER_FILE*file_num;
 		GoSerial end_serial = STATE_PER_FILE*(file_num+1ull);
 		if ( MAX_SERIAL < end_serial ) {
 			end_serial = MAX_SERIAL;
