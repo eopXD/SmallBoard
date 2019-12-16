@@ -155,6 +155,22 @@ void GoBoard::DisplayBoard () {
 	} putchar('\n');
 }
 
+// get the minimal representation serial representation of this board
+GoSerial GoBoard::GetMinimal () {
+	GoSerial current = serial;
+	for ( int i=0; i<4; ++i ) {
+		RotateClockwise();
+		for ( int j=0; j<2; ++j ) {
+			FlipLR();
+			if ( GetSerial() < current ) {
+				return (serial);
+			}
+		}
+	}
+	return (current);
+}
+
+
 // get serial number of this->board_state[][], also cache it into this->serial
 GoSerial GoBoard::GetSerial () {
 	serial = 0;
@@ -277,6 +293,51 @@ stones onto the board and don't need to do any maintanence on the gaming
 detail.
 */
 }
+
+/* For checking all possible Ko position of a serial numebr */ 
+
+// call this function only when the GoBoard is constructed by GoSerial
+// return value
+// 			-1: no possible Ko for this stone's neighbor
+//	 GoCoordId: the GoCoordId of the 
+GoCoordId GoBoard::CheckKoPosition ( const GoCoordId id, 
+ const GoStoneColor opponent_color ) {
+	GoBlockId blk_id = GetBlockIdByCoord(id);
+	if ( blk_id == BLOCK_UNSET ) {
+		printf("id: %d is BLOCK_UNSET\n", id);
+		return (-1);
+	}
+	GoBlock &blk = block_pool[blk_id];
+	printf("id %d: %d %d %d\n", id, blk.color, blk.CountStone(), blk.CountLiberty());
+	blk.DisplayLiberty();
+	puts("========");
+	if ( blk.color!= opponent_color or blk.CountStone()!=1 or blk.CountLiberty()!=1 ) {
+		return (-1);
+	}
+	GoCoordId eat_me = blk.FirstLiberty();
+// get all neighboring BlockId of 'eat_me'
+	int nb_id[5];
+	nb_id[0] = 0;
+	FOR_NEIGHBOR(eat_me, nb) {
+		if ( board_state[*nb] != EmptyStone ) {
+			nb_id[++nb_id[0]] = GetBlockIdByCoord(*nb);
+		}
+	}
+	if ( nb_id[0] != cached_neighbor_size[eat_me] ) {
+	// if it is not surrounded, it is impossible to be a Ko position
+		return (-1);
+	}
+// if all surrounded by white stone, then the liberty position is a potential Ko
+// for the black stone.
+	for ( GoBlockId i=1; i<=nb_id[0]; ++i ) {
+		GoBlock &nb_blk = block_pool[nb_id[i]];
+		if ( nb_blk.color != opponent_color ) {
+			return (-1);
+		}
+	}
+	return (eat_me);
+}
+
 
 // returns own color
 GoStoneColor GoBoard::SelfColor () {

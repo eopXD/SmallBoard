@@ -55,8 +55,8 @@ public:
 
 /* Board Manipulation for checking if state if reduce-able */
 public:
-// check if this board can be represented by a smaller serial number
-	bool CanBeReduceable ();
+// check if this board is in its minimal serial number
+	GoSerial GetMinimal ();
 // get serial of the current board
 	GoSerial GetSerial ();
 //protected:
@@ -74,7 +74,6 @@ public:
 	GoBoard ( const GoSerial _serial, bool initialize=0 );
 	/* for error handling, can be direct accessed by outside */
 	GoError error_code;
-
 protected:
 // Place stones onto the board, but don't need maintenance of detail
 // board position or check if it is legal, only check for self-eat or eat move
@@ -84,6 +83,17 @@ protected:
 //	-1: self-eat move 
 //	-2: eat-opponent move
 	GoError SetStone ( const GoCoordId id, const GoStoneColor stone_color );
+
+/* for checking if this board can have a ko at the given position 'id' */
+public:
+// call this function only when the GoBoard is constructed by GoSerial
+// return value
+// 			-1: no possible Ko for this stone's neighbor
+//	 GoCoordId: the GoCoordId of the 
+	GoCoordId CheckKoPosition ( const GoCoordId id, 
+ const GoStoneColor opponent_color=GoConstant::WhiteStone );
+
+
 protected:
 // returns own color
 	GoStoneColor SelfColor ();
