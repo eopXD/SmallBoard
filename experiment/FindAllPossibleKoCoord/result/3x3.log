@@ -1,0 +1,12 @@
+MAX_SERIAL: 19683
+STATE_PER_FILE: 1048576
+NUMBER_OF_FILE: 1
+
+total_legal_reduced_state: 1824
+SparseKoBitState.part00000: 1824
+
+total_ko_state: 70
+SparseKoBitState.part00000: 70
+
+maximum_ko_per_serial: 2
+SparseKoBitState.part00000: 2
