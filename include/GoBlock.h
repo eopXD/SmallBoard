@@ -11,6 +11,13 @@
 
 #include "comm.h"
 
+using BIT_STATE = uint32_t;
+
+// lowest bit of the variable x
+inline BIT_STATE LB ( const BIT_STATE x ) {
+	return (x & (-x));
+}
+
 struct GoBlock {
 	GoBlockId self_id;			// id of this block
 	bool in_use; 				// whether the block is in-use
@@ -23,18 +30,29 @@ struct GoBlock {
 
 // LSB style, lowest bit is represents the 0th in 'id'
 // liberty_state[idx] = 1 means that there is liberty on the position 'idx'
-	uint32_t liberty_state;
+	BIT_STATE liberty_state;
 /* virtual liberty represents the place not occupied by the GoBlock
     virtual_liberty_state[idx] = 1 means the position 'idx' is not occupied */
-	uint32_t virtual_liberty_state;
+	BIT_STATE virtual_liberty_state;
 // stone_state[idx] = 1 means that there us a stone on the position 'idx'
-	uint32_t stone_state;
+	BIT_STATE stone_state;
 
 	void Reset () { // reset the block (for re-use)
 		in_use = false;
 		liberty_count = stone_count = 0;
 		liberty_state = virtual_liberty_state = stone_state = 0;
 	}
+
+/* FirstLiberty and FirstStone are utilized in GetAllPossibleKo phase */
+// returns liberty with the smallest 'id'
+	GoCoordId FirstLiberty () {
+		return (cached_log2_table[LB(liberty_state)%67]);
+	}
+// return stone with the smallest 'id'
+	GoCoordId FirstStone () {
+		return (cached_log2_table[LB(stone_state)%67]);
+	}
+
 	inline void SetLiberty ( const GoCoordId id ) {
 		liberty_state |= 1ull << id;
 	}
@@ -93,7 +111,7 @@ struct GoBlock {
 	}
 
 /* display for debugging */
-	void DisplayBitBoard ( uint32_t bit_state ) const {
+	void DisplayBitBoard ( BIT_STATE bit_state ) const {
 		
 		FOR_EACH_COORD(id) {
 			if ( id and id%GoConstant::BORDER_C == 0 ) {
