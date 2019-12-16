@@ -1,0 +1,16 @@
+MAX_SERIAL: 19683
+STATE_PER_FILE: 1048576
+NUMBER_OF_FILE: 1
+write data data/data.SparseLegalState.part00000
+
+total_illegal_state: 7008
+SparseLegalState.part00000: 7008
+
+total_legal_state: 12675
+SparseLegalState.part00000: 12675
+
+total_reduced_legal_state: 10851
+SparseLegalState.part00000: 10851
+
+total_remain_legal_state: 1824
+SparseLegalState.part00000: 1824

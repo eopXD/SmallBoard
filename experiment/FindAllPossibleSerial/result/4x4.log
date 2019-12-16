@@ -1,0 +1,221 @@
+MAX_SERIAL: 43046721
+STATE_PER_FILE: 1048576
+NUMBER_OF_FILE: 42
+write data data/data.SparseLegalState.part00000
+write data data/data.SparseLegalState.part00001
+write data data/data.SparseLegalState.part00002
+write data data/data.SparseLegalState.part00003
+write data data/data.SparseLegalState.part00004
+write data data/data.SparseLegalState.part00005
+write data data/data.SparseLegalState.part00006
+write data data/data.SparseLegalState.part00007
+write data data/data.SparseLegalState.part00008
+write data data/data.SparseLegalState.part00009
+write data data/data.SparseLegalState.part00010
+write data data/data.SparseLegalState.part00011
+write data data/data.SparseLegalState.part00012
+write data data/data.SparseLegalState.part00013
+write data data/data.SparseLegalState.part00014
+write data data/data.SparseLegalState.part00015
+write data data/data.SparseLegalState.part00016
+write data data/data.SparseLegalState.part00017
+write data data/data.SparseLegalState.part00018
+write data data/data.SparseLegalState.part00019
+write data data/data.SparseLegalState.part00020
+write data data/data.SparseLegalState.part00021
+write data data/data.SparseLegalState.part00022
+write data data/data.SparseLegalState.part00023
+write data data/data.SparseLegalState.part00024
+write data data/data.SparseLegalState.part00025
+write data data/data.SparseLegalState.part00026
+write data data/data.SparseLegalState.part00027
+write data data/data.SparseLegalState.part00028
+write data data/data.SparseLegalState.part00029
+write data data/data.SparseLegalState.part00030
+write data data/data.SparseLegalState.part00031
+write data data/data.SparseLegalState.part00032
+write data data/data.SparseLegalState.part00033
+write data data/data.SparseLegalState.part00034
+write data data/data.SparseLegalState.part00035
+write data data/data.SparseLegalState.part00036
+write data data/data.SparseLegalState.part00037
+write data data/data.SparseLegalState.part00038
+write data data/data.SparseLegalState.part00039
+write data data/data.SparseLegalState.part00040
+write data data/data.SparseLegalState.part00041
+
+total_illegal_state: 18728556
+SparseLegalState.part00000: 275563
+SparseLegalState.part00001: 280378
+SparseLegalState.part00002: 419437
+SparseLegalState.part00003: 408162
+SparseLegalState.part00004: 303748
+SparseLegalState.part00005: 296188
+SparseLegalState.part00006: 295054
+SparseLegalState.part00007: 424424
+SparseLegalState.part00008: 565505
+SparseLegalState.part00009: 295905
+SparseLegalState.part00010: 292172
+SparseLegalState.part00011: 511033
+SparseLegalState.part00012: 443156
+SparseLegalState.part00013: 344334
+SparseLegalState.part00014: 313418
+SparseLegalState.part00015: 313633
+SparseLegalState.part00016: 442044
+SparseLegalState.part00017: 445084
+SparseLegalState.part00018: 315958
+SparseLegalState.part00019: 326766
+SparseLegalState.part00020: 408671
+SparseLegalState.part00021: 559349
+SparseLegalState.part00022: 575965
+SparseLegalState.part00023: 571624
+SparseLegalState.part00024: 713355
+SparseLegalState.part00025: 806034
+SparseLegalState.part00026: 687568
+SparseLegalState.part00027: 447153
+SparseLegalState.part00028: 318064
+SparseLegalState.part00029: 343535
+SparseLegalState.part00030: 431044
+SparseLegalState.part00031: 431968
+SparseLegalState.part00032: 568630
+SparseLegalState.part00033: 569692
+SparseLegalState.part00034: 703954
+SparseLegalState.part00035: 834264
+SparseLegalState.part00036: 553702
+SparseLegalState.part00037: 330553
+SparseLegalState.part00038: 483429
+SparseLegalState.part00039: 565902
+SparseLegalState.part00040: 491985
+SparseLegalState.part00041: 20153
+
+total_legal_state: 24318165
+SparseLegalState.part00000: 773013
+SparseLegalState.part00001: 768198
+SparseLegalState.part00002: 629139
+SparseLegalState.part00003: 640414
+SparseLegalState.part00004: 744828
+SparseLegalState.part00005: 752388
+SparseLegalState.part00006: 753522
+SparseLegalState.part00007: 624152
+SparseLegalState.part00008: 483071
+SparseLegalState.part00009: 752671
+SparseLegalState.part00010: 756404
+SparseLegalState.part00011: 537543
+SparseLegalState.part00012: 605420
+SparseLegalState.part00013: 704242
+SparseLegalState.part00014: 735158
+SparseLegalState.part00015: 734943
+SparseLegalState.part00016: 606532
+SparseLegalState.part00017: 603492
+SparseLegalState.part00018: 732618
+SparseLegalState.part00019: 721810
+SparseLegalState.part00020: 639905
+SparseLegalState.part00021: 489227
+SparseLegalState.part00022: 472611
+SparseLegalState.part00023: 476952
+SparseLegalState.part00024: 335221
+SparseLegalState.part00025: 242542
+SparseLegalState.part00026: 361008
+SparseLegalState.part00027: 601423
+SparseLegalState.part00028: 730512
+SparseLegalState.part00029: 705041
+SparseLegalState.part00030: 617532
+SparseLegalState.part00031: 616608
+SparseLegalState.part00032: 479946
+SparseLegalState.part00033: 478884
+SparseLegalState.part00034: 344622
+SparseLegalState.part00035: 214312
+SparseLegalState.part00036: 494874
+SparseLegalState.part00037: 718023
+SparseLegalState.part00038: 565147
+SparseLegalState.part00039: 482674
+SparseLegalState.part00040: 556591
+SparseLegalState.part00041: 34952
+
+total_reduced_legal_state: 21270382
+SparseLegalState.part00000: 250406
+SparseLegalState.part00001: 209180
+SparseLegalState.part00002: 239651
+SparseLegalState.part00003: 369913
+SparseLegalState.part00004: 566717
+SparseLegalState.part00005: 521261
+SparseLegalState.part00006: 628769
+SparseLegalState.part00007: 517007
+SparseLegalState.part00008: 422779
+SparseLegalState.part00009: 710028
+SparseLegalState.part00010: 684466
+SparseLegalState.part00011: 515868
+SparseLegalState.part00012: 596780
+SparseLegalState.part00013: 691499
+SparseLegalState.part00014: 601037
+SparseLegalState.part00015: 650168
+SparseLegalState.part00016: 526416
+SparseLegalState.part00017: 564745
+SparseLegalState.part00018: 705055
+SparseLegalState.part00019: 690598
+SparseLegalState.part00020: 633393
+SparseLegalState.part00021: 479914
+SparseLegalState.part00022: 465497
+SparseLegalState.part00023: 476952
+SparseLegalState.part00024: 335221
+SparseLegalState.part00025: 242542
+SparseLegalState.part00026: 361008
+SparseLegalState.part00027: 601423
+SparseLegalState.part00028: 716583
+SparseLegalState.part00029: 703396
+SparseLegalState.part00030: 609878
+SparseLegalState.part00031: 612435
+SparseLegalState.part00032: 479946
+SparseLegalState.part00033: 478884
+SparseLegalState.part00034: 344516
+SparseLegalState.part00035: 214312
+SparseLegalState.part00036: 494766
+SparseLegalState.part00037: 718023
+SparseLegalState.part00038: 565147
+SparseLegalState.part00039: 482674
+SparseLegalState.part00040: 556577
+SparseLegalState.part00041: 34952
+
+total_remain_legal_state: 3047783
+SparseLegalState.part00000: 522607
+SparseLegalState.part00001: 559018
+SparseLegalState.part00002: 389488
+SparseLegalState.part00003: 270501
+SparseLegalState.part00004: 178111
+SparseLegalState.part00005: 231127
+SparseLegalState.part00006: 124753
+SparseLegalState.part00007: 107145
+SparseLegalState.part00008: 60292
+SparseLegalState.part00009: 42643
+SparseLegalState.part00010: 71938
+SparseLegalState.part00011: 21675
+SparseLegalState.part00012: 8640
+SparseLegalState.part00013: 12743
+SparseLegalState.part00014: 134121
+SparseLegalState.part00015: 84775
+SparseLegalState.part00016: 80116
+SparseLegalState.part00017: 38747
+SparseLegalState.part00018: 27563
+SparseLegalState.part00019: 31212
+SparseLegalState.part00020: 6512
+SparseLegalState.part00021: 9313
+SparseLegalState.part00022: 7114
+SparseLegalState.part00023: 0
+SparseLegalState.part00024: 0
+SparseLegalState.part00025: 0
+SparseLegalState.part00026: 0
+SparseLegalState.part00027: 0
+SparseLegalState.part00028: 13929
+SparseLegalState.part00029: 1645
+SparseLegalState.part00030: 7654
+SparseLegalState.part00031: 4173
+SparseLegalState.part00032: 0
+SparseLegalState.part00033: 0
+SparseLegalState.part00034: 106
+SparseLegalState.part00035: 0
+SparseLegalState.part00036: 108
+SparseLegalState.part00037: 0
+SparseLegalState.part00038: 0
+SparseLegalState.part00039: 0
+SparseLegalState.part00040: 14
+SparseLegalState.part00041: 0
