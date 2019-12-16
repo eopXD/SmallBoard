@@ -304,13 +304,10 @@ GoCoordId GoBoard::CheckKoPosition ( const GoCoordId id,
  const GoStoneColor opponent_color ) {
 	GoBlockId blk_id = GetBlockIdByCoord(id);
 	if ( blk_id == BLOCK_UNSET ) {
-		printf("id: %d is BLOCK_UNSET\n", id);
 		return (-1);
 	}
 	GoBlock &blk = block_pool[blk_id];
-	printf("id %d: %d %d %d\n", id, blk.color, blk.CountStone(), blk.CountLiberty());
-	blk.DisplayLiberty();
-	puts("========");
+	
 	if ( blk.color!= opponent_color or blk.CountStone()!=1 or blk.CountLiberty()!=1 ) {
 		return (-1);
 	}
