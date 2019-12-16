@@ -67,9 +67,11 @@ GoHash zobrist_board_hash_weight[3][SMALLBOARDSIZE];
 GoHash zobrist_ko_hash_weight[SMALLBOARDSIZE];
 GoHash zobrist_switch_player; 
 
-uint8_t cached_neighbor_size[SMALLBOARDSIZE];
+GoCoordId cached_neighbor_size[SMALLBOARDSIZE];
 GoCoordId cached_neighbor_id[SMALLBOARDSIZE][4];
 vector<GoPosition> cached_neighbor_coord[BORDER_R][BORDER_C];
+
+GoCoordId cached_log2_table[67];
 
 namespace GoFunction {
 
@@ -98,7 +100,6 @@ bool IsResign ( const GoCoordId id ) {
 bool IsResign ( const GoCoordId x, const GoCoordId y ) {
 	return (COORD_RESIGN == CoordToId(x, y));
 }
-
 
 void IdToCoord ( const GoCoordId id, GoCoordId &x, GoCoordId &y ) {
 	if ( COORD_PASS == id ) {
@@ -135,6 +136,7 @@ void CreateGlobalVariable () {
 		[] () {
 			CreateNeighborCache();
 			CreateZobristHash();
+			CreateLog2Table();
 		}
 	);
 }
@@ -210,6 +212,13 @@ void CreateNeighborCache () {
 				 cached_neighbor_coord[x][y][i].y);
 			}
 		}
+	}
+}
+
+void CreateLog2Table () {
+	for ( int i=0; i<64; ++i ) {
+		GoCoordId idx = (1ull<<i)%67;
+		cached_log2_table[idx] = i;
 	}
 }
 
