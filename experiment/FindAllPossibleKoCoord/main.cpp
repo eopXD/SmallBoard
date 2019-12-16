@@ -29,7 +29,7 @@ void display ( BIT_STATE bitstring ) {
 }
 
 /* GetAllKo() is the main thing we are doing in this phase */
-uint32_t GetAllKo ( GoBoard &board ) {
+BIT_STATE GetAllKo ( GoBoard &board ) {
 	
 	BIT_STATE ko_state = 0;
 	
@@ -45,7 +45,7 @@ uint32_t GetAllKo ( GoBoard &board ) {
 	//display(ko_state);
 	return (ko_state);
 }
-uint32_t GetAllKo ( GoSerial const serial ) {
+BIT_STATE GetAllKo ( GoSerial const serial ) {
 	GoBoard board(serial);
 	return (GetAllKo(board));
 }
@@ -63,10 +63,15 @@ int main ()
 /* BEWARE THE CONSTANT OF THIS BEFORE COMPILE AND EXECUTION */
 /* BEWARE THE CONSTANT OF THIS BEFORE COMPILE AND EXECUTION */
 /* BEWARE THE CONSTANT OF THIS BEFORE COMPILE AND EXECUTION */
-	const GoSerial STATE_PER_FILE = (1ll<<10); // 2^32 = 2G
+	const GoSerial STATE_PER_FILE = (1ll<<20); // 2^32 = 2G
 	const GoSerial NUMBER_OF_FILE = MAX_SERIAL/STATE_PER_FILE + 1;
+
+	std::cout << "MAX_SERIAL: " << MAX_SERIAL << "\n";
+	std::cout << "STATE_PER_FILE: " << STATE_PER_FILE << "\n";
+	std::cout << "NUMBER_OF_FILE: " << NUMBER_OF_FILE << "\n";
+
 // read buffer
-	char read_file_path = "../FindAllPossibleSerial/";
+	char read_file_path[105] = "../FindAllPossibleSerial/";
 	char filename[105];
 	const int BUFFER_SIZE = 65536;
 	unsigned char *buffer;
@@ -77,11 +82,22 @@ int main ()
 	write_buffer = new uint32_t [BUFFER_SIZE+5];
 	int w_buf_idx;
 
-	for ( GoSerial file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
-		sprintf(filename, "%sdata/data.SparseLegalState.part%05d", read_file_path, file_num);
-		FILE *input_file = fopen(filename, "rb");
+	uint64_t total_legal_reduced_state = 0;
+	uint64_t legal_reduced_state_of_file[1005] = {};
+	uint64_t total_ko_state = 0;
+	uint64_t ko_state_of_file[1005] = {};
+	uint64_t maximum_ko_per_serial = 0;
+	uint64_t maximum_ko_of_file[1005] = {};
 
-		sprintf(write_filename, "data/data.SparseKoBitState.part%05d", file_num);
+	for ( GoSerial file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
+		sprintf(filename, "%sdata/data.SparseLegalState.part%05llu", read_file_path, file_num);
+		FILE *input_file = fopen(filename, "rb");
+		if ( input_file == NULL ) {
+			printf("NANI!!!! open %s fail\n", filename);
+			exit(1);
+		}
+
+		sprintf(write_filename, "data/data.SparseKoBitState.part%05llu", file_num);
 		FILE *output_file = fopen(write_filename, "wb");
 
 		GoSerial start_serial = STATE_PER_FILE*file_num;
@@ -100,6 +116,22 @@ int main ()
 /* what you are going to do with the bit 'is_reduced_legal */
 /* start */
 					if ( is_reduced_legal ) {
+						BIT_STATE ko_state = GetAllKo(serial);
+						uint32_t num_of_ko = __builtin_popcount(ko_state);
+						
+						++total_legal_reduced_state;
+						++legal_reduced_state_of_file[file_num];
+						
+						total_ko_state += num_of_ko;
+						ko_state_of_file[file_num] += num_of_ko;
+
+						if ( num_of_ko > maximum_ko_per_serial ) {
+							maximum_ko_per_serial = num_of_ko;
+						}
+						if ( num_of_ko > maximum_ko_of_file[file_num] ) {
+							maximum_ko_of_file[file_num] = num_of_ko;
+						}
+						
 						write_buffer[w_buf_idx++] = GetAllKo(serial);
 					} else {
 						write_buffer[w_buf_idx++] = 0;
@@ -129,6 +161,20 @@ int main ()
 		assert(serial == end_serial);
 		fclose(input_file);
 		fclose(output_file);
+	}
+	printf("\ntotal_legal_reduced_state: %llu\n", total_legal_reduced_state);
+	for ( GoSerial file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
+		printf("SparseKoBitState.part%05llu: %llu\n", file_num, legal_reduced_state_of_file[file_num]);
+	}
+
+	printf("\ntotal_ko_state: %llu\n", total_ko_state);
+	for ( GoSerial file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
+		printf("SparseKoBitState.part%05llu: %llu\n", file_num, ko_state_of_file[file_num]);
+	}
+
+	printf("\nmaximum_ko_per_serial: %llu\n", maximum_ko_per_serial);
+	for ( GoSerial file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
+		printf("SparseKoBitState.part%05llu: %llu\n", file_num, maximum_ko_of_file[file_num]);
 	}
 	return (0);
 }
