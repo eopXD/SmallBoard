@@ -12,6 +12,8 @@
 #include <bitset>
 #include <algorithm>
 
+#include <omp.h>
+
 #include "GoBoard.h"
 
 using namespace GoConstant;
@@ -76,7 +78,7 @@ int main ()
 	std::cout << "NUMBER_OF_FILE: " << NUMBER_OF_FILE << "\n";
 	
 	for ( GoSerial file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
-		sprintf(filename, "data/data.SparseLegalState.part%05llu", file_num);
+		sprintf(filename, "data/data.SparseLegalState.part%05lu", file_num);
 		FILE *output_file = fopen(filename, "wb");
 		
 		GoSerial start_serial = file_num * STATE_PER_FILE;
@@ -140,23 +142,23 @@ int main ()
 		fclose(output_file);
 		printf("write data %s\n", filename);
 	}
-	printf("\ntotal_illegal_state: %llu\n", total_illegal_state);
+	printf("\ntotal_illegal_state: %lu\n", total_illegal_state);
 	for ( GoSerial file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
-		printf("SparseLegalState.part%05llu: %llu\n", file_num, illegal_state_of_file[file_num]);
+		printf("SparseLegalState.part%05lu: %lu\n", file_num, illegal_state_of_file[file_num]);
 	}
 
-	printf("\ntotal_legal_state: %llu\n", total_legal_state);
+	printf("\ntotal_legal_state: %lu\n", total_legal_state);
 	for ( GoSerial file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
-		printf("SparseLegalState.part%05llu: %llu\n", file_num, legal_state_of_file[file_num]);
+		printf("SparseLegalState.part%05lu: %lu\n", file_num, legal_state_of_file[file_num]);
 	}
-	printf("\ntotal_reduced_legal_state: %llu\n", total_reduced_legal_state);
+	printf("\ntotal_reduced_legal_state: %lu\n", total_reduced_legal_state);
 	for ( GoSerial file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
-		printf("SparseLegalState.part%05llu: %llu\n", file_num, reduced_legal_state_of_file[file_num]);
+		printf("SparseLegalState.part%05lu: %lu\n", file_num, reduced_legal_state_of_file[file_num]);
 	}
 
-	printf("\ntotal_remain_legal_state: %llu\n", total_remain_legal_state);
+	printf("\ntotal_remain_legal_state: %lu\n", total_remain_legal_state);
 	for ( GoSerial file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
-		printf("SparseLegalState.part%05llu: %llu\n", file_num, remain_legal_state_of_file[file_num]);
+		printf("SparseLegalState.part%05lu: %lu\n", file_num, remain_legal_state_of_file[file_num]);
 	}
 
 
