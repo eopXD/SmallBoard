@@ -238,8 +238,8 @@ playing on the phase 'CheckKoStates'*/
 //	-1: self-eat move
 //  -2: eat-opponent move
 GoError GoBoard::SetStone ( const GoCoordId id, const GoStoneColor stone_color ) {
-// nb_id[0] and die_id[0] is counter, 
-	GoBlockId blk_id, nb_id[5], die_id[5];
+// nb_id[0] is counter, 
+	GoBlockId blk_id, nb_id[5];
 	
 	GetNewBlock(blk_id);
 	GoBlock &blk = block_pool[blk_id];
@@ -252,7 +252,6 @@ GoError GoBoard::SetStone ( const GoCoordId id, const GoStoneColor stone_color )
 
 	GetNeighborBlocks(blk, id, nb_id);
 // check if we are killing anybody
-	die_id[0] = 0;
 	for ( GoBlockId	i=1; i<=nb_id[0]; ++i ) {
 		GoBlock &nb_blk = block_pool[nb_id[i]];
 		if ( stone_color != nb_blk.color ) {
