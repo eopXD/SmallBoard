@@ -640,9 +640,116 @@ BEEEE
 這個階段應該算是完成了。接下來是對一個盤面要去他所以可能的 KoPosition 。
 
 
-## `FindAllKoPosition`
+## `FindAllPossibleKoCoord`
 
 這邊也是要用 bit 來存，一個 serial number potentially 有 `SMALLBOARDSIZE` 這麼多個 KoPosition ，現在面積是 `5x5=25` 所以我用 4 byte 來存一個 KoPosition。
 
-我先來看看學長是怎麼做的。
+我先來看看學長是怎麼做的。我發現他這樣會花很多時間在 sorting 還有 unique ，因為我有好好維護 Stone 還有 Liberty 所以我的結構不需要他這麼複雜的方法。
+
+歐歐另外我們因為假設接下來都是 Black's move ，所以我們只需要關心如果上一個動作是 white's move 的話，有沒有辦法產生 ko
+
+- 首先確認這個 stone 是只有一個 liberty 的話
+	- 對那個 liberty 我們需要找到位置，這時候我們可以利用小技巧（見下方）
+	- 對位置來查看是否 是個 eat move 如果是 eat move 
+
+
+話說剛剛學到小技巧，可以在用來找到 highest bit 是在哪個位置。你可以看到在下方， 2 的次方在 mod 67 下面，前面 65 個都會是 unique 的，所以藉由 Lowbit() 加上把 lowbit() 之後的數字 %67 並且查表，我們可以知道那個 bit 是在哪個位置。
+
+```
+>>> ar = []
+>>> for i in range(0, 65) :
+...     x = 2**i
+...     ar.append(x%67)
+...
+>>> ar
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66]
+``` 
+
+
+## 12/14
+
+經過一個晚上，每 `1G` 的 state 需要 18 分鐘來判斷他是否是一個 **legal** 且 **reduced** 的 state 。
+
+$3^{25} \approx 789\ G $，所以需要花費 $18 \times 789 = 14202\ min = 236.7\ hour = 9.8625\ days$ 。
+
+今天要把 CheckKoState 蓋好 🤔 盡量啦，覺得有點難度。
+
+
+## 12/16
+
+前兩天跑去寫一些 CF 。也給 Phase 1 一些時間跑，這樣才能夠兩個東東平行跑。
+
+說到平行跑，其實應該要能夠 parallel programming 一下，因為每個東東都是根據當下的 serial number 來判斷，所以平行處理是個適合的決定。
+
+##### Psuedo Code
+
+since we are assuming that every small board is a black's turn position, so for every board we only care about the previous move that creates Ko, which is the white stone
+
+```
+return value:
+	1: the position is possible to be a Ko for the current player (black)
+	0: the position is not possible to generate a Ko
+CHECK_POSSIBLE_KO ( serial, id ) {
+	if ( id on the GoBoard(serial) is not a white stone )
+		return (0);
+	GoBlock &blk = FindGoBlockId(id);
+	if ( blk.stone_count != 1 or blk.liberty_count != 1 ) 
+		return (0);
+	GoCoordId eat_me_position = blk.FirstLiberty();
+	
+	nb_id[5] = {}; // saving neighboring GoBlockId
+	GetNeighborBlockId(eat_me_position);
+	if ( neighbor of eat_me_position are all white )
+		return (1);
+	else 
+		return (0);
+}
+```
+
+Also recall that the previous phase saves serial numbers in an compact MSB style. 
+
+We are saving the Ko Position in **LSB Style**. Check `CheckAllPossibleKoCoord/main.cpp` for implementation.
+
+今天把 Ko 完成了，但是數字對照有一點問題，因此明天來解析一下學長 `4x4` 的 Ko 資料細節如何。
+
+## 12/17
+
+把昨天的工作繼續完成。
+
+file explanation for HC's master thesis:
+
+- `legalBoard`: raw legal serial number
+- `compressedBoard`: merged legal serial numbers
+- `koStates`: reads `compressedBoard` and outputs "serial and the ko" if the serial can occur a ko.
+- `legalState`: merges the `compressedBoard` and `koStates`, for every serial in `compressedBoard`, push `pass=0` and `pass=1`. (**`pass=2` is comment out, but total real state number in the powerpoint is `9276006`, which seems impossible without counting in `pass=2`, I will further investigate on this**)
+
+
+- 對照了 legalBoard, 沒問題。
+
+從學長的資料來看， Ko State 總共有 $1061256 \div 8 = 132657$ 。 
+
+```
+1061256 Dec 17 16:03 uncompress_ko_state_4x4-16.dat
+```
+
+所以 $9276006 = 3047783 \times 3 + 132657$ ，而我在 legal boards 的部份與他相同，所以現在要看看 ko state 裡面我多算了哪些，或者是他少算了哪些。
+
+
+
+## 12/18
+
+今天去開會，報告了這兩個禮拜的進度（到 checkKo 為止的東東），這禮拜要生出一些關於 Ko 的數據，在這裡列出來當作提醒，另外還要學會平行程式設計，這樣才能加速資料的處理。所以以下是這週的 TODO List ：
+
+
+- 學會用 OpenMP 平行處理
+- 算出 koState 中我有算出來而他沒有算出來的是哪些
+- Maximum Ko Per Serial Number  (5x5)
+- For every `id`, number of Ko that happens on that position
+- total legal board of 5x5
+
+今天報告時很糗，反正學長她生出了的 KoState 檔案很怪，第一格他的 serial 居然還是 illegal 的，害我以為我的 construction 有 bug ，原來是 board 丟進去之後顯示出錯誤的盤面，因為我 `GoBoard` 的建構時如果有任何吃或是被吃的動作的話，都會直接 abort 。
+
+除了繼續我的進度之外，我也要看看學長的 code 到底是哪裡出了問題 XD 媽的居然給我捅出這種爛東西。
+
+
 
