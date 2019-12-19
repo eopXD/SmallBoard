@@ -1,6 +1,8 @@
-G_PLUS_PLUS=g++ -std=c++17 -O2 -Wall -pthread -fopenmp
+G_PLUS_PLUS=g++ -std=c++17 -O2 -Wall -pthread
 STATE_ULL=-D BITSTATE_ULL
 STATE_BITSET=-D BITSTATE_BST 
+
+PARALLEL=-fopenmp -D USE_OPEMP
 
 
 2x2=-D ROW=2 -D COL=2 -D ENCODE_LENGTH=19
@@ -14,9 +16,16 @@ NOW=$(5x5)
 all:
 	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) -c ../../include/comm.cc
 	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) comm.o -c ../../include/GoBoard.cc
+	$(G_PLUS_PLUS) $(PARALLEL) $(STATE_ULL) $(NOW) $(INCLUDE) *.o main.cpp -o exec.main
+	$(G_PLUS_PLUS) $(PARALLEL) $(STATE_ULL) $(NOW) $(INCLUDE) *.o assertion.cpp -o exec.assertion
+
+single:
+	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) -c ../../include/comm.cc
+	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) comm.o -c ../../include/GoBoard.cc
 	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) *.o main.cpp -o exec.main
 	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) *.o assertion.cpp -o exec.assertion
-	
+
+
 	
 clean: 
 	rm -rf *.o
