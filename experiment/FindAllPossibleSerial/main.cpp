@@ -52,16 +52,9 @@ int main ()
 /* BEWARE THE CONSTANT OF THIS BEFORE COMPILE AND EXECUTION */
 /* BEWARE THE CONSTANT OF THIS BEFORE COMPILE AND EXECUTION */
 
-	const GoSerial STATE_PER_FILE = (1ll<<20); // 2^32 = 2G
+	const GoSerial STATE_PER_FILE = (1ll<<30); // 2^32 = 2G
 	const GoSerial NUMBER_OF_FILE = MAX_SERIAL/STATE_PER_FILE + 1;
-
-	char filename[105];
-// buffer
 	const int BUFFER_SIZE = 65536;
-	unsigned char *buffer;
-	buffer = new unsigned char [BUFFER_SIZE+5];
-	int buf_idx = 0;
-	unsigned compact = 0;
 // statistics of state
 	uint64_t total_legal_state = 0;
 	uint64_t total_illegal_state = 0;
@@ -76,9 +69,18 @@ int main ()
 	std::cout << "MAX_SERIAL: " << MAX_SERIAL << "\n";
 	std::cout << "STATE_PER_FILE: " << STATE_PER_FILE << "\n";
 	std::cout << "NUMBER_OF_FILE: " << NUMBER_OF_FILE << "\n";
-	
+
+#pragma omp parallel
+{
+
+#pragma omp for
 	for ( GoSerial file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
+		char filename[105];
+		unsigned char *buffer = new unsigned char [BUFFER_SIZE+5];
+		int buf_idx = 0;
+		unsigned char compact = 0;
 		sprintf(filename, "data/data.SparseLegalState.part%05lu", file_num);
+		
 		FILE *output_file = fopen(filename, "wb");
 		
 		GoSerial start_serial = file_num * STATE_PER_FILE;
@@ -87,16 +89,17 @@ int main ()
 			end_serial = MAX_SERIAL;
 		}
 		//printf("%lld %lld\n", start_serial, end_serial);
-
 		for ( GoSerial serial=start_serial; serial<end_serial; ++serial, compact<<=1 ) {
 			bool is_smallest = 1;
 			GoBoard board(serial);
 
 			if ( board.error_code != 0 ) {
 				is_smallest = 0;
+#pragma omp atomic
 				++total_illegal_state;
 				++illegal_state_of_file[file_num];
 			} else {
+#pragma omp atomic
 				++total_legal_state;
 				++legal_state_of_file[file_num];
 				for ( int i=0; i<4; ++i ) { // rotate 4 times
@@ -113,9 +116,11 @@ int main ()
 					}
 				}
 				if ( !is_smallest ) {
+#pragma omp atomic
 					++total_reduced_legal_state;
 					++reduced_legal_state_of_file[file_num];
 				} else {
+#pragma omp atomic
 					++total_remain_legal_state;
 					++remain_legal_state_of_file[file_num];
 				}
@@ -142,6 +147,9 @@ int main ()
 		fclose(output_file);
 		printf("write data %s\n", filename);
 	}
+
+} // end of parallel
+
 	printf("\ntotal_illegal_state: %lu\n", total_illegal_state);
 	for ( GoSerial file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
 		printf("SparseLegalState.part%05lu: %lu\n", file_num, illegal_state_of_file[file_num]);
