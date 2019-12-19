@@ -12,9 +12,9 @@
 #include <bitset>
 #include <algorithm>
 
-#ifdef USE_OPENMP
+//#ifdef USE_OPENMP
 #include <omp.h>
-#endif
+//#endif
 
 #include "GoBoard.h"
 
@@ -54,7 +54,7 @@ int main ()
 /* BEWARE THE CONSTANT OF THIS BEFORE COMPILE AND EXECUTION */
 /* BEWARE THE CONSTANT OF THIS BEFORE COMPILE AND EXECUTION */
 
-	const GoSerial STATE_PER_FILE = (1ll<<30); // 2^32 = 2G
+	const GoSerial STATE_PER_FILE = (1ll<<20); // 2^32 = 2G
 	const GoSerial NUMBER_OF_FILE = MAX_SERIAL/STATE_PER_FILE + 1;
 	const int BUFFER_SIZE = 65536;
 // statistics of state
@@ -72,12 +72,14 @@ int main ()
 	std::cout << "STATE_PER_FILE: " << STATE_PER_FILE << "\n";
 	std::cout << "NUMBER_OF_FILE: " << NUMBER_OF_FILE << "\n";
 
-#ifdef USE_OPENMP
+//#ifdef USE_OPENMP
 #pragma omp parallel
+//#endif
 {
 
+//#ifdef USE_OPENMP
 #pragma omp for
-#endif
+//#endif
 	for ( GoSerial file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
 		char filename[105];
 		unsigned char *buffer = new unsigned char [BUFFER_SIZE+5];
@@ -99,15 +101,15 @@ int main ()
 
 			if ( board.error_code != 0 ) {
 				is_smallest = 0;
-#ifdef USE_OPENMP
+//#ifdef USE_OPENMP
 #pragma omp atomic
-#endif
+//#endif
 				++total_illegal_state;
 				++illegal_state_of_file[file_num];
 			} else {
-#ifdef USE_OPENMP
+//#ifdef USE_OPENMP
 #pragma omp atomic
-#endif
+//#endif
 				++total_legal_state;
 				++legal_state_of_file[file_num];
 				for ( int i=0; i<4; ++i ) { // rotate 4 times
@@ -124,15 +126,15 @@ int main ()
 					}
 				}
 				if ( !is_smallest ) {
-#ifdef USE_OPENMP
+//#ifdef USE_OPENMP
 #pragma omp atomic
-#endif
+//#endif
 					++total_reduced_legal_state;
 					++reduced_legal_state_of_file[file_num];
 				} else {
-#ifdef USE_OPENMP
+//#ifdef USE_OPENMP
 #pragma omp atomic
-#endif
+//#endif
 					++total_remain_legal_state;
 					++remain_legal_state_of_file[file_num];
 				}
@@ -160,9 +162,9 @@ int main ()
 		printf("write data %s\n", filename);
 	}
 
-#ifdef USE_OPEN_MP
+
 } // end of parallel
-#endif
+
 
 	printf("\ntotal_illegal_state: %lu\n", total_illegal_state);
 	for ( GoSerial file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
