@@ -1,4 +1,4 @@
-G_PLUS_PLUS=g++ -std=c++17 -O2 -Wall -pthread
+G_PLUS_PLUS=g++ -std=c++17 -O2 -Wall -pthread -fopenmp
 STATE_ULL=-D BITSTATE_ULL
 STATE_BITSET=-D BITSTATE_BST 
 
@@ -19,6 +19,6 @@ all:
 	
 	
 clean: 
-	rm *.o
-	rm data/data.*
-	rm exec.*
+	rm -rf *.o
+	rm -rf data/data.*
+	rm -rf exec.*
