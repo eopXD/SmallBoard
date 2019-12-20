@@ -1,0 +1,3967 @@
+g++ -std=c++17 -O2 -Wall -pthread -D BITSTATE_ULL -D ROW=5 -D COL=5 -D ENCODE_LENGTH=58  -I ../../include/  -c ../../include/comm.cc
+g++ -std=c++17 -O2 -Wall -pthread -D BITSTATE_ULL -D ROW=5 -D COL=5 -D ENCODE_LENGTH=58  -I ../../include/  comm.o -c ../../include/GoBoard.cc
+g++ -std=c++17 -O2 -Wall -pthread -fopenmp -D BITSTATE_ULL -D ROW=5 -D COL=5 -D ENCODE_LENGTH=58  -I ../../include/  *.o assertion.cpp -o exec.assertion
+eopXD@white:/tmp2/b04705001/test_parallel/SmallBoard/experiment/FindAllPossibleSerial$ ./exec.main 
+MAX_SERIAL: 847288609443
+STATE_PER_FILE: 1073741824
+NUMBER_OF_FILE: 790
+write data data/data.SparseLegalState.part00699
+write data data/data.SparseLegalState.part00657
+write data data/data.SparseLegalState.part00615
+write data data/data.SparseLegalState.part00447
+write data data/data.SparseLegalState.part00489
+write data data/data.SparseLegalState.part00496
+write data data/data.SparseLegalState.part00755
+write data data/data.SparseLegalState.part00426
+write data data/data.SparseLegalState.part00482
+write data data/data.SparseLegalState.part00405
+write data data/data.SparseLegalState.part00454
+write data data/data.SparseLegalState.part00748
+write data data/data.SparseLegalState.part00685
+write data data/data.SparseLegalState.part00230
+write data data/data.SparseLegalState.part00440
+write data data/data.SparseLegalState.part00580
+write data data/data.SparseLegalState.part00692
+write data data/data.SparseLegalState.part00678
+write data data/data.SparseLegalState.part00664
+write data data/data.SparseLegalState.part00076
+write data data/data.SparseLegalState.part00601
+write data data/data.SparseLegalState.part00622
+write data data/data.SparseLegalState.part00251
+write data data/data.SparseLegalState.part00433
+write data data/data.SparseLegalState.part00160
+write data data/data.SparseLegalState.part00776
+write data data/data.SparseLegalState.part00461
+write data data/data.SparseLegalState.part00573
+write data data/data.SparseLegalState.part00650
+write data data/data.SparseLegalState.part00475
+write data data/data.SparseLegalState.part00258
+write data data/data.SparseLegalState.part00398
+write data data/data.SparseLegalState.part00783
+write data data/data.SparseLegalState.part00468
+write data data/data.SparseLegalState.part00720
+write data data/data.SparseLegalState.part00223
+write data data/data.SparseLegalState.part00503
+write data data/data.SparseLegalState.part00671
+write data data/data.SparseLegalState.part00510
+write data data/data.SparseLegalState.part00024
+write data data/data.SparseLegalState.part00083
+write data data/data.SparseLegalState.part00412
+write data data/data.SparseLegalState.part00608
+write data data/data.SparseLegalState.part00111
+write data data/data.SparseLegalState.part00055
+write data data/data.SparseLegalState.part00279
+write data data/data.SparseLegalState.part00104
+write data data/data.SparseLegalState.part00524
+write data data/data.SparseLegalState.part00636
+write data data/data.SparseLegalState.part00286
+write data data/data.SparseLegalState.part00706
+write data data/data.SparseLegalState.part00419
+write data data/data.SparseLegalState.part00629
+write data data/data.SparseLegalState.part00713
+write data data/data.SparseLegalState.part00531
+write data data/data.SparseLegalState.part00016
+write data data/data.SparseLegalState.part00321
+write data data/data.SparseLegalState.part00174
+write data data/data.SparseLegalState.part00741
+write data data/data.SparseLegalState.part00048
+write data data/data.SparseLegalState.part00727
+write data data/data.SparseLegalState.part00370
+write data data/data.SparseLegalState.part00202
+write data data/data.SparseLegalState.part00209
+write data data/data.SparseLegalState.part00545
+write data data/data.SparseLegalState.part00566
+write data data/data.SparseLegalState.part00391
+write data data/data.SparseLegalState.part00335
+write data data/data.SparseLegalState.part00139
+write data data/data.SparseLegalState.part00377
+write data data/data.SparseLegalState.part00328
+write data data/data.SparseLegalState.part00384
+write data data/data.SparseLegalState.part00538
+write data data/data.SparseLegalState.part00349
+write data data/data.SparseLegalState.part00559
+write data data/data.SparseLegalState.part00314
+write data data/data.SparseLegalState.part00517
+write data data/data.SparseLegalState.part00146
+write data data/data.SparseLegalState.part00356
+write data data/data.SparseLegalState.part00363
+write data data/data.SparseLegalState.part00272
+write data data/data.SparseLegalState.part00195
+write data data/data.SparseLegalState.part00118
+write data data/data.SparseLegalState.part00153
+write data data/data.SparseLegalState.part00265
+write data data/data.SparseLegalState.part00307
+write data data/data.SparseLegalState.part00132
+write data data/data.SparseLegalState.part00643
+write data data/data.SparseLegalState.part00342
+write data data/data.SparseLegalState.part00769
+write data data/data.SparseLegalState.part00762
+write data data/data.SparseLegalState.part00069
+write data data/data.SparseLegalState.part00216
+write data data/data.SparseLegalState.part00097
+write data data/data.SparseLegalState.part00040
+write data data/data.SparseLegalState.part00237
+write data data/data.SparseLegalState.part00734
+write data data/data.SparseLegalState.part00594
+write data data/data.SparseLegalState.part00587
+write data data/data.SparseLegalState.part00552
+write data data/data.SparseLegalState.part00244
+write data data/data.SparseLegalState.part00008
+write data data/data.SparseLegalState.part00125
+write data data/data.SparseLegalState.part00167
+write data data/data.SparseLegalState.part00062
+write data data/data.SparseLegalState.part00188
+write data data/data.SparseLegalState.part00181
+write data data/data.SparseLegalState.part00300
+write data data/data.SparseLegalState.part00293
+write data data/data.SparseLegalState.part00090
+write data data/data.SparseLegalState.part00032
+write data data/data.SparseLegalState.part00490
+write data data/data.SparseLegalState.part00686
+write data data/data.SparseLegalState.part00483
+write data data/data.SparseLegalState.part00700
+write data data/data.SparseLegalState.part00427
+write data data/data.SparseLegalState.part00756
+write data data/data.SparseLegalState.part00476
+write data data/data.SparseLegalState.part00525
+write data data/data.SparseLegalState.part00693
+write data data/data.SparseLegalState.part00658
+write data data/data.SparseLegalState.part00441
+write data data/data.SparseLegalState.part00679
+write data data/data.SparseLegalState.part00749
+write data data/data.SparseLegalState.part00469
+write data data/data.SparseLegalState.part00231
+write data data/data.SparseLegalState.part00602
+write data data/data.SparseLegalState.part00777
+write data data/data.SparseLegalState.part00616
+write data data/data.SparseLegalState.part00434
+write data data/data.SparseLegalState.part00077
+write data data/data.SparseLegalState.part00448
+write data data/data.SparseLegalState.part00252
+write data data/data.SparseLegalState.part00651
+write data data/data.SparseLegalState.part00644
+write data data/data.SparseLegalState.part00161
+write data data/data.SparseLegalState.part00455
+write data data/data.SparseLegalState.part00637
+write data data/data.SparseLegalState.part00406
+write data data/data.SparseLegalState.part00665
+write data data/data.SparseLegalState.part00784
+write data data/data.SparseLegalState.part00462
+write data data/data.SparseLegalState.part00497
+write data data/data.SparseLegalState.part00511
+write data data/data.SparseLegalState.part00581
+write data data/data.SparseLegalState.part00259
+write data data/data.SparseLegalState.part00574
+write data data/data.SparseLegalState.part00609
+write data data/data.SparseLegalState.part00518
+write data data/data.SparseLegalState.part00280
+write data data/data.SparseLegalState.part00287
+write data data/data.SparseLegalState.part00025
+write data data/data.SparseLegalState.part00623
+write data data/data.SparseLegalState.part00630
+write data data/data.SparseLegalState.part00420
+write data data/data.SparseLegalState.part00112
+write data data/data.SparseLegalState.part00315
+write data data/data.SparseLegalState.part00224
+write data data/data.SparseLegalState.part00140
+write data data/data.SparseLegalState.part00105
+write data data/data.SparseLegalState.part00399
+write data data/data.SparseLegalState.part00672
+write data data/data.SparseLegalState.part00742
+write data data/data.SparseLegalState.part00084
+write data data/data.SparseLegalState.part00504
+write data data/data.SparseLegalState.part00056
+write data data/data.SparseLegalState.part00735
+write data data/data.SparseLegalState.part00017
+write data data/data.SparseLegalState.part00707
+write data data/data.SparseLegalState.part00133
+write data data/data.SparseLegalState.part00392
+write data data/data.SparseLegalState.part00714
+write data data/data.SparseLegalState.part00385
+write data data/data.SparseLegalState.part00721
+write data data/data.SparseLegalState.part00413
+write data data/data.SparseLegalState.part00560
+write data data/data.SparseLegalState.part00350
+write data data/data.SparseLegalState.part00308
+write data data/data.SparseLegalState.part00336
+write data data/data.SparseLegalState.part00175
+write data data/data.SparseLegalState.part00532
+write data data/data.SparseLegalState.part00203
+write data data/data.SparseLegalState.part00567
+write data data/data.SparseLegalState.part00378
+write data data/data.SparseLegalState.part00322
+write data data/data.SparseLegalState.part00210
+write data data/data.SparseLegalState.part00343
+write data data/data.SparseLegalState.part00154
+write data data/data.SparseLegalState.part00371
+write data data/data.SparseLegalState.part00329
+write data data/data.SparseLegalState.part00147
+write data data/data.SparseLegalState.part00539
+write data data/data.SparseLegalState.part00728
+write data data/data.SparseLegalState.part00196
+write data data/data.SparseLegalState.part00049
+write data data/data.SparseLegalState.part00357
+write data data/data.SparseLegalState.part00217
+write data data/data.SparseLegalState.part00301
+write data data/data.SparseLegalState.part00119
+write data data/data.SparseLegalState.part00546
+write data data/data.SparseLegalState.part00364
+write data data/data.SparseLegalState.part00553
+write data data/data.SparseLegalState.part00238
+write data data/data.SparseLegalState.part00763
+write data data/data.SparseLegalState.part00245
+write data data/data.SparseLegalState.part00098
+write data data/data.SparseLegalState.part00273
+write data data/data.SparseLegalState.part00189
+write data data/data.SparseLegalState.part00070
+write data data/data.SparseLegalState.part00770
+write data data/data.SparseLegalState.part00041
+write data data/data.SparseLegalState.part00009
+write data data/data.SparseLegalState.part00168
+write data data/data.SparseLegalState.part00588
+write data data/data.SparseLegalState.part00182
+write data data/data.SparseLegalState.part00266
+write data data/data.SparseLegalState.part00126
+write data data/data.SparseLegalState.part00294
+write data data/data.SparseLegalState.part00595
+write data data/data.SparseLegalState.part00491
+write data data/data.SparseLegalState.part00091
+write data data/data.SparseLegalState.part00063
+write data data/data.SparseLegalState.part00687
+write data data/data.SparseLegalState.part00033
+write data data/data.SparseLegalState.part00484
+write data data/data.SparseLegalState.part00680
+write data data/data.SparseLegalState.part00470
+write data data/data.SparseLegalState.part00428
+write data data/data.SparseLegalState.part00477
+write data data/data.SparseLegalState.part00701
+write data data/data.SparseLegalState.part00463
+write data data/data.SparseLegalState.part00512
+write data data/data.SparseLegalState.part00757
+write data data/data.SparseLegalState.part00638
+write data data/data.SparseLegalState.part00694
+write data data/data.SparseLegalState.part00778
+write data data/data.SparseLegalState.part00603
+write data data/data.SparseLegalState.part00659
+write data data/data.SparseLegalState.part00162
+write data data/data.SparseLegalState.part00666
+write data data/data.SparseLegalState.part00631
+write data data/data.SparseLegalState.part00232
+write data data/data.SparseLegalState.part00456
+write data data/data.SparseLegalState.part00519
+write data data/data.SparseLegalState.part00673
+write data data/data.SparseLegalState.part00750
+write data data/data.SparseLegalState.part00526
+write data data/data.SparseLegalState.part00785
+write data data/data.SparseLegalState.part00645
+write data data/data.SparseLegalState.part00407
+write data data/data.SparseLegalState.part00435
+write data data/data.SparseLegalState.part00505
+write data data/data.SparseLegalState.part00442
+write data data/data.SparseLegalState.part00617
+write data data/data.SparseLegalState.part00253
+write data data/data.SparseLegalState.part00078
+write data data/data.SparseLegalState.part00316
+write data data/data.SparseLegalState.part00421
+write data data/data.SparseLegalState.part00281
+write data data/data.SparseLegalState.part00652
+write data data/data.SparseLegalState.part00141
+write data data/data.SparseLegalState.part00288
+write data data/data.SparseLegalState.part00498
+write data data/data.SparseLegalState.part00624
+write data data/data.SparseLegalState.part00449
+write data data/data.SparseLegalState.part00582
+write data data/data.SparseLegalState.part00610
+write data data/data.SparseLegalState.part00225
+write data data/data.SparseLegalState.part00260
+write data data/data.SparseLegalState.part00575
+write data data/data.SparseLegalState.part00113
+write data data/data.SparseLegalState.part00134
+write data data/data.SparseLegalState.part00106
+write data data/data.SparseLegalState.part00492
+write data data/data.SparseLegalState.part00026
+write data data/data.SparseLegalState.part00743
+write data data/data.SparseLegalState.part00688
+write data data/data.SparseLegalState.part00018
+write data data/data.SparseLegalState.part00057
+write data data/data.SparseLegalState.part00736
+write data data/data.SparseLegalState.part00085
+write data data/data.SparseLegalState.part00337
+write data data/data.SparseLegalState.part00400
+write data data/data.SparseLegalState.part00309
+write data data/data.SparseLegalState.part00344
+write data data/data.SparseLegalState.part00708
+write data data/data.SparseLegalState.part00414
+write data data/data.SparseLegalState.part00379
+write data data/data.SparseLegalState.part00393
+write data data/data.SparseLegalState.part00715
+write data data/data.SparseLegalState.part00386
+write data data/data.SparseLegalState.part00169
+write data data/data.SparseLegalState.part00176
+write data data/data.SparseLegalState.part00330
+write data data/data.SparseLegalState.part00561
+write data data/data.SparseLegalState.part00722
+write data data/data.SparseLegalState.part00204
+write data data/data.SparseLegalState.part00372
+write data data/data.SparseLegalState.part00351
+write data data/data.SparseLegalState.part00211
+write data data/data.SparseLegalState.part00533
+write data data/data.SparseLegalState.part00540
+write data data/data.SparseLegalState.part00729
+write data data/data.SparseLegalState.part00323
+write data data/data.SparseLegalState.part00155
+write data data/data.SparseLegalState.part00771
+write data data/data.SparseLegalState.part00485
+write data data/data.SparseLegalState.part00148
+write data data/data.SparseLegalState.part00568
+write data data/data.SparseLegalState.part00120
+write data data/data.SparseLegalState.part00218
+write data data/data.SparseLegalState.part00197
+write data data/data.SparseLegalState.part00071
+write data data/data.SparseLegalState.part00547
+write data data/data.SparseLegalState.part00589
+write data data/data.SparseLegalState.part00554
+write data data/data.SparseLegalState.part00239
+write data data/data.SparseLegalState.part00764
+write data data/data.SparseLegalState.part00681
+write data data/data.SparseLegalState.part00246
+write data data/data.SparseLegalState.part00099
+write data data/data.SparseLegalState.part00042
+write data data/data.SparseLegalState.part00358
+write data data/data.SparseLegalState.part00302
+write data data/data.SparseLegalState.part00365
+write data data/data.SparseLegalState.part00190
+write data data/data.SparseLegalState.part00050
+write data data/data.SparseLegalState.part00513
+write data data/data.SparseLegalState.part00010
+write data data/data.SparseLegalState.part00596
+write data data/data.SparseLegalState.part00183
+write data data/data.SparseLegalState.part00274
+write data data/data.SparseLegalState.part00295
+write data data/data.SparseLegalState.part00660
+write data data/data.SparseLegalState.part00127
+write data data/data.SparseLegalState.part00667
+write data data/data.SparseLegalState.part00267
+write data data/data.SparseLegalState.part00758
+write data data/data.SparseLegalState.part00471
+write data data/data.SparseLegalState.part00457
+write data data/data.SparseLegalState.part00092
+write data data/data.SparseLegalState.part00163
+write data data/data.SparseLegalState.part00064
+write data data/data.SparseLegalState.part00695
+write data data/data.SparseLegalState.part00478
+write data data/data.SparseLegalState.part00464
+write data data/data.SparseLegalState.part00034
+write data data/data.SparseLegalState.part00639
+write data data/data.SparseLegalState.part00632
+write data data/data.SparseLegalState.part00618
+write data data/data.SparseLegalState.part00499
+write data data/data.SparseLegalState.part00233
+write data data/data.SparseLegalState.part00702
+write data data/data.SparseLegalState.part00751
+write data data/data.SparseLegalState.part00429
+write data data/data.SparseLegalState.part00520
+write data data/data.SparseLegalState.part00674
+write data data/data.SparseLegalState.part00779
+write data data/data.SparseLegalState.part00506
+write data data/data.SparseLegalState.part00450
+write data data/data.SparseLegalState.part00625
+write data data/data.SparseLegalState.part00317
+write data data/data.SparseLegalState.part00604
+write data data/data.SparseLegalState.part00408
+write data data/data.SparseLegalState.part00422
+write data data/data.SparseLegalState.part00689
+write data data/data.SparseLegalState.part00443
+write data data/data.SparseLegalState.part00493
+write data data/data.SparseLegalState.part00142
+write data data/data.SparseLegalState.part00527
+write data data/data.SparseLegalState.part00786
+write data data/data.SparseLegalState.part00646
+write data data/data.SparseLegalState.part00282
+write data data/data.SparseLegalState.part00436
+write data data/data.SparseLegalState.part00583
+write data data/data.SparseLegalState.part00653
+write data data/data.SparseLegalState.part00226
+write data data/data.SparseLegalState.part00254
+write data data/data.SparseLegalState.part00289
+write data data/data.SparseLegalState.part00135
+write data data/data.SparseLegalState.part00486
+write data data/data.SparseLegalState.part00079
+write data data/data.SparseLegalState.part00338
+write data data/data.SparseLegalState.part00576
+write data data/data.SparseLegalState.part00261
+write data data/data.SparseLegalState.part00114
+write data data/data.SparseLegalState.part00611
+write data data/data.SparseLegalState.part00345
+write data data/data.SparseLegalState.part00415
+write data data/data.SparseLegalState.part00310
+write data data/data.SparseLegalState.part00170
+write data data/data.SparseLegalState.part00744
+write data data/data.SparseLegalState.part00696
+write data data/data.SparseLegalState.part00058
+write data data/data.SparseLegalState.part00027
+write data data/data.SparseLegalState.part00107
+write data data/data.SparseLegalState.part00156
+write data data/data.SparseLegalState.part00019
+write data data/data.SparseLegalState.part00682
+write data data/data.SparseLegalState.part00709
+write data data/data.SparseLegalState.part00716
+write data data/data.SparseLegalState.part00514
+write data data/data.SparseLegalState.part00401
+write data data/data.SparseLegalState.part00737
+write data data/data.SparseLegalState.part00086
+write data data/data.SparseLegalState.part00373
+write data data/data.SparseLegalState.part00479
+write data data/data.SparseLegalState.part00661
+write data data/data.SparseLegalState.part00668
+write data data/data.SparseLegalState.part00380
+write data data/data.SparseLegalState.part00394
+write data data/data.SparseLegalState.part00164
+write data data/data.SparseLegalState.part00387
+write data data/data.SparseLegalState.part00534
+write data data/data.SparseLegalState.part00198
+write data data/data.SparseLegalState.part00324
+write data data/data.SparseLegalState.part00177
+write data data/data.SparseLegalState.part00331
+write data data/data.SparseLegalState.part00205
+write data data/data.SparseLegalState.part00212
+write data data/data.SparseLegalState.part00541
+write data data/data.SparseLegalState.part00472
+write data data/data.SparseLegalState.part00723
+write data data/data.SparseLegalState.part00562
+write data data/data.SparseLegalState.part00352
+write data data/data.SparseLegalState.part00759
+write data data/data.SparseLegalState.part00072
+write data data/data.SparseLegalState.part00772
+write data data/data.SparseLegalState.part00730
+write data data/data.SparseLegalState.part00149
+write data data/data.SparseLegalState.part00247
+write data data/data.SparseLegalState.part00121
+write data data/data.SparseLegalState.part00219
+write data data/data.SparseLegalState.part00765
+write data data/data.SparseLegalState.part00569
+write data data/data.SparseLegalState.part00191
+write data data/data.SparseLegalState.part00366
+write data data/data.SparseLegalState.part00359
+write data data/data.SparseLegalState.part00548
+write data data/data.SparseLegalState.part00521
+write data data/data.SparseLegalState.part00100
+write data data/data.SparseLegalState.part00043
+write data data/data.SparseLegalState.part00590
+write data data/data.SparseLegalState.part00240
+write data data/data.SparseLegalState.part00555
+write data data/data.SparseLegalState.part00597
+write data data/data.SparseLegalState.part00303
+write data data/data.SparseLegalState.part00275
+write data data/data.SparseLegalState.part00690
+write data data/data.SparseLegalState.part00011
+write data data/data.SparseLegalState.part00268
+write data data/data.SparseLegalState.part00752
+write data data/data.SparseLegalState.part00184
+write data data/data.SparseLegalState.part00051
+write data data/data.SparseLegalState.part00296
+write data data/data.SparseLegalState.part00128
+write data data/data.SparseLegalState.part00619
+write data data/data.SparseLegalState.part00640
+write data data/data.SparseLegalState.part00465
+write data data/data.SparseLegalState.part00444
+write data data/data.SparseLegalState.part00633
+write data data/data.SparseLegalState.part00065
+write data data/data.SparseLegalState.part00675
+write data data/data.SparseLegalState.part00458
+write data data/data.SparseLegalState.part00035
+write data data/data.SparseLegalState.part00093
+write data data/data.SparseLegalState.part00703
+write data data/data.SparseLegalState.part00500
+write data data/data.SparseLegalState.part00451
+write data data/data.SparseLegalState.part00647
+write data data/data.SparseLegalState.part00234
+write data data/data.SparseLegalState.part00423
+write data data/data.SparseLegalState.part00430
+write data data/data.SparseLegalState.part00654
+write data data/data.SparseLegalState.part00494
+write data data/data.SparseLegalState.part00507
+write data data/data.SparseLegalState.part00318
+write data data/data.SparseLegalState.part00626
+write data data/data.SparseLegalState.part00409
+write data data/data.SparseLegalState.part00780
+write data data/data.SparseLegalState.part00227
+write data data/data.SparseLegalState.part00787
+write data data/data.SparseLegalState.part00605
+write data data/data.SparseLegalState.part00487
+write data data/data.SparseLegalState.part00683
+write data data/data.SparseLegalState.part00143
+write data data/data.SparseLegalState.part00339
+write data data/data.SparseLegalState.part00515
+write data data/data.SparseLegalState.part00437
+write data data/data.SparseLegalState.part00528
+write data data/data.SparseLegalState.part00283
+write data data/data.SparseLegalState.part00473
+write data data/data.SparseLegalState.part00136
+write data data/data.SparseLegalState.part00697
+write data data/data.SparseLegalState.part00584
+write data data/data.SparseLegalState.part00346
+write data data/data.SparseLegalState.part00480
+write data data/data.SparseLegalState.part00745
+write data data/data.SparseLegalState.part00290
+write data data/data.SparseLegalState.part00255
+write data data/data.SparseLegalState.part00262
+write data data/data.SparseLegalState.part00577
+write data data/data.SparseLegalState.part00311
+write data data/data.SparseLegalState.part00080
+write data data/data.SparseLegalState.part00171
+write data data/data.SparseLegalState.part00157
+write data data/data.SparseLegalState.part00115
+write data data/data.SparseLegalState.part00402
+write data data/data.SparseLegalState.part00374
+write data data/data.SparseLegalState.part00612
+write data data/data.SparseLegalState.part00416
+write data data/data.SparseLegalState.part00165
+write data data/data.SparseLegalState.part00738
+write data data/data.SparseLegalState.part00717
+write data data/data.SparseLegalState.part00522
+write data data/data.SparseLegalState.part00199
+write data data/data.SparseLegalState.part00662
+write data data/data.SparseLegalState.part00710
+write data data/data.SparseLegalState.part00059
+write data data/data.SparseLegalState.part00669
+write data data/data.SparseLegalState.part00641
+write data data/data.SparseLegalState.part00542
+write data data/data.SparseLegalState.part00028
+write data data/data.SparseLegalState.part00087
+write data data/data.SparseLegalState.part00388
+write data data/data.SparseLegalState.part00724
+write data data/data.SparseLegalState.part00381
+write data data/data.SparseLegalState.part00691
+write data data/data.SparseLegalState.part00108
+write data data/data.SparseLegalState.part00395
+write data data/data.SparseLegalState.part00020
+write data data/data.SparseLegalState.part00535
+write data data/data.SparseLegalState.part00353
+write data data/data.SparseLegalState.part00213
+write data data/data.SparseLegalState.part00563
+write data data/data.SparseLegalState.part00206
+write data data/data.SparseLegalState.part00325
+write data data/data.SparseLegalState.part00178
+write data data/data.SparseLegalState.part00676
+write data data/data.SparseLegalState.part00634
+write data data/data.SparseLegalState.part00073
+write data data/data.SparseLegalState.part00466
+write data data/data.SparseLegalState.part00753
+write data data/data.SparseLegalState.part00332
+write data data/data.SparseLegalState.part00773
+write data data/data.SparseLegalState.part00192
+write data data/data.SparseLegalState.part00549
+write data data/data.SparseLegalState.part00248
+write data data/data.SparseLegalState.part00367
+write data data/data.SparseLegalState.part00150
+write data data/data.SparseLegalState.part00052
+write data data/data.SparseLegalState.part00122
+write data data/data.SparseLegalState.part00495
+write data data/data.SparseLegalState.part00760
+write data data/data.SparseLegalState.part00220
+write data data/data.SparseLegalState.part00360
+write data data/data.SparseLegalState.part00570
+write data data/data.SparseLegalState.part00731
+write data data/data.SparseLegalState.part00766
+write data data/data.SparseLegalState.part00101
+write data data/data.SparseLegalState.part00598
+write data data/data.SparseLegalState.part00508
+write data data/data.SparseLegalState.part00648
+write data data/data.SparseLegalState.part00241
+write data data/data.SparseLegalState.part00424
+write data data/data.SparseLegalState.part00044
+write data data/data.SparseLegalState.part00591
+write data data/data.SparseLegalState.part00304
+write data data/data.SparseLegalState.part00431
+write data data/data.SparseLegalState.part00620
+write data data/data.SparseLegalState.part00185
+write data data/data.SparseLegalState.part00556
+write data data/data.SparseLegalState.part00012
+write data data/data.SparseLegalState.part00269
+write data data/data.SparseLegalState.part00276
+write data data/data.SparseLegalState.part00459
+write data data/data.SparseLegalState.part00297
+write data data/data.SparseLegalState.part00445
+write data data/data.SparseLegalState.part00228
+write data data/data.SparseLegalState.part00129
+write data data/data.SparseLegalState.part00036
+write data data/data.SparseLegalState.part00501
+write data data/data.SparseLegalState.part00704
+write data data/data.SparseLegalState.part00684
+write data data/data.SparseLegalState.part00488
+write data data/data.SparseLegalState.part00066
+write data data/data.SparseLegalState.part00340
+write data data/data.SparseLegalState.part00094
+write data data/data.SparseLegalState.part00452
+write data data/data.SparseLegalState.part00627
+write data data/data.SparseLegalState.part00655
+write data data/data.SparseLegalState.part00235
+write data data/data.SparseLegalState.part00319
+write data data/data.SparseLegalState.part00781
+write data data/data.SparseLegalState.part00788
+write data data/data.SparseLegalState.part00410
+write data data/data.SparseLegalState.part00516
+write data data/data.SparseLegalState.part00474
+write data data/data.SparseLegalState.part00438
+write data data/data.SparseLegalState.part00144
+write data data/data.SparseLegalState.part00578
+write data data/data.SparseLegalState.part00789
+write data data/data.SparseLegalState.part00606
+write data data/data.SparseLegalState.part00481
+write data data/data.SparseLegalState.part00670
+write data data/data.SparseLegalState.part00698
+write data data/data.SparseLegalState.part00403
+write data data/data.SparseLegalState.part00746
+write data data/data.SparseLegalState.part00347
+write data data/data.SparseLegalState.part00081
+write data data/data.SparseLegalState.part00137
+write data data/data.SparseLegalState.part00158
+write data data/data.SparseLegalState.part00663
+write data data/data.SparseLegalState.part00284
+write data data/data.SparseLegalState.part00375
+write data data/data.SparseLegalState.part00529
+write data data/data.SparseLegalState.part00256
+write data data/data.SparseLegalState.part00291
+write data data/data.SparseLegalState.part00585
+write data data/data.SparseLegalState.part00718
+write data data/data.SparseLegalState.part00739
+write data data/data.SparseLegalState.part00754
+write data data/data.SparseLegalState.part00417
+write data data/data.SparseLegalState.part00172
+write data data/data.SparseLegalState.part00200
+write data data/data.SparseLegalState.part00312
+write data data/data.SparseLegalState.part00263
+write data data/data.SparseLegalState.part00467
+write data data/data.SparseLegalState.part00543
+write data data/data.SparseLegalState.part00677
+write data data/data.SparseLegalState.part00116
+write data data/data.SparseLegalState.part00166
+write data data/data.SparseLegalState.part00523
+write data data/data.SparseLegalState.part00613
+write data data/data.SparseLegalState.part00635
+write data data/data.SparseLegalState.part00725
+write data data/data.SparseLegalState.part00642
+write data data/data.SparseLegalState.part00509
+write data data/data.SparseLegalState.part00396
+write data data/data.SparseLegalState.part00053
+write data data/data.SparseLegalState.part00711
+write data data/data.SparseLegalState.part00425
+write data data/data.SparseLegalState.part00774
+write data data/data.SparseLegalState.part00460
+write data data/data.SparseLegalState.part00389
+write data data/data.SparseLegalState.part00193
+write data data/data.SparseLegalState.part00074
+write data data/data.SparseLegalState.part00382
+write data data/data.SparseLegalState.part00550
+write data data/data.SparseLegalState.part00221
+write data data/data.SparseLegalState.part00368
+write data data/data.SparseLegalState.part00060
+write data data/data.SparseLegalState.part00088
+write data data/data.SparseLegalState.part00029
+write data data/data.SparseLegalState.part00732
+write data data/data.SparseLegalState.part00354
+write data data/data.SparseLegalState.part00249
+write data data/data.SparseLegalState.part00564
+write data data/data.SparseLegalState.part00621
+write data data/data.SparseLegalState.part00207
+write data data/data.SparseLegalState.part00536
+write data data/data.SparseLegalState.part00326
+write data data/data.SparseLegalState.part00179
+write data data/data.SparseLegalState.part00502
+write data data/data.SparseLegalState.part00333
+write data data/data.SparseLegalState.part00214
+write data data/data.SparseLegalState.part00109
+write data data/data.SparseLegalState.part00151
+write data data/data.SparseLegalState.part00628
+write data data/data.SparseLegalState.part00229
+write data data/data.SparseLegalState.part00432
+write data data/data.SparseLegalState.part00021
+write data data/data.SparseLegalState.part00761
+write data data/data.SparseLegalState.part00599
+write data data/data.SparseLegalState.part00123
+write data data/data.SparseLegalState.part00571
+write data data/data.SparseLegalState.part00767
+write data data/data.SparseLegalState.part00102
+write data data/data.SparseLegalState.part00361
+write data data/data.SparseLegalState.part00453
+write data data/data.SparseLegalState.part00045
+write data data/data.SparseLegalState.part00649
+write data data/data.SparseLegalState.part00242
+write data data/data.SparseLegalState.part00592
+write data data/data.SparseLegalState.part00557
+write data data/data.SparseLegalState.part00446
+write data data/data.SparseLegalState.part00305
+write data data/data.SparseLegalState.part00298
+write data data/data.SparseLegalState.part00186
+write data data/data.SparseLegalState.part00013
+write data data/data.SparseLegalState.part00277
+write data data/data.SparseLegalState.part00130
+write data data/data.SparseLegalState.part00579
+write data data/data.SparseLegalState.part00320
+write data data/data.SparseLegalState.part00270
+write data data/data.SparseLegalState.part00037
+write data data/data.SparseLegalState.part00705
+write data data/data.SparseLegalState.part00404
+write data data/data.SparseLegalState.part00411
+write data data/data.SparseLegalState.part00341
+write data data/data.SparseLegalState.part00067
+write data data/data.SparseLegalState.part00656
+write data data/data.SparseLegalState.part00782
+write data data/data.SparseLegalState.part00095
+write data data/data.SparseLegalState.part00236
+write data data/data.SparseLegalState.part00747
+write data data/data.SparseLegalState.part00607
+write data data/data.SparseLegalState.part00145
+write data data/data.SparseLegalState.part00159
+write data data/data.SparseLegalState.part00439
+write data data/data.SparseLegalState.part00082
+write data data/data.SparseLegalState.part00418
+write data data/data.SparseLegalState.part00376
+write data data/data.SparseLegalState.part00257
+write data data/data.SparseLegalState.part00719
+write data data/data.SparseLegalState.part00285
+write data data/data.SparseLegalState.part00348
+write data data/data.SparseLegalState.part00544
+write data data/data.SparseLegalState.part00138
+write data data/data.SparseLegalState.part00054
+write data data/data.SparseLegalState.part00586
+write data data/data.SparseLegalState.part00075
+write data data/data.SparseLegalState.part00530
+write data data/data.SparseLegalState.part00173
+write data data/data.SparseLegalState.part00201
+write data data/data.SparseLegalState.part00740
+write data data/data.SparseLegalState.part00726
+write data data/data.SparseLegalState.part00397
+write data data/data.SparseLegalState.part00292
+write data data/data.SparseLegalState.part00222
+write data data/data.SparseLegalState.part00250
+write data data/data.SparseLegalState.part00369
+write data data/data.SparseLegalState.part00313
+write data data/data.SparseLegalState.part00775
+write data data/data.SparseLegalState.part00614
+write data data/data.SparseLegalState.part00264
+write data data/data.SparseLegalState.part00194
+write data data/data.SparseLegalState.part00117
+write data data/data.SparseLegalState.part00551
+write data data/data.SparseLegalState.part00712
+write data data/data.SparseLegalState.part00390
+write data data/data.SparseLegalState.part00383
+write data data/data.SparseLegalState.part00733
+write data data/data.SparseLegalState.part00537
+write data data/data.SparseLegalState.part00327
+write data data/data.SparseLegalState.part00600
+write data data/data.SparseLegalState.part00355
+write data data/data.SparseLegalState.part00061
+write data data/data.SparseLegalState.part00334
+write data data/data.SparseLegalState.part00572
+write data data/data.SparseLegalState.part00089
+write data data/data.SparseLegalState.part00110
+write data data/data.SparseLegalState.part00208
+write data data/data.SparseLegalState.part00565
+write data data/data.SparseLegalState.part00030
+write data data/data.SparseLegalState.part00180
+write data data/data.SparseLegalState.part00215
+write data data/data.SparseLegalState.part00152
+write data data/data.SparseLegalState.part00768
+write data data/data.SparseLegalState.part00046
+write data data/data.SparseLegalState.part00124
+write data data/data.SparseLegalState.part00022
+write data data/data.SparseLegalState.part00362
+write data data/data.SparseLegalState.part00103
+write data data/data.SparseLegalState.part00593
+write data data/data.SparseLegalState.part00000
+write data data/data.SparseLegalState.part00243
+write data data/data.SparseLegalState.part00558
+write data data/data.SparseLegalState.part00278
+write data data/data.SparseLegalState.part00306
+write data data/data.SparseLegalState.part00299
+write data data/data.SparseLegalState.part00187
+write data data/data.SparseLegalState.part00131
+write data data/data.SparseLegalState.part00271
+write data data/data.SparseLegalState.part00014
+write data data/data.SparseLegalState.part00038
+write data data/data.SparseLegalState.part00068
+write data data/data.SparseLegalState.part00096
+write data data/data.SparseLegalState.part00047
+write data data/data.SparseLegalState.part00023
+write data data/data.SparseLegalState.part00031
+write data data/data.SparseLegalState.part00039
+write data data/data.SparseLegalState.part00001
+write data data/data.SparseLegalState.part00015
+write data data/data.SparseLegalState.part00002
+write data data/data.SparseLegalState.part00003
+write data data/data.SparseLegalState.part00004
+write data data/data.SparseLegalState.part00005
+write data data/data.SparseLegalState.part00006
+write data data/data.SparseLegalState.part00007
+
+total_illegal_state: 432993460702
+SparseLegalState.part00000: 331055715
+SparseLegalState.part00001: 358013051
+SparseLegalState.part00002: 358599970
+SparseLegalState.part00003: 360288157
+SparseLegalState.part00004: 378364186
+SparseLegalState.part00005: 386732251
+SparseLegalState.part00006: 372396787
+SparseLegalState.part00007: 370071891
+SparseLegalState.part00008: 387697584
+SparseLegalState.part00009: 377485029
+SparseLegalState.part00010: 343115873
+SparseLegalState.part00011: 369931343
+SparseLegalState.part00012: 369881311
+SparseLegalState.part00013: 371918280
+SparseLegalState.part00014: 396116411
+SparseLegalState.part00015: 397791301
+SparseLegalState.part00016: 559996858
+SparseLegalState.part00017: 623751098
+SparseLegalState.part00018: 624190703
+SparseLegalState.part00019: 475445674
+SparseLegalState.part00020: 353139485
+SparseLegalState.part00021: 369296469
+SparseLegalState.part00022: 426281424
+SparseLegalState.part00023: 610587385
+SparseLegalState.part00024: 628368680
+SparseLegalState.part00025: 626181029
+SparseLegalState.part00026: 368303954
+SparseLegalState.part00027: 398015852
+SparseLegalState.part00028: 400073006
+SparseLegalState.part00029: 359593654
+SparseLegalState.part00030: 361449468
+SparseLegalState.part00031: 358268897
+SparseLegalState.part00032: 368507694
+SparseLegalState.part00033: 382577520
+SparseLegalState.part00034: 394250496
+SparseLegalState.part00035: 386834797
+SparseLegalState.part00036: 373696294
+SparseLegalState.part00037: 398760034
+SparseLegalState.part00038: 395298695
+SparseLegalState.part00039: 352091054
+SparseLegalState.part00040: 377978696
+SparseLegalState.part00041: 375218129
+SparseLegalState.part00042: 381333612
+SparseLegalState.part00043: 404167794
+SparseLegalState.part00044: 398130582
+SparseLegalState.part00045: 518123718
+SparseLegalState.part00046: 623638094
+SparseLegalState.part00047: 630791634
+SparseLegalState.part00048: 548977210
+SparseLegalState.part00049: 355902643
+SparseLegalState.part00050: 377820180
+SparseLegalState.part00051: 389636658
+SparseLegalState.part00052: 787552294
+SparseLegalState.part00053: 782531624
+SparseLegalState.part00054: 776724228
+SparseLegalState.part00055: 562048926
+SparseLegalState.part00056: 508293979
+SparseLegalState.part00057: 499942587
+SparseLegalState.part00058: 422096863
+SparseLegalState.part00059: 354453692
+SparseLegalState.part00060: 369595744
+SparseLegalState.part00061: 367869699
+SparseLegalState.part00062: 377604019
+SparseLegalState.part00063: 395716113
+SparseLegalState.part00064: 394329279
+SparseLegalState.part00065: 367646638
+SparseLegalState.part00066: 396427256
+SparseLegalState.part00067: 384491657
+SparseLegalState.part00068: 358937550
+SparseLegalState.part00069: 371664403
+SparseLegalState.part00070: 375087554
+SparseLegalState.part00071: 431061568
+SparseLegalState.part00072: 508287724
+SparseLegalState.part00073: 512228347
+SparseLegalState.part00074: 591357196
+SparseLegalState.part00075: 785660796
+SparseLegalState.part00076: 789014070
+SparseLegalState.part00077: 760440659
+SparseLegalState.part00078: 352621912
+SparseLegalState.part00079: 375798508
+SparseLegalState.part00080: 367822825
+SparseLegalState.part00081: 570774249
+SparseLegalState.part00082: 630793950
+SparseLegalState.part00083: 628551468
+SparseLegalState.part00084: 486992572
+SparseLegalState.part00085: 398740308
+SparseLegalState.part00086: 408951490
+SparseLegalState.part00087: 389876628
+SparseLegalState.part00088: 339113459
+SparseLegalState.part00089: 387331762
+SparseLegalState.part00090: 361011034
+SparseLegalState.part00091: 360750550
+SparseLegalState.part00092: 411100594
+SparseLegalState.part00093: 385344917
+SparseLegalState.part00094: 366460642
+SparseLegalState.part00095: 380067466
+SparseLegalState.part00096: 409702727
+SparseLegalState.part00097: 361929010
+SparseLegalState.part00098: 353433137
+SparseLegalState.part00099: 394504967
+SparseLegalState.part00100: 372222125
+SparseLegalState.part00101: 378996039
+SparseLegalState.part00102: 419656233
+SparseLegalState.part00103: 420817858
+SparseLegalState.part00104: 608648525
+SparseLegalState.part00105: 642030027
+SparseLegalState.part00106: 626419365
+SparseLegalState.part00107: 384891383
+SparseLegalState.part00108: 363239528
+SparseLegalState.part00109: 392084363
+SparseLegalState.part00110: 507518969
+SparseLegalState.part00111: 615251085
+SparseLegalState.part00112: 641515658
+SparseLegalState.part00113: 546110470
+SparseLegalState.part00114: 375703853
+SparseLegalState.part00115: 425365878
+SparseLegalState.part00116: 397196790
+SparseLegalState.part00117: 343013995
+SparseLegalState.part00118: 397188177
+SparseLegalState.part00119: 371157637
+SparseLegalState.part00120: 368253228
+SparseLegalState.part00121: 388482948
+SparseLegalState.part00122: 424632293
+SparseLegalState.part00123: 370786258
+SparseLegalState.part00124: 381959499
+SparseLegalState.part00125: 423915439
+SparseLegalState.part00126: 382446084
+SparseLegalState.part00127: 359382117
+SparseLegalState.part00128: 407131297
+SparseLegalState.part00129: 380588609
+SparseLegalState.part00130: 384336143
+SparseLegalState.part00131: 435460153
+SparseLegalState.part00132: 410644337
+SparseLegalState.part00133: 584085203
+SparseLegalState.part00134: 626455601
+SparseLegalState.part00135: 650061905
+SparseLegalState.part00136: 451860610
+SparseLegalState.part00137: 364323781
+SparseLegalState.part00138: 406597917
+SparseLegalState.part00139: 526379663
+SparseLegalState.part00140: 774680017
+SparseLegalState.part00141: 807513352
+SparseLegalState.part00142: 746486714
+SparseLegalState.part00143: 488593692
+SparseLegalState.part00144: 542115744
+SparseLegalState.part00145: 512669266
+SparseLegalState.part00146: 354436550
+SparseLegalState.part00147: 365012620
+SparseLegalState.part00148: 391915064
+SparseLegalState.part00149: 369251056
+SparseLegalState.part00150: 382685927
+SparseLegalState.part00151: 420739970
+SparseLegalState.part00152: 385663313
+SparseLegalState.part00153: 375217129
+SparseLegalState.part00154: 418383662
+SparseLegalState.part00155: 397045741
+SparseLegalState.part00156: 604783130
+SparseLegalState.part00157: 631285408
+SparseLegalState.part00158: 626928418
+SparseLegalState.part00159: 640562079
+SparseLegalState.part00160: 686183774
+SparseLegalState.part00161: 726824792
+SparseLegalState.part00162: 814924453
+SparseLegalState.part00163: 883444742
+SparseLegalState.part00164: 873913249
+SparseLegalState.part00165: 691202261
+SparseLegalState.part00166: 357267809
+SparseLegalState.part00167: 404315099
+SparseLegalState.part00168: 408923013
+SparseLegalState.part00169: 686969551
+SparseLegalState.part00170: 712558656
+SparseLegalState.part00171: 701389270
+SparseLegalState.part00172: 438499038
+SparseLegalState.part00173: 456924464
+SparseLegalState.part00174: 482928254
+SparseLegalState.part00175: 380791069
+SparseLegalState.part00176: 348261671
+SparseLegalState.part00177: 358886613
+SparseLegalState.part00178: 386563219
+SparseLegalState.part00179: 369104970
+SparseLegalState.part00180: 387779249
+SparseLegalState.part00181: 408037023
+SparseLegalState.part00182: 361341634
+SparseLegalState.part00183: 389669798
+SparseLegalState.part00184: 411225640
+SparseLegalState.part00185: 343849889
+SparseLegalState.part00186: 364665040
+SparseLegalState.part00187: 394264938
+SparseLegalState.part00188: 371600647
+SparseLegalState.part00189: 386929546
+SparseLegalState.part00190: 397817877
+SparseLegalState.part00191: 509972451
+SparseLegalState.part00192: 616962342
+SparseLegalState.part00193: 626122431
+SparseLegalState.part00194: 595351080
+SparseLegalState.part00195: 344094079
+SparseLegalState.part00196: 369865038
+SparseLegalState.part00197: 391101865
+SparseLegalState.part00198: 583278402
+SparseLegalState.part00199: 624737354
+SparseLegalState.part00200: 639360633
+SparseLegalState.part00201: 459854200
+SparseLegalState.part00202: 389278414
+SparseLegalState.part00203: 398371154
+SparseLegalState.part00204: 398427317
+SparseLegalState.part00205: 351208013
+SparseLegalState.part00206: 369927676
+SparseLegalState.part00207: 392638178
+SparseLegalState.part00208: 373336083
+SparseLegalState.part00209: 395070548
+SparseLegalState.part00210: 416976028
+SparseLegalState.part00211: 370519235
+SparseLegalState.part00212: 394574776
+SparseLegalState.part00213: 416717301
+SparseLegalState.part00214: 366487573
+SparseLegalState.part00215: 360139151
+SparseLegalState.part00216: 374601280
+SparseLegalState.part00217: 421421337
+SparseLegalState.part00218: 438283378
+SparseLegalState.part00219: 453877839
+SparseLegalState.part00220: 517795590
+SparseLegalState.part00221: 689083825
+SparseLegalState.part00222: 699152915
+SparseLegalState.part00223: 689173877
+SparseLegalState.part00224: 557435190
+SparseLegalState.part00225: 622167467
+SparseLegalState.part00226: 630813344
+SparseLegalState.part00227: 805592763
+SparseLegalState.part00228: 870235179
+SparseLegalState.part00229: 885653766
+SparseLegalState.part00230: 808578687
+SparseLegalState.part00231: 707102641
+SparseLegalState.part00232: 671512099
+SparseLegalState.part00233: 667555015
+SparseLegalState.part00234: 344971428
+SparseLegalState.part00235: 370635321
+SparseLegalState.part00236: 399753795
+SparseLegalState.part00237: 365526551
+SparseLegalState.part00238: 386248031
+SparseLegalState.part00239: 423127619
+SparseLegalState.part00240: 378153328
+SparseLegalState.part00241: 386824713
+SparseLegalState.part00242: 392339962
+SparseLegalState.part00243: 404222374
+SparseLegalState.part00244: 360054696
+SparseLegalState.part00245: 377915184
+SparseLegalState.part00246: 419567460
+SparseLegalState.part00247: 503525326
+SparseLegalState.part00248: 510354301
+SparseLegalState.part00249: 534877531
+SparseLegalState.part00250: 768557324
+SparseLegalState.part00251: 782756903
+SparseLegalState.part00252: 792090399
+SparseLegalState.part00253: 481330464
+SparseLegalState.part00254: 366893441
+SparseLegalState.part00255: 377825718
+SparseLegalState.part00256: 515643949
+SparseLegalState.part00257: 622124047
+SparseLegalState.part00258: 630566565
+SparseLegalState.part00259: 596970699
+SparseLegalState.part00260: 389873502
+SparseLegalState.part00261: 410203426
+SparseLegalState.part00262: 437607976
+SparseLegalState.part00263: 336051090
+SparseLegalState.part00264: 357115742
+SparseLegalState.part00265: 446710095
+SparseLegalState.part00266: 361350770
+SparseLegalState.part00267: 376018194
+SparseLegalState.part00268: 431627148
+SparseLegalState.part00269: 413812961
+SparseLegalState.part00270: 369378737
+SparseLegalState.part00271: 386366116
+SparseLegalState.part00272: 463876894
+SparseLegalState.part00273: 342459678
+SparseLegalState.part00274: 369952985
+SparseLegalState.part00275: 456474452
+SparseLegalState.part00276: 372805205
+SparseLegalState.part00277: 392139302
+SparseLegalState.part00278: 483900895
+SparseLegalState.part00279: 551172385
+SparseLegalState.part00280: 619532623
+SparseLegalState.part00281: 656851520
+SparseLegalState.part00282: 511890033
+SparseLegalState.part00283: 352519340
+SparseLegalState.part00284: 368797304
+SparseLegalState.part00285: 509900117
+SparseLegalState.part00286: 609015014
+SparseLegalState.part00287: 624540559
+SparseLegalState.part00288: 683032611
+SparseLegalState.part00289: 375633181
+SparseLegalState.part00290: 396611925
+SparseLegalState.part00291: 482873446
+SparseLegalState.part00292: 361876841
+SparseLegalState.part00293: 355258507
+SparseLegalState.part00294: 415477436
+SparseLegalState.part00295: 401865161
+SparseLegalState.part00296: 378111637
+SparseLegalState.part00297: 397637563
+SparseLegalState.part00298: 469719307
+SparseLegalState.part00299: 372696380
+SparseLegalState.part00300: 395906272
+SparseLegalState.part00301: 480924738
+SparseLegalState.part00302: 351149901
+SparseLegalState.part00303: 374114327
+SparseLegalState.part00304: 461087754
+SparseLegalState.part00305: 382840378
+SparseLegalState.part00306: 397771535
+SparseLegalState.part00307: 454185786
+SparseLegalState.part00308: 543090837
+SparseLegalState.part00309: 619777796
+SparseLegalState.part00310: 632987688
+SparseLegalState.part00311: 608529712
+SparseLegalState.part00312: 354944185
+SparseLegalState.part00313: 378131111
+SparseLegalState.part00314: 462173268
+SparseLegalState.part00315: 775276863
+SparseLegalState.part00316: 791662451
+SparseLegalState.part00317: 818925640
+SparseLegalState.part00318: 558404822
+SparseLegalState.part00319: 513802260
+SparseLegalState.part00320: 551093478
+SparseLegalState.part00321: 444049614
+SparseLegalState.part00322: 353713308
+SparseLegalState.part00323: 369815919
+SparseLegalState.part00324: 456780779
+SparseLegalState.part00325: 373591189
+SparseLegalState.part00326: 399073350
+SparseLegalState.part00327: 479698873
+SparseLegalState.part00328: 366892492
+SparseLegalState.part00329: 388645584
+SparseLegalState.part00330: 476188944
+SparseLegalState.part00331: 359685926
+SparseLegalState.part00332: 370137493
+SparseLegalState.part00333: 434920540
+SparseLegalState.part00334: 456320790
+SparseLegalState.part00335: 501030020
+SparseLegalState.part00336: 522599379
+SparseLegalState.part00337: 649797926
+SparseLegalState.part00338: 774396245
+SparseLegalState.part00339: 797123605
+SparseLegalState.part00340: 810711740
+SparseLegalState.part00341: 349553825
+SparseLegalState.part00342: 374907645
+SparseLegalState.part00343: 457217553
+SparseLegalState.part00344: 561512244
+SparseLegalState.part00345: 628972716
+SparseLegalState.part00346: 670404908
+SparseLegalState.part00347: 511798528
+SparseLegalState.part00348: 395213441
+SparseLegalState.part00349: 415638465
+SparseLegalState.part00350: 470067821
+SparseLegalState.part00351: 337961215
+SparseLegalState.part00352: 387673179
+SparseLegalState.part00353: 461257242
+SparseLegalState.part00354: 362379075
+SparseLegalState.part00355: 409916048
+SparseLegalState.part00356: 473681134
+SparseLegalState.part00357: 373752150
+SparseLegalState.part00358: 382592845
+SparseLegalState.part00359: 472363094
+SparseLegalState.part00360: 395810986
+SparseLegalState.part00361: 353713543
+SparseLegalState.part00362: 401021870
+SparseLegalState.part00363: 463184985
+SparseLegalState.part00364: 378146371
+SparseLegalState.part00365: 423155311
+SparseLegalState.part00366: 503710025
+SparseLegalState.part00367: 611487480
+SparseLegalState.part00368: 641442764
+SparseLegalState.part00369: 681416232
+SparseLegalState.part00370: 404002072
+SparseLegalState.part00371: 362976129
+SparseLegalState.part00372: 458676796
+SparseLegalState.part00373: 533293739
+SparseLegalState.part00374: 617890559
+SparseLegalState.part00375: 647304113
+SparseLegalState.part00376: 604674661
+SparseLegalState.part00377: 379837776
+SparseLegalState.part00378: 425378714
+SparseLegalState.part00379: 493946344
+SparseLegalState.part00380: 342136420
+SparseLegalState.part00381: 395263792
+SparseLegalState.part00382: 462523237
+SparseLegalState.part00383: 379123988
+SparseLegalState.part00384: 388093235
+SparseLegalState.part00385: 483163991
+SparseLegalState.part00386: 405046642
+SparseLegalState.part00387: 384445913
+SparseLegalState.part00388: 434081259
+SparseLegalState.part00389: 469835073
+SparseLegalState.part00390: 358975966
+SparseLegalState.part00391: 406740274
+SparseLegalState.part00392: 478424437
+SparseLegalState.part00393: 385102346
+SparseLegalState.part00394: 437578592
+SparseLegalState.part00395: 505606989
+SparseLegalState.part00396: 611064734
+SparseLegalState.part00397: 630495637
+SparseLegalState.part00398: 700726124
+SparseLegalState.part00399: 510218749
+SparseLegalState.part00400: 363512986
+SparseLegalState.part00401: 464399510
+SparseLegalState.part00402: 708795805
+SparseLegalState.part00403: 775595978
+SparseLegalState.part00404: 814669167
+SparseLegalState.part00405: 855861710
+SparseLegalState.part00406: 491652976
+SparseLegalState.part00407: 551494801
+SparseLegalState.part00408: 623897129
+SparseLegalState.part00409: 438388886
+SparseLegalState.part00410: 385875972
+SparseLegalState.part00411: 552921484
+SparseLegalState.part00412: 636844112
+SparseLegalState.part00413: 381968365
+SparseLegalState.part00414: 524080693
+SparseLegalState.part00415: 714794067
+SparseLegalState.part00416: 375217613
+SparseLegalState.part00417: 508216090
+SparseLegalState.part00418: 735320347
+SparseLegalState.part00419: 610823234
+SparseLegalState.part00420: 680516913
+SparseLegalState.part00421: 782487771
+SparseLegalState.part00422: 723851002
+SparseLegalState.part00423: 726494968
+SparseLegalState.part00424: 803964792
+SparseLegalState.part00425: 960106401
+SparseLegalState.part00426: 868794405
+SparseLegalState.part00427: 915321131
+SparseLegalState.part00428: 798330849
+SparseLegalState.part00429: 356440467
+SparseLegalState.part00430: 496170940
+SparseLegalState.part00431: 750857282
+SparseLegalState.part00432: 686368143
+SparseLegalState.part00433: 754953623
+SparseLegalState.part00434: 845454560
+SparseLegalState.part00435: 506111461
+SparseLegalState.part00436: 482836535
+SparseLegalState.part00437: 620449153
+SparseLegalState.part00438: 612283875
+SparseLegalState.part00439: 346443317
+SparseLegalState.part00440: 782689947
+SparseLegalState.part00441: 811303142
+SparseLegalState.part00442: 366312959
+SparseLegalState.part00443: 624832948
+SparseLegalState.part00444: 988840501
+SparseLegalState.part00445: 360199623
+SparseLegalState.part00446: 471949574
+SparseLegalState.part00447: 1055209726
+SparseLegalState.part00448: 433175437
+SparseLegalState.part00449: 393333681
+SparseLegalState.part00450: 937824898
+SparseLegalState.part00451: 636029343
+SparseLegalState.part00452: 382299656
+SparseLegalState.part00453: 809587560
+SparseLegalState.part00454: 894114044
+SparseLegalState.part00455: 612525379
+SparseLegalState.part00456: 789178423
+SparseLegalState.part00457: 977321074
+SparseLegalState.part00458: 343056486
+SparseLegalState.part00459: 459827816
+SparseLegalState.part00460: 1057418048
+SparseLegalState.part00461: 660260142
+SparseLegalState.part00462: 642613157
+SparseLegalState.part00463: 992716017
+SparseLegalState.part00464: 623666908
+SparseLegalState.part00465: 387406386
+SparseLegalState.part00466: 816171871
+SparseLegalState.part00467: 804065133
+SparseLegalState.part00468: 587985556
+SparseLegalState.part00469: 885946457
+SparseLegalState.part00470: 972546870
+SparseLegalState.part00471: 617549417
+SparseLegalState.part00472: 735013615
+SparseLegalState.part00473: 1061698450
+SparseLegalState.part00474: 691103687
+SparseLegalState.part00475: 646689316
+SparseLegalState.part00476: 975557304
+SparseLegalState.part00477: 807148063
+SparseLegalState.part00478: 553486204
+SparseLegalState.part00479: 928126126
+SparseLegalState.part00480: 835626781
+SparseLegalState.part00481: 632038630
+SparseLegalState.part00482: 928654138
+SparseLegalState.part00483: 1004340066
+SparseLegalState.part00484: 827703259
+SparseLegalState.part00485: 885434148
+SparseLegalState.part00486: 1073741824
+SparseLegalState.part00487: 759322624
+SparseLegalState.part00488: 819270242
+SparseLegalState.part00489: 1032738247
+SparseLegalState.part00490: 1001881916
+SparseLegalState.part00491: 938154022
+SparseLegalState.part00492: 1038235700
+SparseLegalState.part00493: 930440551
+SparseLegalState.part00494: 802261991
+SparseLegalState.part00495: 1002517719
+SparseLegalState.part00496: 953369380
+SparseLegalState.part00497: 344241438
+SparseLegalState.part00498: 467580528
+SparseLegalState.part00499: 1073499422
+SparseLegalState.part00500: 419903773
+SparseLegalState.part00501: 433775316
+SparseLegalState.part00502: 966373617
+SparseLegalState.part00503: 595423557
+SparseLegalState.part00504: 385868543
+SparseLegalState.part00505: 836722696
+SparseLegalState.part00506: 764053194
+SparseLegalState.part00507: 455625972
+SparseLegalState.part00508: 766000731
+SparseLegalState.part00509: 961806219
+SparseLegalState.part00510: 571504826
+SparseLegalState.part00511: 696305618
+SparseLegalState.part00512: 1073741824
+SparseLegalState.part00513: 826322347
+SparseLegalState.part00514: 852518610
+SparseLegalState.part00515: 1038636516
+SparseLegalState.part00516: 575613205
+SparseLegalState.part00517: 368704279
+SparseLegalState.part00518: 839520557
+SparseLegalState.part00519: 864284740
+SparseLegalState.part00520: 651312432
+SparseLegalState.part00521: 852634349
+SparseLegalState.part00522: 940681396
+SparseLegalState.part00523: 409029132
+SparseLegalState.part00524: 542947407
+SparseLegalState.part00525: 1073741824
+SparseLegalState.part00526: 379746942
+SparseLegalState.part00527: 386669830
+SparseLegalState.part00528: 415839593
+SparseLegalState.part00529: 362365858
+SparseLegalState.part00530: 375570198
+SparseLegalState.part00531: 468645952
+SparseLegalState.part00532: 374599005
+SparseLegalState.part00533: 371608222
+SparseLegalState.part00534: 470665801
+SparseLegalState.part00535: 377912228
+SparseLegalState.part00536: 344573239
+SparseLegalState.part00537: 456938337
+SparseLegalState.part00538: 368879730
+SparseLegalState.part00539: 371322913
+SparseLegalState.part00540: 425237163
+SparseLegalState.part00541: 448801159
+SparseLegalState.part00542: 547677807
+SparseLegalState.part00543: 617492709
+SparseLegalState.part00544: 677888985
+SparseLegalState.part00545: 500796692
+SparseLegalState.part00546: 351328414
+SparseLegalState.part00547: 453255455
+SparseLegalState.part00548: 417052661
+SparseLegalState.part00549: 613643237
+SparseLegalState.part00550: 679604346
+SparseLegalState.part00551: 624237852
+SparseLegalState.part00552: 384219115
+SparseLegalState.part00553: 430897404
+SparseLegalState.part00554: 445812144
+SparseLegalState.part00555: 365121134
+SparseLegalState.part00556: 349794762
+SparseLegalState.part00557: 455416860
+SparseLegalState.part00558: 370250777
+SparseLegalState.part00559: 377463257
+SparseLegalState.part00560: 478719351
+SparseLegalState.part00561: 388947114
+SparseLegalState.part00562: 375198188
+SparseLegalState.part00563: 480503718
+SparseLegalState.part00564: 395398552
+SparseLegalState.part00565: 356123457
+SparseLegalState.part00566: 412554692
+SparseLegalState.part00567: 425737942
+SparseLegalState.part00568: 383675868
+SparseLegalState.part00569: 389521106
+SparseLegalState.part00570: 487364911
+SparseLegalState.part00571: 513925127
+SparseLegalState.part00572: 620823963
+SparseLegalState.part00573: 686085988
+SparseLegalState.part00574: 564158360
+SparseLegalState.part00575: 353807006
+SparseLegalState.part00576: 464950611
+SparseLegalState.part00577: 378134656
+SparseLegalState.part00578: 760615553
+SparseLegalState.part00579: 805854748
+SparseLegalState.part00580: 807202868
+SparseLegalState.part00581: 572030269
+SparseLegalState.part00582: 495260600
+SparseLegalState.part00583: 585240791
+SparseLegalState.part00584: 430581550
+SparseLegalState.part00585: 352905083
+SparseLegalState.part00586: 454462506
+SparseLegalState.part00587: 369869148
+SparseLegalState.part00588: 372271742
+SparseLegalState.part00589: 478211724
+SparseLegalState.part00590: 398243520
+SparseLegalState.part00591: 367029091
+SparseLegalState.part00592: 425832173
+SparseLegalState.part00593: 433560314
+SparseLegalState.part00594: 362444522
+SparseLegalState.part00595: 368742842
+SparseLegalState.part00596: 456841833
+SparseLegalState.part00597: 432613611
+SparseLegalState.part00598: 496521840
+SparseLegalState.part00599: 580779385
+SparseLegalState.part00600: 584308057
+SparseLegalState.part00601: 771692354
+SparseLegalState.part00602: 820154660
+SparseLegalState.part00603: 799329595
+SparseLegalState.part00604: 349316417
+SparseLegalState.part00605: 413313029
+SparseLegalState.part00606: 414693953
+SparseLegalState.part00607: 555025444
+SparseLegalState.part00608: 625106130
+SparseLegalState.part00609: 684174000
+SparseLegalState.part00610: 507527555
+SparseLegalState.part00611: 393924155
+SparseLegalState.part00612: 490207027
+SparseLegalState.part00613: 393461918
+SparseLegalState.part00614: 463231045
+SparseLegalState.part00615: 1007109784
+SparseLegalState.part00616: 462245325
+SparseLegalState.part00617: 358087584
+SparseLegalState.part00618: 1023662021
+SparseLegalState.part00619: 576071518
+SparseLegalState.part00620: 379161186
+SparseLegalState.part00621: 847224896
+SparseLegalState.part00622: 717413413
+SparseLegalState.part00623: 403004233
+SparseLegalState.part00624: 661187326
+SparseLegalState.part00625: 824788451
+SparseLegalState.part00626: 470165229
+SparseLegalState.part00627: 503524829
+SparseLegalState.part00628: 1002616950
+SparseLegalState.part00629: 499530170
+SparseLegalState.part00630: 606039364
+SparseLegalState.part00631: 1047744706
+SparseLegalState.part00632: 741892112
+SparseLegalState.part00633: 415561688
+SparseLegalState.part00634: 848594406
+SparseLegalState.part00635: 700111743
+SparseLegalState.part00636: 535026523
+SparseLegalState.part00637: 818736860
+SparseLegalState.part00638: 910664379
+SparseLegalState.part00639: 614096094
+SparseLegalState.part00640: 516113172
+SparseLegalState.part00641: 994733810
+SparseLegalState.part00642: 495172538
+SparseLegalState.part00643: 341681638
+SparseLegalState.part00644: 1035871053
+SparseLegalState.part00645: 550299085
+SparseLegalState.part00646: 380131335
+SparseLegalState.part00647: 863425224
+SparseLegalState.part00648: 705407632
+SparseLegalState.part00649: 416669723
+SparseLegalState.part00650: 697048344
+SparseLegalState.part00651: 819232786
+SparseLegalState.part00652: 477071546
+SparseLegalState.part00653: 504174329
+SparseLegalState.part00654: 983854557
+SparseLegalState.part00655: 477741270
+SparseLegalState.part00656: 394913527
+SparseLegalState.part00657: 1057016742
+SparseLegalState.part00658: 575857433
+SparseLegalState.part00659: 606153347
+SparseLegalState.part00660: 968161264
+SparseLegalState.part00661: 834552896
+SparseLegalState.part00662: 524767956
+SparseLegalState.part00663: 789491261
+SparseLegalState.part00664: 807002912
+SparseLegalState.part00665: 701655997
+SparseLegalState.part00666: 884228797
+SparseLegalState.part00667: 1027410424
+SparseLegalState.part00668: 858320906
+SparseLegalState.part00669: 560380538
+SparseLegalState.part00670: 1073741824
+SparseLegalState.part00671: 655581230
+SparseLegalState.part00672: 516969649
+SparseLegalState.part00673: 1073741824
+SparseLegalState.part00674: 691126389
+SparseLegalState.part00675: 649751612
+SparseLegalState.part00676: 957167343
+SparseLegalState.part00677: 807430040
+SparseLegalState.part00678: 722999830
+SparseLegalState.part00679: 782924965
+SparseLegalState.part00680: 971715242
+SparseLegalState.part00681: 736263798
+SparseLegalState.part00682: 773775830
+SparseLegalState.part00683: 1073741824
+SparseLegalState.part00684: 811356913
+SparseLegalState.part00685: 797005663
+SparseLegalState.part00686: 1073741824
+SparseLegalState.part00687: 875273206
+SparseLegalState.part00688: 954221636
+SparseLegalState.part00689: 1044235135
+SparseLegalState.part00690: 989928212
+SparseLegalState.part00691: 815904352
+SparseLegalState.part00692: 780555939
+SparseLegalState.part00693: 960839562
+SparseLegalState.part00694: 743715333
+SparseLegalState.part00695: 828460754
+SparseLegalState.part00696: 1073741824
+SparseLegalState.part00697: 855848149
+SparseLegalState.part00698: 605394960
+SparseLegalState.part00699: 1073741824
+SparseLegalState.part00700: 730552815
+SparseLegalState.part00701: 628982884
+SparseLegalState.part00702: 345773384
+SparseLegalState.part00703: 460967203
+SparseLegalState.part00704: 388554987
+SparseLegalState.part00705: 365414316
+SparseLegalState.part00706: 483636802
+SparseLegalState.part00707: 410325383
+SparseLegalState.part00708: 363254614
+SparseLegalState.part00709: 464357812
+SparseLegalState.part00710: 429337109
+SparseLegalState.part00711: 349264974
+SparseLegalState.part00712: 383301432
+SparseLegalState.part00713: 462608327
+SparseLegalState.part00714: 383407300
+SparseLegalState.part00715: 382679216
+SparseLegalState.part00716: 494440272
+SparseLegalState.part00717: 501417070
+SparseLegalState.part00718: 610868119
+SparseLegalState.part00719: 686344241
+SparseLegalState.part00720: 618560874
+SparseLegalState.part00721: 342637124
+SparseLegalState.part00722: 448319381
+SparseLegalState.part00723: 411195761
+SparseLegalState.part00724: 571908431
+SparseLegalState.part00725: 637057423
+SparseLegalState.part00726: 684564987
+SparseLegalState.part00727: 478107159
+SparseLegalState.part00728: 385688033
+SparseLegalState.part00729: 493657728
+SparseLegalState.part00730: 403647891
+SparseLegalState.part00731: 349100325
+SparseLegalState.part00732: 726139817
+SparseLegalState.part00733: 488269651
+SparseLegalState.part00734: 368401731
+SparseLegalState.part00735: 721900436
+SparseLegalState.part00736: 520793838
+SparseLegalState.part00737: 377162808
+SparseLegalState.part00738: 639616592
+SparseLegalState.part00739: 574755260
+SparseLegalState.part00740: 387661943
+SparseLegalState.part00741: 482945193
+SparseLegalState.part00742: 629741630
+SparseLegalState.part00743: 494927436
+SparseLegalState.part00744: 426689691
+SparseLegalState.part00745: 771658590
+SparseLegalState.part00746: 590933258
+SparseLegalState.part00747: 686234839
+SparseLegalState.part00748: 872057016
+SparseLegalState.part00749: 760534618
+SparseLegalState.part00750: 571118896
+SparseLegalState.part00751: 810764290
+SparseLegalState.part00752: 732994313
+SparseLegalState.part00753: 782672497
+SparseLegalState.part00754: 938154022
+SparseLegalState.part00755: 948535113
+SparseLegalState.part00756: 837770568
+SparseLegalState.part00757: 670999718
+SparseLegalState.part00758: 879854349
+SparseLegalState.part00759: 756343052
+SparseLegalState.part00760: 343514678
+SparseLegalState.part00761: 460498314
+SparseLegalState.part00762: 408650914
+SparseLegalState.part00763: 358594769
+SparseLegalState.part00764: 424573104
+SparseLegalState.part00765: 486708941
+SparseLegalState.part00766: 380538111
+SparseLegalState.part00767: 382268050
+SparseLegalState.part00768: 492329562
+SparseLegalState.part00769: 406359695
+SparseLegalState.part00770: 358092386
+SparseLegalState.part00771: 584767774
+SparseLegalState.part00772: 463306957
+SparseLegalState.part00773: 489344624
+SparseLegalState.part00774: 679416765
+SparseLegalState.part00775: 578017301
+SparseLegalState.part00776: 738454506
+SparseLegalState.part00777: 843337507
+SparseLegalState.part00778: 851059323
+SparseLegalState.part00779: 505653231
+SparseLegalState.part00780: 368191542
+SparseLegalState.part00781: 476388401
+SparseLegalState.part00782: 502282134
+SparseLegalState.part00783: 618123463
+SparseLegalState.part00784: 727301153
+SparseLegalState.part00785: 628306770
+SparseLegalState.part00786: 385500444
+SparseLegalState.part00787: 526003980
+SparseLegalState.part00788: 446532386
+SparseLegalState.part00789: 45831343
+
+total_legal_state: 414295148741
+SparseLegalState.part00000: 742686109
+SparseLegalState.part00001: 715728773
+SparseLegalState.part00002: 715141854
+SparseLegalState.part00003: 713453667
+SparseLegalState.part00004: 695377638
+SparseLegalState.part00005: 687009573
+SparseLegalState.part00006: 701345037
+SparseLegalState.part00007: 703669933
+SparseLegalState.part00008: 686044240
+SparseLegalState.part00009: 696256795
+SparseLegalState.part00010: 730625951
+SparseLegalState.part00011: 703810481
+SparseLegalState.part00012: 703860513
+SparseLegalState.part00013: 701823544
+SparseLegalState.part00014: 677625413
+SparseLegalState.part00015: 675950523
+SparseLegalState.part00016: 513744966
+SparseLegalState.part00017: 449990726
+SparseLegalState.part00018: 449551121
+SparseLegalState.part00019: 598296150
+SparseLegalState.part00020: 720602339
+SparseLegalState.part00021: 704445355
+SparseLegalState.part00022: 647460400
+SparseLegalState.part00023: 463154439
+SparseLegalState.part00024: 445373144
+SparseLegalState.part00025: 447560795
+SparseLegalState.part00026: 705437870
+SparseLegalState.part00027: 675725972
+SparseLegalState.part00028: 673668818
+SparseLegalState.part00029: 714148170
+SparseLegalState.part00030: 712292356
+SparseLegalState.part00031: 715472927
+SparseLegalState.part00032: 705234130
+SparseLegalState.part00033: 691164304
+SparseLegalState.part00034: 679491328
+SparseLegalState.part00035: 686907027
+SparseLegalState.part00036: 700045530
+SparseLegalState.part00037: 674981790
+SparseLegalState.part00038: 678443129
+SparseLegalState.part00039: 721650770
+SparseLegalState.part00040: 695763128
+SparseLegalState.part00041: 698523695
+SparseLegalState.part00042: 692408212
+SparseLegalState.part00043: 669574030
+SparseLegalState.part00044: 675611242
+SparseLegalState.part00045: 555618106
+SparseLegalState.part00046: 450103730
+SparseLegalState.part00047: 442950190
+SparseLegalState.part00048: 524764614
+SparseLegalState.part00049: 717839181
+SparseLegalState.part00050: 695921644
+SparseLegalState.part00051: 684105166
+SparseLegalState.part00052: 286189530
+SparseLegalState.part00053: 291210200
+SparseLegalState.part00054: 297017596
+SparseLegalState.part00055: 511692898
+SparseLegalState.part00056: 565447845
+SparseLegalState.part00057: 573799237
+SparseLegalState.part00058: 651644961
+SparseLegalState.part00059: 719288132
+SparseLegalState.part00060: 704146080
+SparseLegalState.part00061: 705872125
+SparseLegalState.part00062: 696137805
+SparseLegalState.part00063: 678025711
+SparseLegalState.part00064: 679412545
+SparseLegalState.part00065: 706095186
+SparseLegalState.part00066: 677314568
+SparseLegalState.part00067: 689250167
+SparseLegalState.part00068: 714804274
+SparseLegalState.part00069: 702077421
+SparseLegalState.part00070: 698654270
+SparseLegalState.part00071: 642680256
+SparseLegalState.part00072: 565454100
+SparseLegalState.part00073: 561513477
+SparseLegalState.part00074: 482384628
+SparseLegalState.part00075: 288081028
+SparseLegalState.part00076: 284727754
+SparseLegalState.part00077: 313301165
+SparseLegalState.part00078: 721119912
+SparseLegalState.part00079: 697943316
+SparseLegalState.part00080: 705918999
+SparseLegalState.part00081: 502967575
+SparseLegalState.part00082: 442947874
+SparseLegalState.part00083: 445190356
+SparseLegalState.part00084: 586749252
+SparseLegalState.part00085: 675001516
+SparseLegalState.part00086: 664790334
+SparseLegalState.part00087: 683865196
+SparseLegalState.part00088: 734628365
+SparseLegalState.part00089: 686410062
+SparseLegalState.part00090: 712730790
+SparseLegalState.part00091: 712991274
+SparseLegalState.part00092: 662641230
+SparseLegalState.part00093: 688396907
+SparseLegalState.part00094: 707281182
+SparseLegalState.part00095: 693674358
+SparseLegalState.part00096: 664039097
+SparseLegalState.part00097: 711812814
+SparseLegalState.part00098: 720308687
+SparseLegalState.part00099: 679236857
+SparseLegalState.part00100: 701519699
+SparseLegalState.part00101: 694745785
+SparseLegalState.part00102: 654085591
+SparseLegalState.part00103: 652923966
+SparseLegalState.part00104: 465093299
+SparseLegalState.part00105: 431711797
+SparseLegalState.part00106: 447322459
+SparseLegalState.part00107: 688850441
+SparseLegalState.part00108: 710502296
+SparseLegalState.part00109: 681657461
+SparseLegalState.part00110: 566222855
+SparseLegalState.part00111: 458490739
+SparseLegalState.part00112: 432226166
+SparseLegalState.part00113: 527631354
+SparseLegalState.part00114: 698037971
+SparseLegalState.part00115: 648375946
+SparseLegalState.part00116: 676545034
+SparseLegalState.part00117: 730727829
+SparseLegalState.part00118: 676553647
+SparseLegalState.part00119: 702584187
+SparseLegalState.part00120: 705488596
+SparseLegalState.part00121: 685258876
+SparseLegalState.part00122: 649109531
+SparseLegalState.part00123: 702955566
+SparseLegalState.part00124: 691782325
+SparseLegalState.part00125: 649826385
+SparseLegalState.part00126: 691295740
+SparseLegalState.part00127: 714359707
+SparseLegalState.part00128: 666610527
+SparseLegalState.part00129: 693153215
+SparseLegalState.part00130: 689405681
+SparseLegalState.part00131: 638281671
+SparseLegalState.part00132: 663097487
+SparseLegalState.part00133: 489656621
+SparseLegalState.part00134: 447286223
+SparseLegalState.part00135: 423679919
+SparseLegalState.part00136: 621881214
+SparseLegalState.part00137: 709418043
+SparseLegalState.part00138: 667143907
+SparseLegalState.part00139: 547362161
+SparseLegalState.part00140: 299061807
+SparseLegalState.part00141: 266228472
+SparseLegalState.part00142: 327255110
+SparseLegalState.part00143: 585148132
+SparseLegalState.part00144: 531626080
+SparseLegalState.part00145: 561072558
+SparseLegalState.part00146: 719305274
+SparseLegalState.part00147: 708729204
+SparseLegalState.part00148: 681826760
+SparseLegalState.part00149: 704490768
+SparseLegalState.part00150: 691055897
+SparseLegalState.part00151: 653001854
+SparseLegalState.part00152: 688078511
+SparseLegalState.part00153: 698524695
+SparseLegalState.part00154: 655358162
+SparseLegalState.part00155: 676696083
+SparseLegalState.part00156: 468958694
+SparseLegalState.part00157: 442456416
+SparseLegalState.part00158: 446813406
+SparseLegalState.part00159: 433179745
+SparseLegalState.part00160: 387558050
+SparseLegalState.part00161: 346917032
+SparseLegalState.part00162: 258817371
+SparseLegalState.part00163: 190297082
+SparseLegalState.part00164: 199828575
+SparseLegalState.part00165: 382539563
+SparseLegalState.part00166: 716474015
+SparseLegalState.part00167: 669426725
+SparseLegalState.part00168: 664818811
+SparseLegalState.part00169: 386772273
+SparseLegalState.part00170: 361183168
+SparseLegalState.part00171: 372352554
+SparseLegalState.part00172: 635242786
+SparseLegalState.part00173: 616817360
+SparseLegalState.part00174: 590813570
+SparseLegalState.part00175: 692950755
+SparseLegalState.part00176: 725480153
+SparseLegalState.part00177: 714855211
+SparseLegalState.part00178: 687178605
+SparseLegalState.part00179: 704636854
+SparseLegalState.part00180: 685962575
+SparseLegalState.part00181: 665704801
+SparseLegalState.part00182: 712400190
+SparseLegalState.part00183: 684072026
+SparseLegalState.part00184: 662516184
+SparseLegalState.part00185: 729891935
+SparseLegalState.part00186: 709076784
+SparseLegalState.part00187: 679476886
+SparseLegalState.part00188: 702141177
+SparseLegalState.part00189: 686812278
+SparseLegalState.part00190: 675923947
+SparseLegalState.part00191: 563769373
+SparseLegalState.part00192: 456779482
+SparseLegalState.part00193: 447619393
+SparseLegalState.part00194: 478390744
+SparseLegalState.part00195: 729647745
+SparseLegalState.part00196: 703876786
+SparseLegalState.part00197: 682639959
+SparseLegalState.part00198: 490463422
+SparseLegalState.part00199: 449004470
+SparseLegalState.part00200: 434381191
+SparseLegalState.part00201: 613887624
+SparseLegalState.part00202: 684463410
+SparseLegalState.part00203: 675370670
+SparseLegalState.part00204: 675314507
+SparseLegalState.part00205: 722533811
+SparseLegalState.part00206: 703814148
+SparseLegalState.part00207: 681103646
+SparseLegalState.part00208: 700405741
+SparseLegalState.part00209: 678671276
+SparseLegalState.part00210: 656765796
+SparseLegalState.part00211: 703222589
+SparseLegalState.part00212: 679167048
+SparseLegalState.part00213: 657024523
+SparseLegalState.part00214: 707254251
+SparseLegalState.part00215: 713602673
+SparseLegalState.part00216: 699140544
+SparseLegalState.part00217: 652320487
+SparseLegalState.part00218: 635458446
+SparseLegalState.part00219: 619863985
+SparseLegalState.part00220: 555946234
+SparseLegalState.part00221: 384657999
+SparseLegalState.part00222: 374588909
+SparseLegalState.part00223: 384567947
+SparseLegalState.part00224: 516306634
+SparseLegalState.part00225: 451574357
+SparseLegalState.part00226: 442928480
+SparseLegalState.part00227: 268149061
+SparseLegalState.part00228: 203506645
+SparseLegalState.part00229: 188088058
+SparseLegalState.part00230: 265163137
+SparseLegalState.part00231: 366639183
+SparseLegalState.part00232: 402229725
+SparseLegalState.part00233: 406186809
+SparseLegalState.part00234: 728770396
+SparseLegalState.part00235: 703106503
+SparseLegalState.part00236: 673988029
+SparseLegalState.part00237: 708215273
+SparseLegalState.part00238: 687493793
+SparseLegalState.part00239: 650614205
+SparseLegalState.part00240: 695588496
+SparseLegalState.part00241: 686917111
+SparseLegalState.part00242: 681401862
+SparseLegalState.part00243: 669519450
+SparseLegalState.part00244: 713687128
+SparseLegalState.part00245: 695826640
+SparseLegalState.part00246: 654174364
+SparseLegalState.part00247: 570216498
+SparseLegalState.part00248: 563387523
+SparseLegalState.part00249: 538864293
+SparseLegalState.part00250: 305184500
+SparseLegalState.part00251: 290984921
+SparseLegalState.part00252: 281651425
+SparseLegalState.part00253: 592411360
+SparseLegalState.part00254: 706848383
+SparseLegalState.part00255: 695916106
+SparseLegalState.part00256: 558097875
+SparseLegalState.part00257: 451617777
+SparseLegalState.part00258: 443175259
+SparseLegalState.part00259: 476771125
+SparseLegalState.part00260: 683868322
+SparseLegalState.part00261: 663538398
+SparseLegalState.part00262: 636133848
+SparseLegalState.part00263: 737690734
+SparseLegalState.part00264: 716626082
+SparseLegalState.part00265: 627031729
+SparseLegalState.part00266: 712391054
+SparseLegalState.part00267: 697723630
+SparseLegalState.part00268: 642114676
+SparseLegalState.part00269: 659928863
+SparseLegalState.part00270: 704363087
+SparseLegalState.part00271: 687375708
+SparseLegalState.part00272: 609864930
+SparseLegalState.part00273: 731282146
+SparseLegalState.part00274: 703788839
+SparseLegalState.part00275: 617267372
+SparseLegalState.part00276: 700936619
+SparseLegalState.part00277: 681602522
+SparseLegalState.part00278: 589840929
+SparseLegalState.part00279: 522569439
+SparseLegalState.part00280: 454209201
+SparseLegalState.part00281: 416890304
+SparseLegalState.part00282: 561851791
+SparseLegalState.part00283: 721222484
+SparseLegalState.part00284: 704944520
+SparseLegalState.part00285: 563841707
+SparseLegalState.part00286: 464726810
+SparseLegalState.part00287: 449201265
+SparseLegalState.part00288: 390709213
+SparseLegalState.part00289: 698108643
+SparseLegalState.part00290: 677129899
+SparseLegalState.part00291: 590868378
+SparseLegalState.part00292: 711864983
+SparseLegalState.part00293: 718483317
+SparseLegalState.part00294: 658264388
+SparseLegalState.part00295: 671876663
+SparseLegalState.part00296: 695630187
+SparseLegalState.part00297: 676104261
+SparseLegalState.part00298: 604022517
+SparseLegalState.part00299: 701045444
+SparseLegalState.part00300: 677835552
+SparseLegalState.part00301: 592817086
+SparseLegalState.part00302: 722591923
+SparseLegalState.part00303: 699627497
+SparseLegalState.part00304: 612654070
+SparseLegalState.part00305: 690901446
+SparseLegalState.part00306: 675970289
+SparseLegalState.part00307: 619556038
+SparseLegalState.part00308: 530650987
+SparseLegalState.part00309: 453964028
+SparseLegalState.part00310: 440754136
+SparseLegalState.part00311: 465212112
+SparseLegalState.part00312: 718797639
+SparseLegalState.part00313: 695610713
+SparseLegalState.part00314: 611568556
+SparseLegalState.part00315: 298464961
+SparseLegalState.part00316: 282079373
+SparseLegalState.part00317: 254816184
+SparseLegalState.part00318: 515337002
+SparseLegalState.part00319: 559939564
+SparseLegalState.part00320: 522648346
+SparseLegalState.part00321: 629692210
+SparseLegalState.part00322: 720028516
+SparseLegalState.part00323: 703925905
+SparseLegalState.part00324: 616961045
+SparseLegalState.part00325: 700150635
+SparseLegalState.part00326: 674668474
+SparseLegalState.part00327: 594042951
+SparseLegalState.part00328: 706849332
+SparseLegalState.part00329: 685096240
+SparseLegalState.part00330: 597552880
+SparseLegalState.part00331: 714055898
+SparseLegalState.part00332: 703604331
+SparseLegalState.part00333: 638821284
+SparseLegalState.part00334: 617421034
+SparseLegalState.part00335: 572711804
+SparseLegalState.part00336: 551142445
+SparseLegalState.part00337: 423943898
+SparseLegalState.part00338: 299345579
+SparseLegalState.part00339: 276618219
+SparseLegalState.part00340: 263030084
+SparseLegalState.part00341: 724187999
+SparseLegalState.part00342: 698834179
+SparseLegalState.part00343: 616524271
+SparseLegalState.part00344: 512229580
+SparseLegalState.part00345: 444769108
+SparseLegalState.part00346: 403336916
+SparseLegalState.part00347: 561943296
+SparseLegalState.part00348: 678528383
+SparseLegalState.part00349: 658103359
+SparseLegalState.part00350: 603674003
+SparseLegalState.part00351: 735780609
+SparseLegalState.part00352: 686068645
+SparseLegalState.part00353: 612484582
+SparseLegalState.part00354: 711362749
+SparseLegalState.part00355: 663825776
+SparseLegalState.part00356: 600060690
+SparseLegalState.part00357: 699989674
+SparseLegalState.part00358: 691148979
+SparseLegalState.part00359: 601378730
+SparseLegalState.part00360: 677930838
+SparseLegalState.part00361: 720028281
+SparseLegalState.part00362: 672719954
+SparseLegalState.part00363: 610556839
+SparseLegalState.part00364: 695595453
+SparseLegalState.part00365: 650586513
+SparseLegalState.part00366: 570031799
+SparseLegalState.part00367: 462254344
+SparseLegalState.part00368: 432299060
+SparseLegalState.part00369: 392325592
+SparseLegalState.part00370: 669739752
+SparseLegalState.part00371: 710765695
+SparseLegalState.part00372: 615065028
+SparseLegalState.part00373: 540448085
+SparseLegalState.part00374: 455851265
+SparseLegalState.part00375: 426437711
+SparseLegalState.part00376: 469067163
+SparseLegalState.part00377: 693904048
+SparseLegalState.part00378: 648363110
+SparseLegalState.part00379: 579795480
+SparseLegalState.part00380: 731605404
+SparseLegalState.part00381: 678478032
+SparseLegalState.part00382: 611218587
+SparseLegalState.part00383: 694617836
+SparseLegalState.part00384: 685648589
+SparseLegalState.part00385: 590577833
+SparseLegalState.part00386: 668695182
+SparseLegalState.part00387: 689295911
+SparseLegalState.part00388: 639660565
+SparseLegalState.part00389: 603906751
+SparseLegalState.part00390: 714765858
+SparseLegalState.part00391: 667001550
+SparseLegalState.part00392: 595317387
+SparseLegalState.part00393: 688639478
+SparseLegalState.part00394: 636163232
+SparseLegalState.part00395: 568134835
+SparseLegalState.part00396: 462677090
+SparseLegalState.part00397: 443246187
+SparseLegalState.part00398: 373015700
+SparseLegalState.part00399: 563523075
+SparseLegalState.part00400: 710228838
+SparseLegalState.part00401: 609342314
+SparseLegalState.part00402: 364946019
+SparseLegalState.part00403: 298145846
+SparseLegalState.part00404: 259072657
+SparseLegalState.part00405: 217880114
+SparseLegalState.part00406: 582088848
+SparseLegalState.part00407: 522247023
+SparseLegalState.part00408: 449844695
+SparseLegalState.part00409: 635352938
+SparseLegalState.part00410: 687865852
+SparseLegalState.part00411: 520820340
+SparseLegalState.part00412: 436897712
+SparseLegalState.part00413: 691773459
+SparseLegalState.part00414: 549661131
+SparseLegalState.part00415: 358947757
+SparseLegalState.part00416: 698524211
+SparseLegalState.part00417: 565525734
+SparseLegalState.part00418: 338421477
+SparseLegalState.part00419: 462918590
+SparseLegalState.part00420: 393224911
+SparseLegalState.part00421: 291254053
+SparseLegalState.part00422: 349890822
+SparseLegalState.part00423: 347246856
+SparseLegalState.part00424: 269777032
+SparseLegalState.part00425: 113635423
+SparseLegalState.part00426: 204947419
+SparseLegalState.part00427: 158420693
+SparseLegalState.part00428: 275410975
+SparseLegalState.part00429: 717301357
+SparseLegalState.part00430: 577570884
+SparseLegalState.part00431: 322884542
+SparseLegalState.part00432: 387373681
+SparseLegalState.part00433: 318788201
+SparseLegalState.part00434: 228287264
+SparseLegalState.part00435: 567630363
+SparseLegalState.part00436: 590905289
+SparseLegalState.part00437: 453292671
+SparseLegalState.part00438: 461457949
+SparseLegalState.part00439: 727298507
+SparseLegalState.part00440: 291051877
+SparseLegalState.part00441: 262438682
+SparseLegalState.part00442: 707428865
+SparseLegalState.part00443: 448908876
+SparseLegalState.part00444: 84901323
+SparseLegalState.part00445: 713542201
+SparseLegalState.part00446: 601792250
+SparseLegalState.part00447: 18532098
+SparseLegalState.part00448: 640566387
+SparseLegalState.part00449: 680408143
+SparseLegalState.part00450: 135916926
+SparseLegalState.part00451: 437712481
+SparseLegalState.part00452: 691442168
+SparseLegalState.part00453: 264154264
+SparseLegalState.part00454: 179627780
+SparseLegalState.part00455: 461216445
+SparseLegalState.part00456: 284563401
+SparseLegalState.part00457: 96420750
+SparseLegalState.part00458: 730685338
+SparseLegalState.part00459: 613914008
+SparseLegalState.part00460: 16323776
+SparseLegalState.part00461: 413481682
+SparseLegalState.part00462: 431128667
+SparseLegalState.part00463: 81025807
+SparseLegalState.part00464: 450074916
+SparseLegalState.part00465: 686335438
+SparseLegalState.part00466: 257569953
+SparseLegalState.part00467: 269676691
+SparseLegalState.part00468: 485756268
+SparseLegalState.part00469: 187795367
+SparseLegalState.part00470: 101194954
+SparseLegalState.part00471: 456192407
+SparseLegalState.part00472: 338728209
+SparseLegalState.part00473: 12043374
+SparseLegalState.part00474: 382638137
+SparseLegalState.part00475: 427052508
+SparseLegalState.part00476: 98184520
+SparseLegalState.part00477: 266593761
+SparseLegalState.part00478: 520255620
+SparseLegalState.part00479: 145615698
+SparseLegalState.part00480: 238115043
+SparseLegalState.part00481: 441703194
+SparseLegalState.part00482: 145087686
+SparseLegalState.part00483: 69401758
+SparseLegalState.part00484: 246038565
+SparseLegalState.part00485: 188307676
+SparseLegalState.part00486: 0
+SparseLegalState.part00487: 314419200
+SparseLegalState.part00488: 254471582
+SparseLegalState.part00489: 41003577
+SparseLegalState.part00490: 71859908
+SparseLegalState.part00491: 135587802
+SparseLegalState.part00492: 35506124
+SparseLegalState.part00493: 143301273
+SparseLegalState.part00494: 271479833
+SparseLegalState.part00495: 71224105
+SparseLegalState.part00496: 120372444
+SparseLegalState.part00497: 729500386
+SparseLegalState.part00498: 606161296
+SparseLegalState.part00499: 242402
+SparseLegalState.part00500: 653838051
+SparseLegalState.part00501: 639966508
+SparseLegalState.part00502: 107368207
+SparseLegalState.part00503: 478318267
+SparseLegalState.part00504: 687873281
+SparseLegalState.part00505: 237019128
+SparseLegalState.part00506: 309688630
+SparseLegalState.part00507: 618115852
+SparseLegalState.part00508: 307741093
+SparseLegalState.part00509: 111935605
+SparseLegalState.part00510: 502236998
+SparseLegalState.part00511: 377436206
+SparseLegalState.part00512: 0
+SparseLegalState.part00513: 247419477
+SparseLegalState.part00514: 221223214
+SparseLegalState.part00515: 35105308
+SparseLegalState.part00516: 498128619
+SparseLegalState.part00517: 705037545
+SparseLegalState.part00518: 234221267
+SparseLegalState.part00519: 209457084
+SparseLegalState.part00520: 422429392
+SparseLegalState.part00521: 221107475
+SparseLegalState.part00522: 133060428
+SparseLegalState.part00523: 664712692
+SparseLegalState.part00524: 530794417
+SparseLegalState.part00525: 0
+SparseLegalState.part00526: 693994882
+SparseLegalState.part00527: 687071994
+SparseLegalState.part00528: 657902231
+SparseLegalState.part00529: 711375966
+SparseLegalState.part00530: 698171626
+SparseLegalState.part00531: 605095872
+SparseLegalState.part00532: 699142819
+SparseLegalState.part00533: 702133602
+SparseLegalState.part00534: 603076023
+SparseLegalState.part00535: 695829596
+SparseLegalState.part00536: 729168585
+SparseLegalState.part00537: 616803487
+SparseLegalState.part00538: 704862094
+SparseLegalState.part00539: 702418911
+SparseLegalState.part00540: 648504661
+SparseLegalState.part00541: 624940665
+SparseLegalState.part00542: 526064017
+SparseLegalState.part00543: 456249115
+SparseLegalState.part00544: 395852839
+SparseLegalState.part00545: 572945132
+SparseLegalState.part00546: 722413410
+SparseLegalState.part00547: 620486369
+SparseLegalState.part00548: 656689163
+SparseLegalState.part00549: 460098587
+SparseLegalState.part00550: 394137478
+SparseLegalState.part00551: 449503972
+SparseLegalState.part00552: 689522709
+SparseLegalState.part00553: 642844420
+SparseLegalState.part00554: 627929680
+SparseLegalState.part00555: 708620690
+SparseLegalState.part00556: 723947062
+SparseLegalState.part00557: 618324964
+SparseLegalState.part00558: 703491047
+SparseLegalState.part00559: 696278567
+SparseLegalState.part00560: 595022473
+SparseLegalState.part00561: 684794710
+SparseLegalState.part00562: 698543636
+SparseLegalState.part00563: 593238106
+SparseLegalState.part00564: 678343272
+SparseLegalState.part00565: 717618367
+SparseLegalState.part00566: 661187132
+SparseLegalState.part00567: 648003882
+SparseLegalState.part00568: 690065956
+SparseLegalState.part00569: 684220718
+SparseLegalState.part00570: 586376913
+SparseLegalState.part00571: 559816697
+SparseLegalState.part00572: 452917861
+SparseLegalState.part00573: 387655836
+SparseLegalState.part00574: 509583464
+SparseLegalState.part00575: 719934818
+SparseLegalState.part00576: 608791213
+SparseLegalState.part00577: 695607168
+SparseLegalState.part00578: 313126271
+SparseLegalState.part00579: 267887076
+SparseLegalState.part00580: 266538956
+SparseLegalState.part00581: 501711555
+SparseLegalState.part00582: 578481224
+SparseLegalState.part00583: 488501033
+SparseLegalState.part00584: 643160274
+SparseLegalState.part00585: 720836741
+SparseLegalState.part00586: 619279318
+SparseLegalState.part00587: 703872676
+SparseLegalState.part00588: 701470082
+SparseLegalState.part00589: 595530100
+SparseLegalState.part00590: 675498304
+SparseLegalState.part00591: 706712733
+SparseLegalState.part00592: 647909651
+SparseLegalState.part00593: 640181510
+SparseLegalState.part00594: 711297302
+SparseLegalState.part00595: 704998982
+SparseLegalState.part00596: 616899991
+SparseLegalState.part00597: 641128213
+SparseLegalState.part00598: 577219984
+SparseLegalState.part00599: 492962439
+SparseLegalState.part00600: 489433767
+SparseLegalState.part00601: 302049470
+SparseLegalState.part00602: 253587164
+SparseLegalState.part00603: 274412229
+SparseLegalState.part00604: 724425407
+SparseLegalState.part00605: 660428795
+SparseLegalState.part00606: 659047871
+SparseLegalState.part00607: 518716380
+SparseLegalState.part00608: 448635694
+SparseLegalState.part00609: 389567824
+SparseLegalState.part00610: 566214269
+SparseLegalState.part00611: 679817669
+SparseLegalState.part00612: 583534797
+SparseLegalState.part00613: 680279906
+SparseLegalState.part00614: 610510779
+SparseLegalState.part00615: 66632040
+SparseLegalState.part00616: 611496499
+SparseLegalState.part00617: 715654240
+SparseLegalState.part00618: 50079803
+SparseLegalState.part00619: 497670306
+SparseLegalState.part00620: 694580638
+SparseLegalState.part00621: 226516928
+SparseLegalState.part00622: 356328411
+SparseLegalState.part00623: 670737591
+SparseLegalState.part00624: 412554498
+SparseLegalState.part00625: 248953373
+SparseLegalState.part00626: 603576595
+SparseLegalState.part00627: 570216995
+SparseLegalState.part00628: 71124874
+SparseLegalState.part00629: 574211654
+SparseLegalState.part00630: 467702460
+SparseLegalState.part00631: 25997118
+SparseLegalState.part00632: 331849712
+SparseLegalState.part00633: 658180136
+SparseLegalState.part00634: 225147418
+SparseLegalState.part00635: 373630081
+SparseLegalState.part00636: 538715301
+SparseLegalState.part00637: 255004964
+SparseLegalState.part00638: 163077445
+SparseLegalState.part00639: 459645730
+SparseLegalState.part00640: 557628652
+SparseLegalState.part00641: 79008014
+SparseLegalState.part00642: 578569286
+SparseLegalState.part00643: 732060186
+SparseLegalState.part00644: 37870771
+SparseLegalState.part00645: 523442739
+SparseLegalState.part00646: 693610489
+SparseLegalState.part00647: 210316600
+SparseLegalState.part00648: 368334192
+SparseLegalState.part00649: 657072101
+SparseLegalState.part00650: 376693480
+SparseLegalState.part00651: 254509038
+SparseLegalState.part00652: 596670278
+SparseLegalState.part00653: 569567495
+SparseLegalState.part00654: 89887267
+SparseLegalState.part00655: 596000554
+SparseLegalState.part00656: 678828297
+SparseLegalState.part00657: 16725082
+SparseLegalState.part00658: 497884391
+SparseLegalState.part00659: 467588477
+SparseLegalState.part00660: 105580560
+SparseLegalState.part00661: 239188928
+SparseLegalState.part00662: 548973868
+SparseLegalState.part00663: 284250563
+SparseLegalState.part00664: 266738912
+SparseLegalState.part00665: 372085827
+SparseLegalState.part00666: 189513027
+SparseLegalState.part00667: 46331400
+SparseLegalState.part00668: 215420918
+SparseLegalState.part00669: 513361286
+SparseLegalState.part00670: 0
+SparseLegalState.part00671: 418160594
+SparseLegalState.part00672: 556772175
+SparseLegalState.part00673: 0
+SparseLegalState.part00674: 382615435
+SparseLegalState.part00675: 423990212
+SparseLegalState.part00676: 116574481
+SparseLegalState.part00677: 266311784
+SparseLegalState.part00678: 350741994
+SparseLegalState.part00679: 290816859
+SparseLegalState.part00680: 102026582
+SparseLegalState.part00681: 337478026
+SparseLegalState.part00682: 299965994
+SparseLegalState.part00683: 0
+SparseLegalState.part00684: 262384911
+SparseLegalState.part00685: 276736161
+SparseLegalState.part00686: 0
+SparseLegalState.part00687: 198468618
+SparseLegalState.part00688: 119520188
+SparseLegalState.part00689: 29506689
+SparseLegalState.part00690: 83813612
+SparseLegalState.part00691: 257837472
+SparseLegalState.part00692: 293185885
+SparseLegalState.part00693: 112902262
+SparseLegalState.part00694: 330026491
+SparseLegalState.part00695: 245281070
+SparseLegalState.part00696: 0
+SparseLegalState.part00697: 217893675
+SparseLegalState.part00698: 468346864
+SparseLegalState.part00699: 0
+SparseLegalState.part00700: 343189009
+SparseLegalState.part00701: 444758940
+SparseLegalState.part00702: 727968440
+SparseLegalState.part00703: 612774621
+SparseLegalState.part00704: 685186837
+SparseLegalState.part00705: 708327508
+SparseLegalState.part00706: 590105022
+SparseLegalState.part00707: 663416441
+SparseLegalState.part00708: 710487210
+SparseLegalState.part00709: 609384012
+SparseLegalState.part00710: 644404715
+SparseLegalState.part00711: 724476850
+SparseLegalState.part00712: 690440392
+SparseLegalState.part00713: 611133497
+SparseLegalState.part00714: 690334524
+SparseLegalState.part00715: 691062608
+SparseLegalState.part00716: 579301552
+SparseLegalState.part00717: 572324754
+SparseLegalState.part00718: 462873705
+SparseLegalState.part00719: 387397583
+SparseLegalState.part00720: 455180950
+SparseLegalState.part00721: 731104700
+SparseLegalState.part00722: 625422443
+SparseLegalState.part00723: 662546063
+SparseLegalState.part00724: 501833393
+SparseLegalState.part00725: 436684401
+SparseLegalState.part00726: 389176837
+SparseLegalState.part00727: 595634665
+SparseLegalState.part00728: 688053791
+SparseLegalState.part00729: 580084096
+SparseLegalState.part00730: 670093933
+SparseLegalState.part00731: 724641499
+SparseLegalState.part00732: 347602007
+SparseLegalState.part00733: 585472173
+SparseLegalState.part00734: 705340093
+SparseLegalState.part00735: 351841388
+SparseLegalState.part00736: 552947986
+SparseLegalState.part00737: 696579016
+SparseLegalState.part00738: 434125232
+SparseLegalState.part00739: 498986564
+SparseLegalState.part00740: 686079881
+SparseLegalState.part00741: 590796631
+SparseLegalState.part00742: 444000194
+SparseLegalState.part00743: 578814388
+SparseLegalState.part00744: 647052133
+SparseLegalState.part00745: 302083234
+SparseLegalState.part00746: 482808566
+SparseLegalState.part00747: 387506985
+SparseLegalState.part00748: 201684808
+SparseLegalState.part00749: 313207206
+SparseLegalState.part00750: 502622928
+SparseLegalState.part00751: 262977534
+SparseLegalState.part00752: 340747511
+SparseLegalState.part00753: 291069327
+SparseLegalState.part00754: 135587802
+SparseLegalState.part00755: 125206711
+SparseLegalState.part00756: 235971256
+SparseLegalState.part00757: 402742106
+SparseLegalState.part00758: 193887475
+SparseLegalState.part00759: 317398772
+SparseLegalState.part00760: 730227146
+SparseLegalState.part00761: 613243510
+SparseLegalState.part00762: 665090910
+SparseLegalState.part00763: 715147055
+SparseLegalState.part00764: 649168720
+SparseLegalState.part00765: 587032883
+SparseLegalState.part00766: 693203713
+SparseLegalState.part00767: 691473774
+SparseLegalState.part00768: 581412262
+SparseLegalState.part00769: 667382129
+SparseLegalState.part00770: 715649438
+SparseLegalState.part00771: 488974050
+SparseLegalState.part00772: 610434867
+SparseLegalState.part00773: 584397200
+SparseLegalState.part00774: 394325059
+SparseLegalState.part00775: 495724523
+SparseLegalState.part00776: 335287318
+SparseLegalState.part00777: 230404317
+SparseLegalState.part00778: 222682501
+SparseLegalState.part00779: 568088593
+SparseLegalState.part00780: 705550282
+SparseLegalState.part00781: 597353423
+SparseLegalState.part00782: 571459690
+SparseLegalState.part00783: 455618361
+SparseLegalState.part00784: 346440671
+SparseLegalState.part00785: 445435054
+SparseLegalState.part00786: 688241380
+SparseLegalState.part00787: 547737844
+SparseLegalState.part00788: 627209438
+SparseLegalState.part00789: 60478964
+
+total_reduced_legal_state: 362504739986
+SparseLegalState.part00000: 138233307
+SparseLegalState.part00001: 342483739
+SparseLegalState.part00002: 549581212
+SparseLegalState.part00003: 201827864
+SparseLegalState.part00004: 25514377
+SparseLegalState.part00005: 16231043
+SparseLegalState.part00006: 52868982
+SparseLegalState.part00007: 60295036
+SparseLegalState.part00008: 22205522
+SparseLegalState.part00009: 59555633
+SparseLegalState.part00010: 139401829
+SparseLegalState.part00011: 77097670
+SparseLegalState.part00012: 73719971
+SparseLegalState.part00013: 164043053
+SparseLegalState.part00014: 77417904
+SparseLegalState.part00015: 52261563
+SparseLegalState.part00016: 111827680
+SparseLegalState.part00017: 75083448
+SparseLegalState.part00018: 41175763
+SparseLegalState.part00019: 156892439
+SparseLegalState.part00020: 212436827
+SparseLegalState.part00021: 136187446
+SparseLegalState.part00022: 154132222
+SparseLegalState.part00023: 150775560
+SparseLegalState.part00024: 66597713
+SparseLegalState.part00025: 72706340
+SparseLegalState.part00026: 279607045
+SparseLegalState.part00027: 109185236
+SparseLegalState.part00028: 105078376
+SparseLegalState.part00029: 341745880
+SparseLegalState.part00030: 404547853
+SparseLegalState.part00031: 534454230
+SparseLegalState.part00032: 487748836
+SparseLegalState.part00033: 240219710
+SparseLegalState.part00034: 120640776
+SparseLegalState.part00035: 195354068
+SparseLegalState.part00036: 322875933
+SparseLegalState.part00037: 125252342
+SparseLegalState.part00038: 143055213
+SparseLegalState.part00039: 458559514
+SparseLegalState.part00040: 243693557
+SparseLegalState.part00041: 235832327
+SparseLegalState.part00042: 382325505
+SparseLegalState.part00043: 239389934
+SparseLegalState.part00044: 155335748
+SparseLegalState.part00045: 231964290
+SparseLegalState.part00046: 210964111
+SparseLegalState.part00047: 107567259
+SparseLegalState.part00048: 230793759
+SparseLegalState.part00049: 481333110
+SparseLegalState.part00050: 281191799
+SparseLegalState.part00051: 287140903
+SparseLegalState.part00052: 203388368
+SparseLegalState.part00053: 89052165
+SparseLegalState.part00054: 84111946
+SparseLegalState.part00055: 351406207
+SparseLegalState.part00056: 233451132
+SparseLegalState.part00057: 161957967
+SparseLegalState.part00058: 406542226
+SparseLegalState.part00059: 522956883
+SparseLegalState.part00060: 519944320
+SparseLegalState.part00061: 622450211
+SparseLegalState.part00062: 476684677
+SparseLegalState.part00063: 201242109
+SparseLegalState.part00064: 227191442
+SparseLegalState.part00065: 588149936
+SparseLegalState.part00066: 216498219
+SparseLegalState.part00067: 215837250
+SparseLegalState.part00068: 572583585
+SparseLegalState.part00069: 432107607
+SparseLegalState.part00070: 358994325
+SparseLegalState.part00071: 459816685
+SparseLegalState.part00072: 356801912
+SparseLegalState.part00073: 195045121
+SparseLegalState.part00074: 223806422
+SparseLegalState.part00075: 223688046
+SparseLegalState.part00076: 101035094
+SparseLegalState.part00077: 135220589
+SparseLegalState.part00078: 688576197
+SparseLegalState.part00079: 397777493
+SparseLegalState.part00080: 398237161
+SparseLegalState.part00081: 434689165
+SparseLegalState.part00082: 231961137
+SparseLegalState.part00083: 169343987
+SparseLegalState.part00084: 467991558
+SparseLegalState.part00085: 463048610
+SparseLegalState.part00086: 253986158
+SparseLegalState.part00087: 412932038
+SparseLegalState.part00088: 734628365
+SparseLegalState.part00089: 686410062
+SparseLegalState.part00090: 712730790
+SparseLegalState.part00091: 712991274
+SparseLegalState.part00092: 273862891
+SparseLegalState.part00093: 276812567
+SparseLegalState.part00094: 638761867
+SparseLegalState.part00095: 410881461
+SparseLegalState.part00096: 279104917
+SparseLegalState.part00097: 544462525
+SparseLegalState.part00098: 623690877
+SparseLegalState.part00099: 553203788
+SparseLegalState.part00100: 668311285
+SparseLegalState.part00101: 611639662
+SparseLegalState.part00102: 328356493
+SparseLegalState.part00103: 300885550
+SparseLegalState.part00104: 464416089
+SparseLegalState.part00105: 237355618
+SparseLegalState.part00106: 195153190
+SparseLegalState.part00107: 647944400
+SparseLegalState.part00108: 579467319
+SparseLegalState.part00109: 478475557
+SparseLegalState.part00110: 476777758
+SparseLegalState.part00111: 364514321
+SparseLegalState.part00112: 233370615
+SparseLegalState.part00113: 375386328
+SparseLegalState.part00114: 630077702
+SparseLegalState.part00115: 388151545
+SparseLegalState.part00116: 354986478
+SparseLegalState.part00117: 730727829
+SparseLegalState.part00118: 676553647
+SparseLegalState.part00119: 702584187
+SparseLegalState.part00120: 705488596
+SparseLegalState.part00121: 513735558
+SparseLegalState.part00122: 344364290
+SparseLegalState.part00123: 561746343
+SparseLegalState.part00124: 584225644
+SparseLegalState.part00125: 390266142
+SparseLegalState.part00126: 470258222
+SparseLegalState.part00127: 691448261
+SparseLegalState.part00128: 592240775
+SparseLegalState.part00129: 644021277
+SparseLegalState.part00130: 685034946
+SparseLegalState.part00131: 482912512
+SparseLegalState.part00132: 337382970
+SparseLegalState.part00133: 443507070
+SparseLegalState.part00134: 372430232
+SparseLegalState.part00135: 243668797
+SparseLegalState.part00136: 537481057
+SparseLegalState.part00137: 675283449
+SparseLegalState.part00138: 564123569
+SparseLegalState.part00139: 451089948
+SparseLegalState.part00140: 282994402
+SparseLegalState.part00141: 202078300
+SparseLegalState.part00142: 206310380
+SparseLegalState.part00143: 581544774
+SparseLegalState.part00144: 444520552
+SparseLegalState.part00145: 303037016
+SparseLegalState.part00146: 685436681
+SparseLegalState.part00147: 708729204
+SparseLegalState.part00148: 681826760
+SparseLegalState.part00149: 704490768
+SparseLegalState.part00150: 640842382
+SparseLegalState.part00151: 459752653
+SparseLegalState.part00152: 494136618
+SparseLegalState.part00153: 677050390
+SparseLegalState.part00154: 534956774
+SparseLegalState.part00155: 406788457
+SparseLegalState.part00156: 468054545
+SparseLegalState.part00157: 429473162
+SparseLegalState.part00158: 409679468
+SparseLegalState.part00159: 431066354
+SparseLegalState.part00160: 365509389
+SparseLegalState.part00161: 220111119
+SparseLegalState.part00162: 197573789
+SparseLegalState.part00163: 184272001
+SparseLegalState.part00164: 146906978
+SparseLegalState.part00165: 338842159
+SparseLegalState.part00166: 712800887
+SparseLegalState.part00167: 636278257
+SparseLegalState.part00168: 570107379
+SparseLegalState.part00169: 385578720
+SparseLegalState.part00170: 349103782
+SparseLegalState.part00171: 212051195
+SparseLegalState.part00172: 616481281
+SparseLegalState.part00173: 609660496
+SparseLegalState.part00174: 390797193
+SparseLegalState.part00175: 600997718
+SparseLegalState.part00176: 725480153
+SparseLegalState.part00177: 714855211
+SparseLegalState.part00178: 687178605
+SparseLegalState.part00179: 704636854
+SparseLegalState.part00180: 617808631
+SparseLegalState.part00181: 436238067
+SparseLegalState.part00182: 712400190
+SparseLegalState.part00183: 684072026
+SparseLegalState.part00184: 411860949
+SparseLegalState.part00185: 705809358
+SparseLegalState.part00186: 709076784
+SparseLegalState.part00187: 679476886
+SparseLegalState.part00188: 702141177
+SparseLegalState.part00189: 686812278
+SparseLegalState.part00190: 557176866
+SparseLegalState.part00191: 435745048
+SparseLegalState.part00192: 456779482
+SparseLegalState.part00193: 411594016
+SparseLegalState.part00194: 362293856
+SparseLegalState.part00195: 729647745
+SparseLegalState.part00196: 703876786
+SparseLegalState.part00197: 655805964
+SparseLegalState.part00198: 489416900
+SparseLegalState.part00199: 449004470
+SparseLegalState.part00200: 336995970
+SparseLegalState.part00201: 572671947
+SparseLegalState.part00202: 684463410
+SparseLegalState.part00203: 580913961
+SparseLegalState.part00204: 577450751
+SparseLegalState.part00205: 722533811
+SparseLegalState.part00206: 703814148
+SparseLegalState.part00207: 681103646
+SparseLegalState.part00208: 700405741
+SparseLegalState.part00209: 678012114
+SparseLegalState.part00210: 496721103
+SparseLegalState.part00211: 691132980
+SparseLegalState.part00212: 679167048
+SparseLegalState.part00213: 550832761
+SparseLegalState.part00214: 661290902
+SparseLegalState.part00215: 713602673
+SparseLegalState.part00216: 699140544
+SparseLegalState.part00217: 652320487
+SparseLegalState.part00218: 635458446
+SparseLegalState.part00219: 585937741
+SparseLegalState.part00220: 469082600
+SparseLegalState.part00221: 384657999
+SparseLegalState.part00222: 372851953
+SparseLegalState.part00223: 320889571
+SparseLegalState.part00224: 515683987
+SparseLegalState.part00225: 451574357
+SparseLegalState.part00226: 438260763
+SparseLegalState.part00227: 267670526
+SparseLegalState.part00228: 203506645
+SparseLegalState.part00229: 169164874
+SparseLegalState.part00230: 253942537
+SparseLegalState.part00231: 366639183
+SparseLegalState.part00232: 382812138
+SparseLegalState.part00233: 369678804
+SparseLegalState.part00234: 728770396
+SparseLegalState.part00235: 703106503
+SparseLegalState.part00236: 673988029
+SparseLegalState.part00237: 708215273
+SparseLegalState.part00238: 687493793
+SparseLegalState.part00239: 590154233
+SparseLegalState.part00240: 672881210
+SparseLegalState.part00241: 686917111
+SparseLegalState.part00242: 646589759
+SparseLegalState.part00243: 640099593
+SparseLegalState.part00244: 713687128
+SparseLegalState.part00245: 695826640
+SparseLegalState.part00246: 654174364
+SparseLegalState.part00247: 570216498
+SparseLegalState.part00248: 561370042
+SparseLegalState.part00249: 503227487
+SparseLegalState.part00250: 304139914
+SparseLegalState.part00251: 290984921
+SparseLegalState.part00252: 270266942
+SparseLegalState.part00253: 588963413
+SparseLegalState.part00254: 706848383
+SparseLegalState.part00255: 695506950
+SparseLegalState.part00256: 557939185
+SparseLegalState.part00257: 451617777
+SparseLegalState.part00258: 438186481
+SparseLegalState.part00259: 466020949
+SparseLegalState.part00260: 683868322
+SparseLegalState.part00261: 662806167
+SparseLegalState.part00262: 628018668
+SparseLegalState.part00263: 737657290
+SparseLegalState.part00264: 716626082
+SparseLegalState.part00265: 627031729
+SparseLegalState.part00266: 546068006
+SparseLegalState.part00267: 544160942
+SparseLegalState.part00268: 569499445
+SparseLegalState.part00269: 533760931
+SparseLegalState.part00270: 459580276
+SparseLegalState.part00271: 436737605
+SparseLegalState.part00272: 450105739
+SparseLegalState.part00273: 731282146
+SparseLegalState.part00274: 703788839
+SparseLegalState.part00275: 617267372
+SparseLegalState.part00276: 503068315
+SparseLegalState.part00277: 462835304
+SparseLegalState.part00278: 398768423
+SparseLegalState.part00279: 372964009
+SparseLegalState.part00280: 318100103
+SparseLegalState.part00281: 279860441
+SparseLegalState.part00282: 493034025
+SparseLegalState.part00283: 721222484
+SparseLegalState.part00284: 704944520
+SparseLegalState.part00285: 539167443
+SparseLegalState.part00286: 361749577
+SparseLegalState.part00287: 328307953
+SparseLegalState.part00288: 287758077
+SparseLegalState.part00289: 543286111
+SparseLegalState.part00290: 480646028
+SparseLegalState.part00291: 419514944
+SparseLegalState.part00292: 662678958
+SparseLegalState.part00293: 718483317
+SparseLegalState.part00294: 658264388
+SparseLegalState.part00295: 617179282
+SparseLegalState.part00296: 595193793
+SparseLegalState.part00297: 606651098
+SparseLegalState.part00298: 560965698
+SparseLegalState.part00299: 571668634
+SparseLegalState.part00300: 489794429
+SparseLegalState.part00301: 433343441
+SparseLegalState.part00302: 722434128
+SparseLegalState.part00303: 699627497
+SparseLegalState.part00304: 612654070
+SparseLegalState.part00305: 629779638
+SparseLegalState.part00306: 551507787
+SparseLegalState.part00307: 488626413
+SparseLegalState.part00308: 440151625
+SparseLegalState.part00309: 377537874
+SparseLegalState.part00310: 333394701
+SparseLegalState.part00311: 397220509
+SparseLegalState.part00312: 718797639
+SparseLegalState.part00313: 695610713
+SparseLegalState.part00314: 611381340
+SparseLegalState.part00315: 277136379
+SparseLegalState.part00316: 239725785
+SparseLegalState.part00317: 214992258
+SparseLegalState.part00318: 463442914
+SparseLegalState.part00319: 457470509
+SparseLegalState.part00320: 405137499
+SparseLegalState.part00321: 575513763
+SparseLegalState.part00322: 720028516
+SparseLegalState.part00323: 703925905
+SparseLegalState.part00324: 606275899
+SparseLegalState.part00325: 655816598
+SparseLegalState.part00326: 611636789
+SparseLegalState.part00327: 574205265
+SparseLegalState.part00328: 667775787
+SparseLegalState.part00329: 546376359
+SparseLegalState.part00330: 473048030
+SparseLegalState.part00331: 684579120
+SparseLegalState.part00332: 703604331
+SparseLegalState.part00333: 638821284
+SparseLegalState.part00334: 609118532
+SparseLegalState.part00335: 529727459
+SparseLegalState.part00336: 481143344
+SparseLegalState.part00337: 378785775
+SparseLegalState.part00338: 280026549
+SparseLegalState.part00339: 225099905
+SparseLegalState.part00340: 215945817
+SparseLegalState.part00341: 724187999
+SparseLegalState.part00342: 698834179
+SparseLegalState.part00343: 616524271
+SparseLegalState.part00344: 508436792
+SparseLegalState.part00345: 414054299
+SparseLegalState.part00346: 365890624
+SparseLegalState.part00347: 541985375
+SparseLegalState.part00348: 620670356
+SparseLegalState.part00349: 544344093
+SparseLegalState.part00350: 538664299
+SparseLegalState.part00351: 735780609
+SparseLegalState.part00352: 686068645
+SparseLegalState.part00353: 612484582
+SparseLegalState.part00354: 711362749
+SparseLegalState.part00355: 663825776
+SparseLegalState.part00356: 600060690
+SparseLegalState.part00357: 699989674
+SparseLegalState.part00358: 614206698
+SparseLegalState.part00359: 506189855
+SparseLegalState.part00360: 635044050
+SparseLegalState.part00361: 720028281
+SparseLegalState.part00362: 672719954
+SparseLegalState.part00363: 610556839
+SparseLegalState.part00364: 684866225
+SparseLegalState.part00365: 614566254
+SparseLegalState.part00366: 558174516
+SparseLegalState.part00367: 462254344
+SparseLegalState.part00368: 381034110
+SparseLegalState.part00369: 334951301
+SparseLegalState.part00370: 658348219
+SparseLegalState.part00371: 710765695
+SparseLegalState.part00372: 615065028
+SparseLegalState.part00373: 540448085
+SparseLegalState.part00374: 447523311
+SparseLegalState.part00375: 408509496
+SparseLegalState.part00376: 457946303
+SparseLegalState.part00377: 677686500
+SparseLegalState.part00378: 581449795
+SparseLegalState.part00379: 511138658
+SparseLegalState.part00380: 731605404
+SparseLegalState.part00381: 678478032
+SparseLegalState.part00382: 611218587
+SparseLegalState.part00383: 694617836
+SparseLegalState.part00384: 685648589
+SparseLegalState.part00385: 590577833
+SparseLegalState.part00386: 668695182
+SparseLegalState.part00387: 662676403
+SparseLegalState.part00388: 577588899
+SparseLegalState.part00389: 559710746
+SparseLegalState.part00390: 714765858
+SparseLegalState.part00391: 667001550
+SparseLegalState.part00392: 595317387
+SparseLegalState.part00393: 688639478
+SparseLegalState.part00394: 621128191
+SparseLegalState.part00395: 557043846
+SparseLegalState.part00396: 462419492
+SparseLegalState.part00397: 426213227
+SparseLegalState.part00398: 338198084
+SparseLegalState.part00399: 548076411
+SparseLegalState.part00400: 710228838
+SparseLegalState.part00401: 609342314
+SparseLegalState.part00402: 364946019
+SparseLegalState.part00403: 297708839
+SparseLegalState.part00404: 256900440
+SparseLegalState.part00405: 215543973
+SparseLegalState.part00406: 582088848
+SparseLegalState.part00407: 502320966
+SparseLegalState.part00408: 404241486
+SparseLegalState.part00409: 634037793
+SparseLegalState.part00410: 687865852
+SparseLegalState.part00411: 520820340
+SparseLegalState.part00412: 436897712
+SparseLegalState.part00413: 691773459
+SparseLegalState.part00414: 549661131
+SparseLegalState.part00415: 358947757
+SparseLegalState.part00416: 693499064
+SparseLegalState.part00417: 545504538
+SparseLegalState.part00418: 310956003
+SparseLegalState.part00419: 462918590
+SparseLegalState.part00420: 393224911
+SparseLegalState.part00421: 291254053
+SparseLegalState.part00422: 349890822
+SparseLegalState.part00423: 346222763
+SparseLegalState.part00424: 267440532
+SparseLegalState.part00425: 113635423
+SparseLegalState.part00426: 203395827
+SparseLegalState.part00427: 149041603
+SparseLegalState.part00428: 273967138
+SparseLegalState.part00429: 717301357
+SparseLegalState.part00430: 577570884
+SparseLegalState.part00431: 322884542
+SparseLegalState.part00432: 387368062
+SparseLegalState.part00433: 318666214
+SparseLegalState.part00434: 227432452
+SparseLegalState.part00435: 567630363
+SparseLegalState.part00436: 588331756
+SparseLegalState.part00437: 419485059
+SparseLegalState.part00438: 460883379
+SparseLegalState.part00439: 727298507
+SparseLegalState.part00440: 291051877
+SparseLegalState.part00441: 262438682
+SparseLegalState.part00442: 707428865
+SparseLegalState.part00443: 448908876
+SparseLegalState.part00444: 84901323
+SparseLegalState.part00445: 713542201
+SparseLegalState.part00446: 601792250
+SparseLegalState.part00447: 18532098
+SparseLegalState.part00448: 640566387
+SparseLegalState.part00449: 680408143
+SparseLegalState.part00450: 135916926
+SparseLegalState.part00451: 437712481
+SparseLegalState.part00452: 691442168
+SparseLegalState.part00453: 264154264
+SparseLegalState.part00454: 179627780
+SparseLegalState.part00455: 461216445
+SparseLegalState.part00456: 284563401
+SparseLegalState.part00457: 96420750
+SparseLegalState.part00458: 730685338
+SparseLegalState.part00459: 613914008
+SparseLegalState.part00460: 16323776
+SparseLegalState.part00461: 413481682
+SparseLegalState.part00462: 431128667
+SparseLegalState.part00463: 81025807
+SparseLegalState.part00464: 450074916
+SparseLegalState.part00465: 686335438
+SparseLegalState.part00466: 257569953
+SparseLegalState.part00467: 269676691
+SparseLegalState.part00468: 485756268
+SparseLegalState.part00469: 187795367
+SparseLegalState.part00470: 101194954
+SparseLegalState.part00471: 456192407
+SparseLegalState.part00472: 338728209
+SparseLegalState.part00473: 12043374
+SparseLegalState.part00474: 382638137
+SparseLegalState.part00475: 427052508
+SparseLegalState.part00476: 98184520
+SparseLegalState.part00477: 266593761
+SparseLegalState.part00478: 520255620
+SparseLegalState.part00479: 145615698
+SparseLegalState.part00480: 238115043
+SparseLegalState.part00481: 441703194
+SparseLegalState.part00482: 145087686
+SparseLegalState.part00483: 69401758
+SparseLegalState.part00484: 246038565
+SparseLegalState.part00485: 188307676
+SparseLegalState.part00486: 0
+SparseLegalState.part00487: 314419200
+SparseLegalState.part00488: 254471582
+SparseLegalState.part00489: 41003577
+SparseLegalState.part00490: 71859908
+SparseLegalState.part00491: 135587802
+SparseLegalState.part00492: 35506124
+SparseLegalState.part00493: 143301273
+SparseLegalState.part00494: 271479833
+SparseLegalState.part00495: 71224105
+SparseLegalState.part00496: 120372444
+SparseLegalState.part00497: 729500386
+SparseLegalState.part00498: 606161296
+SparseLegalState.part00499: 242402
+SparseLegalState.part00500: 653838051
+SparseLegalState.part00501: 639966508
+SparseLegalState.part00502: 107368207
+SparseLegalState.part00503: 478318267
+SparseLegalState.part00504: 687873281
+SparseLegalState.part00505: 237019128
+SparseLegalState.part00506: 309688630
+SparseLegalState.part00507: 618115852
+SparseLegalState.part00508: 307741093
+SparseLegalState.part00509: 111935605
+SparseLegalState.part00510: 502236998
+SparseLegalState.part00511: 377436206
+SparseLegalState.part00512: 0
+SparseLegalState.part00513: 247419477
+SparseLegalState.part00514: 221223214
+SparseLegalState.part00515: 35105308
+SparseLegalState.part00516: 498128619
+SparseLegalState.part00517: 705037545
+SparseLegalState.part00518: 234221267
+SparseLegalState.part00519: 209457084
+SparseLegalState.part00520: 422429392
+SparseLegalState.part00521: 221107475
+SparseLegalState.part00522: 133060428
+SparseLegalState.part00523: 664712692
+SparseLegalState.part00524: 530794417
+SparseLegalState.part00525: 0
+SparseLegalState.part00526: 693994882
+SparseLegalState.part00527: 687071994
+SparseLegalState.part00528: 657902231
+SparseLegalState.part00529: 711375966
+SparseLegalState.part00530: 698171626
+SparseLegalState.part00531: 605095872
+SparseLegalState.part00532: 673732758
+SparseLegalState.part00533: 659322942
+SparseLegalState.part00534: 582131687
+SparseLegalState.part00535: 689134161
+SparseLegalState.part00536: 729168585
+SparseLegalState.part00537: 616803487
+SparseLegalState.part00538: 704862094
+SparseLegalState.part00539: 702418911
+SparseLegalState.part00540: 648504661
+SparseLegalState.part00541: 624940665
+SparseLegalState.part00542: 503806217
+SparseLegalState.part00543: 423260691
+SparseLegalState.part00544: 367443819
+SparseLegalState.part00545: 555457098
+SparseLegalState.part00546: 722413410
+SparseLegalState.part00547: 620486369
+SparseLegalState.part00548: 656689163
+SparseLegalState.part00549: 460098587
+SparseLegalState.part00550: 394137478
+SparseLegalState.part00551: 449503972
+SparseLegalState.part00552: 655424125
+SparseLegalState.part00553: 606761830
+SparseLegalState.part00554: 594186084
+SparseLegalState.part00555: 699178883
+SparseLegalState.part00556: 723947062
+SparseLegalState.part00557: 618324964
+SparseLegalState.part00558: 703491047
+SparseLegalState.part00559: 696278567
+SparseLegalState.part00560: 595022473
+SparseLegalState.part00561: 679773047
+SparseLegalState.part00562: 680441108
+SparseLegalState.part00563: 579629013
+SparseLegalState.part00564: 672670047
+SparseLegalState.part00565: 717395565
+SparseLegalState.part00566: 661187132
+SparseLegalState.part00567: 648003882
+SparseLegalState.part00568: 690065956
+SparseLegalState.part00569: 684220718
+SparseLegalState.part00570: 586376913
+SparseLegalState.part00571: 555300697
+SparseLegalState.part00572: 441141221
+SparseLegalState.part00573: 375545813
+SparseLegalState.part00574: 498532941
+SparseLegalState.part00575: 719934818
+SparseLegalState.part00576: 608791213
+SparseLegalState.part00577: 695607168
+SparseLegalState.part00578: 313126271
+SparseLegalState.part00579: 267887076
+SparseLegalState.part00580: 266538956
+SparseLegalState.part00581: 495787190
+SparseLegalState.part00582: 565975929
+SparseLegalState.part00583: 477326158
+SparseLegalState.part00584: 637168238
+SparseLegalState.part00585: 720836741
+SparseLegalState.part00586: 619279318
+SparseLegalState.part00587: 703872676
+SparseLegalState.part00588: 701470082
+SparseLegalState.part00589: 595530100
+SparseLegalState.part00590: 675498304
+SparseLegalState.part00591: 702120463
+SparseLegalState.part00592: 640548810
+SparseLegalState.part00593: 636929519
+SparseLegalState.part00594: 711011132
+SparseLegalState.part00595: 704998982
+SparseLegalState.part00596: 616899991
+SparseLegalState.part00597: 641128213
+SparseLegalState.part00598: 577219984
+SparseLegalState.part00599: 492962439
+SparseLegalState.part00600: 489181032
+SparseLegalState.part00601: 300497057
+SparseLegalState.part00602: 250573254
+SparseLegalState.part00603: 271091775
+SparseLegalState.part00604: 724425407
+SparseLegalState.part00605: 660428795
+SparseLegalState.part00606: 659047871
+SparseLegalState.part00607: 518716380
+SparseLegalState.part00608: 448635694
+SparseLegalState.part00609: 389567824
+SparseLegalState.part00610: 565683510
+SparseLegalState.part00611: 676301672
+SparseLegalState.part00612: 577960937
+SparseLegalState.part00613: 676640185
+SparseLegalState.part00614: 610510779
+SparseLegalState.part00615: 66632040
+SparseLegalState.part00616: 611496499
+SparseLegalState.part00617: 715654240
+SparseLegalState.part00618: 50079803
+SparseLegalState.part00619: 497670306
+SparseLegalState.part00620: 694580638
+SparseLegalState.part00621: 226516928
+SparseLegalState.part00622: 356328411
+SparseLegalState.part00623: 670737591
+SparseLegalState.part00624: 412554498
+SparseLegalState.part00625: 248953373
+SparseLegalState.part00626: 603576595
+SparseLegalState.part00627: 570216995
+SparseLegalState.part00628: 71124874
+SparseLegalState.part00629: 574211654
+SparseLegalState.part00630: 467702460
+SparseLegalState.part00631: 25997118
+SparseLegalState.part00632: 331012735
+SparseLegalState.part00633: 658109691
+SparseLegalState.part00634: 225147418
+SparseLegalState.part00635: 373630081
+SparseLegalState.part00636: 538715301
+SparseLegalState.part00637: 255004964
+SparseLegalState.part00638: 163077445
+SparseLegalState.part00639: 459645730
+SparseLegalState.part00640: 557628652
+SparseLegalState.part00641: 78606873
+SparseLegalState.part00642: 576449259
+SparseLegalState.part00643: 732060186
+SparseLegalState.part00644: 37870771
+SparseLegalState.part00645: 523442739
+SparseLegalState.part00646: 693610489
+SparseLegalState.part00647: 210316600
+SparseLegalState.part00648: 368334192
+SparseLegalState.part00649: 657072101
+SparseLegalState.part00650: 376693480
+SparseLegalState.part00651: 254509038
+SparseLegalState.part00652: 596670278
+SparseLegalState.part00653: 569567495
+SparseLegalState.part00654: 89887267
+SparseLegalState.part00655: 596000554
+SparseLegalState.part00656: 678828297
+SparseLegalState.part00657: 16725082
+SparseLegalState.part00658: 497884391
+SparseLegalState.part00659: 467588477
+SparseLegalState.part00660: 105580560
+SparseLegalState.part00661: 238821488
+SparseLegalState.part00662: 548919140
+SparseLegalState.part00663: 284250563
+SparseLegalState.part00664: 266738912
+SparseLegalState.part00665: 372085827
+SparseLegalState.part00666: 189513027
+SparseLegalState.part00667: 46331400
+SparseLegalState.part00668: 215420918
+SparseLegalState.part00669: 513361286
+SparseLegalState.part00670: 0
+SparseLegalState.part00671: 417484590
+SparseLegalState.part00672: 556747476
+SparseLegalState.part00673: 0
+SparseLegalState.part00674: 382615435
+SparseLegalState.part00675: 423990212
+SparseLegalState.part00676: 116574481
+SparseLegalState.part00677: 266311784
+SparseLegalState.part00678: 350741994
+SparseLegalState.part00679: 290816859
+SparseLegalState.part00680: 102026582
+SparseLegalState.part00681: 337478026
+SparseLegalState.part00682: 299965994
+SparseLegalState.part00683: 0
+SparseLegalState.part00684: 262384911
+SparseLegalState.part00685: 276736161
+SparseLegalState.part00686: 0
+SparseLegalState.part00687: 198468618
+SparseLegalState.part00688: 119520188
+SparseLegalState.part00689: 29506689
+SparseLegalState.part00690: 83756879
+SparseLegalState.part00691: 257828791
+SparseLegalState.part00692: 293185885
+SparseLegalState.part00693: 112902262
+SparseLegalState.part00694: 330026491
+SparseLegalState.part00695: 245281070
+SparseLegalState.part00696: 0
+SparseLegalState.part00697: 217893675
+SparseLegalState.part00698: 468346864
+SparseLegalState.part00699: 0
+SparseLegalState.part00700: 342929533
+SparseLegalState.part00701: 444749256
+SparseLegalState.part00702: 727968440
+SparseLegalState.part00703: 612774621
+SparseLegalState.part00704: 685186837
+SparseLegalState.part00705: 708327508
+SparseLegalState.part00706: 590105022
+SparseLegalState.part00707: 663416441
+SparseLegalState.part00708: 710487210
+SparseLegalState.part00709: 609384012
+SparseLegalState.part00710: 644404715
+SparseLegalState.part00711: 724476850
+SparseLegalState.part00712: 690440392
+SparseLegalState.part00713: 611133497
+SparseLegalState.part00714: 690334524
+SparseLegalState.part00715: 691062608
+SparseLegalState.part00716: 579301552
+SparseLegalState.part00717: 572324754
+SparseLegalState.part00718: 462873705
+SparseLegalState.part00719: 387397583
+SparseLegalState.part00720: 455180950
+SparseLegalState.part00721: 731104700
+SparseLegalState.part00722: 625422443
+SparseLegalState.part00723: 662546063
+SparseLegalState.part00724: 501833393
+SparseLegalState.part00725: 436684401
+SparseLegalState.part00726: 389176837
+SparseLegalState.part00727: 595634665
+SparseLegalState.part00728: 688053791
+SparseLegalState.part00729: 580021135
+SparseLegalState.part00730: 670070102
+SparseLegalState.part00731: 724641499
+SparseLegalState.part00732: 347602007
+SparseLegalState.part00733: 585472173
+SparseLegalState.part00734: 705340093
+SparseLegalState.part00735: 351841388
+SparseLegalState.part00736: 552947986
+SparseLegalState.part00737: 696579016
+SparseLegalState.part00738: 434125232
+SparseLegalState.part00739: 498986564
+SparseLegalState.part00740: 686079881
+SparseLegalState.part00741: 590796631
+SparseLegalState.part00742: 444000194
+SparseLegalState.part00743: 578814388
+SparseLegalState.part00744: 647052133
+SparseLegalState.part00745: 302083234
+SparseLegalState.part00746: 482808566
+SparseLegalState.part00747: 387506985
+SparseLegalState.part00748: 201684808
+SparseLegalState.part00749: 313207206
+SparseLegalState.part00750: 502622928
+SparseLegalState.part00751: 262977534
+SparseLegalState.part00752: 340747511
+SparseLegalState.part00753: 291069327
+SparseLegalState.part00754: 135587802
+SparseLegalState.part00755: 125206711
+SparseLegalState.part00756: 235971256
+SparseLegalState.part00757: 402742106
+SparseLegalState.part00758: 193880881
+SparseLegalState.part00759: 317394679
+SparseLegalState.part00760: 730227146
+SparseLegalState.part00761: 613243510
+SparseLegalState.part00762: 665090910
+SparseLegalState.part00763: 715147055
+SparseLegalState.part00764: 649168720
+SparseLegalState.part00765: 587032883
+SparseLegalState.part00766: 693203713
+SparseLegalState.part00767: 691473774
+SparseLegalState.part00768: 581412262
+SparseLegalState.part00769: 667382129
+SparseLegalState.part00770: 715649438
+SparseLegalState.part00771: 488974050
+SparseLegalState.part00772: 610434867
+SparseLegalState.part00773: 584397200
+SparseLegalState.part00774: 394325059
+SparseLegalState.part00775: 495724523
+SparseLegalState.part00776: 335287318
+SparseLegalState.part00777: 230404317
+SparseLegalState.part00778: 222682501
+SparseLegalState.part00779: 568088593
+SparseLegalState.part00780: 705550282
+SparseLegalState.part00781: 597353423
+SparseLegalState.part00782: 571459690
+SparseLegalState.part00783: 455618361
+SparseLegalState.part00784: 346440671
+SparseLegalState.part00785: 445435054
+SparseLegalState.part00786: 688241380
+SparseLegalState.part00787: 547737844
+SparseLegalState.part00788: 627207241
+SparseLegalState.part00789: 60478963
+
+total_remain_legal_state: 51790408755
+SparseLegalState.part00000: 604452802
+SparseLegalState.part00001: 373245034
+SparseLegalState.part00002: 165560642
+SparseLegalState.part00003: 511625803
+SparseLegalState.part00004: 669863261
+SparseLegalState.part00005: 670778530
+SparseLegalState.part00006: 648476055
+SparseLegalState.part00007: 643374897
+SparseLegalState.part00008: 663838718
+SparseLegalState.part00009: 636701162
+SparseLegalState.part00010: 591224122
+SparseLegalState.part00011: 626712811
+SparseLegalState.part00012: 630140542
+SparseLegalState.part00013: 537780491
+SparseLegalState.part00014: 600207509
+SparseLegalState.part00015: 623688960
+SparseLegalState.part00016: 401917286
+SparseLegalState.part00017: 374907278
+SparseLegalState.part00018: 408375358
+SparseLegalState.part00019: 441403711
+SparseLegalState.part00020: 508165512
+SparseLegalState.part00021: 568257909
+SparseLegalState.part00022: 493328178
+SparseLegalState.part00023: 312378879
+SparseLegalState.part00024: 378775431
+SparseLegalState.part00025: 374854455
+SparseLegalState.part00026: 425830825
+SparseLegalState.part00027: 566540736
+SparseLegalState.part00028: 568590442
+SparseLegalState.part00029: 372402290
+SparseLegalState.part00030: 307744503
+SparseLegalState.part00031: 181018697
+SparseLegalState.part00032: 217485294
+SparseLegalState.part00033: 450944594
+SparseLegalState.part00034: 558850552
+SparseLegalState.part00035: 491552959
+SparseLegalState.part00036: 377169597
+SparseLegalState.part00037: 549729448
+SparseLegalState.part00038: 535387916
+SparseLegalState.part00039: 263091256
+SparseLegalState.part00040: 452069571
+SparseLegalState.part00041: 462691368
+SparseLegalState.part00042: 310082707
+SparseLegalState.part00043: 430184096
+SparseLegalState.part00044: 520275494
+SparseLegalState.part00045: 323653816
+SparseLegalState.part00046: 239139619
+SparseLegalState.part00047: 335382931
+SparseLegalState.part00048: 293970855
+SparseLegalState.part00049: 236506071
+SparseLegalState.part00050: 414729845
+SparseLegalState.part00051: 396964263
+SparseLegalState.part00052: 82801162
+SparseLegalState.part00053: 202158035
+SparseLegalState.part00054: 212905650
+SparseLegalState.part00055: 160286691
+SparseLegalState.part00056: 331996713
+SparseLegalState.part00057: 411841270
+SparseLegalState.part00058: 245102735
+SparseLegalState.part00059: 196331249
+SparseLegalState.part00060: 184201760
+SparseLegalState.part00061: 83421914
+SparseLegalState.part00062: 219453128
+SparseLegalState.part00063: 476783602
+SparseLegalState.part00064: 452221103
+SparseLegalState.part00065: 117945250
+SparseLegalState.part00066: 460816349
+SparseLegalState.part00067: 473412917
+SparseLegalState.part00068: 142220689
+SparseLegalState.part00069: 269969814
+SparseLegalState.part00070: 339659945
+SparseLegalState.part00071: 182863571
+SparseLegalState.part00072: 208652188
+SparseLegalState.part00073: 366468356
+SparseLegalState.part00074: 258578206
+SparseLegalState.part00075: 64392982
+SparseLegalState.part00076: 183692660
+SparseLegalState.part00077: 178080576
+SparseLegalState.part00078: 32543715
+SparseLegalState.part00079: 300165823
+SparseLegalState.part00080: 307681838
+SparseLegalState.part00081: 68278410
+SparseLegalState.part00082: 210986737
+SparseLegalState.part00083: 275846369
+SparseLegalState.part00084: 118757694
+SparseLegalState.part00085: 211952906
+SparseLegalState.part00086: 410804176
+SparseLegalState.part00087: 270933158
+SparseLegalState.part00088: 0
+SparseLegalState.part00089: 0
+SparseLegalState.part00090: 0
+SparseLegalState.part00091: 0
+SparseLegalState.part00092: 388778339
+SparseLegalState.part00093: 411584340
+SparseLegalState.part00094: 68519315
+SparseLegalState.part00095: 282792897
+SparseLegalState.part00096: 384934180
+SparseLegalState.part00097: 167350289
+SparseLegalState.part00098: 96617810
+SparseLegalState.part00099: 126033069
+SparseLegalState.part00100: 33208414
+SparseLegalState.part00101: 83106123
+SparseLegalState.part00102: 325729098
+SparseLegalState.part00103: 352038416
+SparseLegalState.part00104: 677210
+SparseLegalState.part00105: 194356179
+SparseLegalState.part00106: 252169269
+SparseLegalState.part00107: 40906041
+SparseLegalState.part00108: 131034977
+SparseLegalState.part00109: 203181904
+SparseLegalState.part00110: 89445097
+SparseLegalState.part00111: 93976418
+SparseLegalState.part00112: 198855551
+SparseLegalState.part00113: 152245026
+SparseLegalState.part00114: 67960269
+SparseLegalState.part00115: 260224401
+SparseLegalState.part00116: 321558556
+SparseLegalState.part00117: 0
+SparseLegalState.part00118: 0
+SparseLegalState.part00119: 0
+SparseLegalState.part00120: 0
+SparseLegalState.part00121: 171523318
+SparseLegalState.part00122: 304745241
+SparseLegalState.part00123: 141209223
+SparseLegalState.part00124: 107556681
+SparseLegalState.part00125: 259560243
+SparseLegalState.part00126: 221037518
+SparseLegalState.part00127: 22911446
+SparseLegalState.part00128: 74369752
+SparseLegalState.part00129: 49131938
+SparseLegalState.part00130: 4370735
+SparseLegalState.part00131: 155369159
+SparseLegalState.part00132: 325714517
+SparseLegalState.part00133: 46149551
+SparseLegalState.part00134: 74855991
+SparseLegalState.part00135: 180011122
+SparseLegalState.part00136: 84400157
+SparseLegalState.part00137: 34134594
+SparseLegalState.part00138: 103020338
+SparseLegalState.part00139: 96272213
+SparseLegalState.part00140: 16067405
+SparseLegalState.part00141: 64150172
+SparseLegalState.part00142: 120944730
+SparseLegalState.part00143: 3603358
+SparseLegalState.part00144: 87105528
+SparseLegalState.part00145: 258035542
+SparseLegalState.part00146: 33868593
+SparseLegalState.part00147: 0
+SparseLegalState.part00148: 0
+SparseLegalState.part00149: 0
+SparseLegalState.part00150: 50213515
+SparseLegalState.part00151: 193249201
+SparseLegalState.part00152: 193941893
+SparseLegalState.part00153: 21474305
+SparseLegalState.part00154: 120401388
+SparseLegalState.part00155: 269907626
+SparseLegalState.part00156: 904149
+SparseLegalState.part00157: 12983254
+SparseLegalState.part00158: 37133938
+SparseLegalState.part00159: 2113391
+SparseLegalState.part00160: 22048661
+SparseLegalState.part00161: 126805913
+SparseLegalState.part00162: 61243582
+SparseLegalState.part00163: 6025081
+SparseLegalState.part00164: 52921597
+SparseLegalState.part00165: 43697404
+SparseLegalState.part00166: 3673128
+SparseLegalState.part00167: 33148468
+SparseLegalState.part00168: 94711432
+SparseLegalState.part00169: 1193553
+SparseLegalState.part00170: 12079386
+SparseLegalState.part00171: 160301359
+SparseLegalState.part00172: 18761505
+SparseLegalState.part00173: 7156864
+SparseLegalState.part00174: 200016377
+SparseLegalState.part00175: 91953037
+SparseLegalState.part00176: 0
+SparseLegalState.part00177: 0
+SparseLegalState.part00178: 0
+SparseLegalState.part00179: 0
+SparseLegalState.part00180: 68153944
+SparseLegalState.part00181: 229466734
+SparseLegalState.part00182: 0
+SparseLegalState.part00183: 0
+SparseLegalState.part00184: 250655235
+SparseLegalState.part00185: 24082577
+SparseLegalState.part00186: 0
+SparseLegalState.part00187: 0
+SparseLegalState.part00188: 0
+SparseLegalState.part00189: 0
+SparseLegalState.part00190: 118747081
+SparseLegalState.part00191: 128024325
+SparseLegalState.part00192: 0
+SparseLegalState.part00193: 36025377
+SparseLegalState.part00194: 116096888
+SparseLegalState.part00195: 0
+SparseLegalState.part00196: 0
+SparseLegalState.part00197: 26833995
+SparseLegalState.part00198: 1046522
+SparseLegalState.part00199: 0
+SparseLegalState.part00200: 97385221
+SparseLegalState.part00201: 41215677
+SparseLegalState.part00202: 0
+SparseLegalState.part00203: 94456709
+SparseLegalState.part00204: 97863756
+SparseLegalState.part00205: 0
+SparseLegalState.part00206: 0
+SparseLegalState.part00207: 0
+SparseLegalState.part00208: 0
+SparseLegalState.part00209: 659162
+SparseLegalState.part00210: 160044693
+SparseLegalState.part00211: 12089609
+SparseLegalState.part00212: 0
+SparseLegalState.part00213: 106191762
+SparseLegalState.part00214: 45963349
+SparseLegalState.part00215: 0
+SparseLegalState.part00216: 0
+SparseLegalState.part00217: 0
+SparseLegalState.part00218: 0
+SparseLegalState.part00219: 33926244
+SparseLegalState.part00220: 86863634
+SparseLegalState.part00221: 0
+SparseLegalState.part00222: 1736956
+SparseLegalState.part00223: 63678376
+SparseLegalState.part00224: 622647
+SparseLegalState.part00225: 0
+SparseLegalState.part00226: 4667717
+SparseLegalState.part00227: 478535
+SparseLegalState.part00228: 0
+SparseLegalState.part00229: 18923184
+SparseLegalState.part00230: 11220600
+SparseLegalState.part00231: 0
+SparseLegalState.part00232: 19417587
+SparseLegalState.part00233: 36508005
+SparseLegalState.part00234: 0
+SparseLegalState.part00235: 0
+SparseLegalState.part00236: 0
+SparseLegalState.part00237: 0
+SparseLegalState.part00238: 0
+SparseLegalState.part00239: 60459972
+SparseLegalState.part00240: 22707286
+SparseLegalState.part00241: 0
+SparseLegalState.part00242: 34812103
+SparseLegalState.part00243: 29419857
+SparseLegalState.part00244: 0
+SparseLegalState.part00245: 0
+SparseLegalState.part00246: 0
+SparseLegalState.part00247: 0
+SparseLegalState.part00248: 2017481
+SparseLegalState.part00249: 35636806
+SparseLegalState.part00250: 1044586
+SparseLegalState.part00251: 0
+SparseLegalState.part00252: 11384483
+SparseLegalState.part00253: 3447947
+SparseLegalState.part00254: 0
+SparseLegalState.part00255: 409156
+SparseLegalState.part00256: 158690
+SparseLegalState.part00257: 0
+SparseLegalState.part00258: 4988778
+SparseLegalState.part00259: 10750176
+SparseLegalState.part00260: 0
+SparseLegalState.part00261: 732231
+SparseLegalState.part00262: 8115180
+SparseLegalState.part00263: 33444
+SparseLegalState.part00264: 0
+SparseLegalState.part00265: 0
+SparseLegalState.part00266: 166323048
+SparseLegalState.part00267: 153562688
+SparseLegalState.part00268: 72615231
+SparseLegalState.part00269: 126167932
+SparseLegalState.part00270: 244782811
+SparseLegalState.part00271: 250638103
+SparseLegalState.part00272: 159759191
+SparseLegalState.part00273: 0
+SparseLegalState.part00274: 0
+SparseLegalState.part00275: 0
+SparseLegalState.part00276: 197868304
+SparseLegalState.part00277: 218767218
+SparseLegalState.part00278: 191072506
+SparseLegalState.part00279: 149605430
+SparseLegalState.part00280: 136109098
+SparseLegalState.part00281: 137029863
+SparseLegalState.part00282: 68817766
+SparseLegalState.part00283: 0
+SparseLegalState.part00284: 0
+SparseLegalState.part00285: 24674264
+SparseLegalState.part00286: 102977233
+SparseLegalState.part00287: 120893312
+SparseLegalState.part00288: 102951136
+SparseLegalState.part00289: 154822532
+SparseLegalState.part00290: 196483871
+SparseLegalState.part00291: 171353434
+SparseLegalState.part00292: 49186025
+SparseLegalState.part00293: 0
+SparseLegalState.part00294: 0
+SparseLegalState.part00295: 54697381
+SparseLegalState.part00296: 100436394
+SparseLegalState.part00297: 69453163
+SparseLegalState.part00298: 43056819
+SparseLegalState.part00299: 129376810
+SparseLegalState.part00300: 188041123
+SparseLegalState.part00301: 159473645
+SparseLegalState.part00302: 157795
+SparseLegalState.part00303: 0
+SparseLegalState.part00304: 0
+SparseLegalState.part00305: 61121808
+SparseLegalState.part00306: 124462502
+SparseLegalState.part00307: 130929625
+SparseLegalState.part00308: 90499362
+SparseLegalState.part00309: 76426154
+SparseLegalState.part00310: 107359435
+SparseLegalState.part00311: 67991603
+SparseLegalState.part00312: 0
+SparseLegalState.part00313: 0
+SparseLegalState.part00314: 187216
+SparseLegalState.part00315: 21328582
+SparseLegalState.part00316: 42353588
+SparseLegalState.part00317: 39823926
+SparseLegalState.part00318: 51894088
+SparseLegalState.part00319: 102469055
+SparseLegalState.part00320: 117510847
+SparseLegalState.part00321: 54178447
+SparseLegalState.part00322: 0
+SparseLegalState.part00323: 0
+SparseLegalState.part00324: 10685146
+SparseLegalState.part00325: 44334037
+SparseLegalState.part00326: 63031685
+SparseLegalState.part00327: 19837686
+SparseLegalState.part00328: 39073545
+SparseLegalState.part00329: 138719881
+SparseLegalState.part00330: 124504850
+SparseLegalState.part00331: 29476778
+SparseLegalState.part00332: 0
+SparseLegalState.part00333: 0
+SparseLegalState.part00334: 8302502
+SparseLegalState.part00335: 42984345
+SparseLegalState.part00336: 69999101
+SparseLegalState.part00337: 45158123
+SparseLegalState.part00338: 19319030
+SparseLegalState.part00339: 51518314
+SparseLegalState.part00340: 47084267
+SparseLegalState.part00341: 0
+SparseLegalState.part00342: 0
+SparseLegalState.part00343: 0
+SparseLegalState.part00344: 3792788
+SparseLegalState.part00345: 30714809
+SparseLegalState.part00346: 37446292
+SparseLegalState.part00347: 19957921
+SparseLegalState.part00348: 57858027
+SparseLegalState.part00349: 113759266
+SparseLegalState.part00350: 65009704
+SparseLegalState.part00351: 0
+SparseLegalState.part00352: 0
+SparseLegalState.part00353: 0
+SparseLegalState.part00354: 0
+SparseLegalState.part00355: 0
+SparseLegalState.part00356: 0
+SparseLegalState.part00357: 0
+SparseLegalState.part00358: 76942281
+SparseLegalState.part00359: 95188875
+SparseLegalState.part00360: 42886788
+SparseLegalState.part00361: 0
+SparseLegalState.part00362: 0
+SparseLegalState.part00363: 0
+SparseLegalState.part00364: 10729228
+SparseLegalState.part00365: 36020259
+SparseLegalState.part00366: 11857283
+SparseLegalState.part00367: 0
+SparseLegalState.part00368: 51264950
+SparseLegalState.part00369: 57374291
+SparseLegalState.part00370: 11391533
+SparseLegalState.part00371: 0
+SparseLegalState.part00372: 0
+SparseLegalState.part00373: 0
+SparseLegalState.part00374: 8327954
+SparseLegalState.part00375: 17928215
+SparseLegalState.part00376: 11120860
+SparseLegalState.part00377: 16217548
+SparseLegalState.part00378: 66913315
+SparseLegalState.part00379: 68656822
+SparseLegalState.part00380: 0
+SparseLegalState.part00381: 0
+SparseLegalState.part00382: 0
+SparseLegalState.part00383: 0
+SparseLegalState.part00384: 0
+SparseLegalState.part00385: 0
+SparseLegalState.part00386: 0
+SparseLegalState.part00387: 26619508
+SparseLegalState.part00388: 62071666
+SparseLegalState.part00389: 44196005
+SparseLegalState.part00390: 0
+SparseLegalState.part00391: 0
+SparseLegalState.part00392: 0
+SparseLegalState.part00393: 0
+SparseLegalState.part00394: 15035041
+SparseLegalState.part00395: 11090989
+SparseLegalState.part00396: 257598
+SparseLegalState.part00397: 17032960
+SparseLegalState.part00398: 34817616
+SparseLegalState.part00399: 15446664
+SparseLegalState.part00400: 0
+SparseLegalState.part00401: 0
+SparseLegalState.part00402: 0
+SparseLegalState.part00403: 437007
+SparseLegalState.part00404: 2172217
+SparseLegalState.part00405: 2336141
+SparseLegalState.part00406: 0
+SparseLegalState.part00407: 19926057
+SparseLegalState.part00408: 45603209
+SparseLegalState.part00409: 1315145
+SparseLegalState.part00410: 0
+SparseLegalState.part00411: 0
+SparseLegalState.part00412: 0
+SparseLegalState.part00413: 0
+SparseLegalState.part00414: 0
+SparseLegalState.part00415: 0
+SparseLegalState.part00416: 5025147
+SparseLegalState.part00417: 20021196
+SparseLegalState.part00418: 27465474
+SparseLegalState.part00419: 0
+SparseLegalState.part00420: 0
+SparseLegalState.part00421: 0
+SparseLegalState.part00422: 0
+SparseLegalState.part00423: 1024093
+SparseLegalState.part00424: 2336500
+SparseLegalState.part00425: 0
+SparseLegalState.part00426: 1551592
+SparseLegalState.part00427: 9379090
+SparseLegalState.part00428: 1443837
+SparseLegalState.part00429: 0
+SparseLegalState.part00430: 0
+SparseLegalState.part00431: 0
+SparseLegalState.part00432: 5619
+SparseLegalState.part00433: 121987
+SparseLegalState.part00434: 854812
+SparseLegalState.part00435: 0
+SparseLegalState.part00436: 2573533
+SparseLegalState.part00437: 33807612
+SparseLegalState.part00438: 574570
+SparseLegalState.part00439: 0
+SparseLegalState.part00440: 0
+SparseLegalState.part00441: 0
+SparseLegalState.part00442: 0
+SparseLegalState.part00443: 0
+SparseLegalState.part00444: 0
+SparseLegalState.part00445: 0
+SparseLegalState.part00446: 0
+SparseLegalState.part00447: 0
+SparseLegalState.part00448: 0
+SparseLegalState.part00449: 0
+SparseLegalState.part00450: 0
+SparseLegalState.part00451: 0
+SparseLegalState.part00452: 0
+SparseLegalState.part00453: 0
+SparseLegalState.part00454: 0
+SparseLegalState.part00455: 0
+SparseLegalState.part00456: 0
+SparseLegalState.part00457: 0
+SparseLegalState.part00458: 0
+SparseLegalState.part00459: 0
+SparseLegalState.part00460: 0
+SparseLegalState.part00461: 0
+SparseLegalState.part00462: 0
+SparseLegalState.part00463: 0
+SparseLegalState.part00464: 0
+SparseLegalState.part00465: 0
+SparseLegalState.part00466: 0
+SparseLegalState.part00467: 0
+SparseLegalState.part00468: 0
+SparseLegalState.part00469: 0
+SparseLegalState.part00470: 0
+SparseLegalState.part00471: 0
+SparseLegalState.part00472: 0
+SparseLegalState.part00473: 0
+SparseLegalState.part00474: 0
+SparseLegalState.part00475: 0
+SparseLegalState.part00476: 0
+SparseLegalState.part00477: 0
+SparseLegalState.part00478: 0
+SparseLegalState.part00479: 0
+SparseLegalState.part00480: 0
+SparseLegalState.part00481: 0
+SparseLegalState.part00482: 0
+SparseLegalState.part00483: 0
+SparseLegalState.part00484: 0
+SparseLegalState.part00485: 0
+SparseLegalState.part00486: 0
+SparseLegalState.part00487: 0
+SparseLegalState.part00488: 0
+SparseLegalState.part00489: 0
+SparseLegalState.part00490: 0
+SparseLegalState.part00491: 0
+SparseLegalState.part00492: 0
+SparseLegalState.part00493: 0
+SparseLegalState.part00494: 0
+SparseLegalState.part00495: 0
+SparseLegalState.part00496: 0
+SparseLegalState.part00497: 0
+SparseLegalState.part00498: 0
+SparseLegalState.part00499: 0
+SparseLegalState.part00500: 0
+SparseLegalState.part00501: 0
+SparseLegalState.part00502: 0
+SparseLegalState.part00503: 0
+SparseLegalState.part00504: 0
+SparseLegalState.part00505: 0
+SparseLegalState.part00506: 0
+SparseLegalState.part00507: 0
+SparseLegalState.part00508: 0
+SparseLegalState.part00509: 0
+SparseLegalState.part00510: 0
+SparseLegalState.part00511: 0
+SparseLegalState.part00512: 0
+SparseLegalState.part00513: 0
+SparseLegalState.part00514: 0
+SparseLegalState.part00515: 0
+SparseLegalState.part00516: 0
+SparseLegalState.part00517: 0
+SparseLegalState.part00518: 0
+SparseLegalState.part00519: 0
+SparseLegalState.part00520: 0
+SparseLegalState.part00521: 0
+SparseLegalState.part00522: 0
+SparseLegalState.part00523: 0
+SparseLegalState.part00524: 0
+SparseLegalState.part00525: 0
+SparseLegalState.part00526: 0
+SparseLegalState.part00527: 0
+SparseLegalState.part00528: 0
+SparseLegalState.part00529: 0
+SparseLegalState.part00530: 0
+SparseLegalState.part00531: 0
+SparseLegalState.part00532: 25410061
+SparseLegalState.part00533: 42810660
+SparseLegalState.part00534: 20944336
+SparseLegalState.part00535: 6695435
+SparseLegalState.part00536: 0
+SparseLegalState.part00537: 0
+SparseLegalState.part00538: 0
+SparseLegalState.part00539: 0
+SparseLegalState.part00540: 0
+SparseLegalState.part00541: 0
+SparseLegalState.part00542: 22257800
+SparseLegalState.part00543: 32988424
+SparseLegalState.part00544: 28409020
+SparseLegalState.part00545: 17488034
+SparseLegalState.part00546: 0
+SparseLegalState.part00547: 0
+SparseLegalState.part00548: 0
+SparseLegalState.part00549: 0
+SparseLegalState.part00550: 0
+SparseLegalState.part00551: 0
+SparseLegalState.part00552: 34098584
+SparseLegalState.part00553: 36082590
+SparseLegalState.part00554: 33743596
+SparseLegalState.part00555: 9441807
+SparseLegalState.part00556: 0
+SparseLegalState.part00557: 0
+SparseLegalState.part00558: 0
+SparseLegalState.part00559: 0
+SparseLegalState.part00560: 0
+SparseLegalState.part00561: 5021663
+SparseLegalState.part00562: 18102528
+SparseLegalState.part00563: 13609093
+SparseLegalState.part00564: 5673225
+SparseLegalState.part00565: 222802
+SparseLegalState.part00566: 0
+SparseLegalState.part00567: 0
+SparseLegalState.part00568: 0
+SparseLegalState.part00569: 0
+SparseLegalState.part00570: 0
+SparseLegalState.part00571: 4516000
+SparseLegalState.part00572: 11776640
+SparseLegalState.part00573: 12110023
+SparseLegalState.part00574: 11050523
+SparseLegalState.part00575: 0
+SparseLegalState.part00576: 0
+SparseLegalState.part00577: 0
+SparseLegalState.part00578: 0
+SparseLegalState.part00579: 0
+SparseLegalState.part00580: 0
+SparseLegalState.part00581: 5924365
+SparseLegalState.part00582: 12505295
+SparseLegalState.part00583: 11174875
+SparseLegalState.part00584: 5992036
+SparseLegalState.part00585: 0
+SparseLegalState.part00586: 0
+SparseLegalState.part00587: 0
+SparseLegalState.part00588: 0
+SparseLegalState.part00589: 0
+SparseLegalState.part00590: 0
+SparseLegalState.part00591: 4592270
+SparseLegalState.part00592: 7360841
+SparseLegalState.part00593: 3251991
+SparseLegalState.part00594: 286170
+SparseLegalState.part00595: 0
+SparseLegalState.part00596: 0
+SparseLegalState.part00597: 0
+SparseLegalState.part00598: 0
+SparseLegalState.part00599: 0
+SparseLegalState.part00600: 252735
+SparseLegalState.part00601: 1552413
+SparseLegalState.part00602: 3013910
+SparseLegalState.part00603: 3320454
+SparseLegalState.part00604: 0
+SparseLegalState.part00605: 0
+SparseLegalState.part00606: 0
+SparseLegalState.part00607: 0
+SparseLegalState.part00608: 0
+SparseLegalState.part00609: 0
+SparseLegalState.part00610: 530759
+SparseLegalState.part00611: 3515997
+SparseLegalState.part00612: 5573860
+SparseLegalState.part00613: 3639721
+SparseLegalState.part00614: 0
+SparseLegalState.part00615: 0
+SparseLegalState.part00616: 0
+SparseLegalState.part00617: 0
+SparseLegalState.part00618: 0
+SparseLegalState.part00619: 0
+SparseLegalState.part00620: 0
+SparseLegalState.part00621: 0
+SparseLegalState.part00622: 0
+SparseLegalState.part00623: 0
+SparseLegalState.part00624: 0
+SparseLegalState.part00625: 0
+SparseLegalState.part00626: 0
+SparseLegalState.part00627: 0
+SparseLegalState.part00628: 0
+SparseLegalState.part00629: 0
+SparseLegalState.part00630: 0
+SparseLegalState.part00631: 0
+SparseLegalState.part00632: 836977
+SparseLegalState.part00633: 70445
+SparseLegalState.part00634: 0
+SparseLegalState.part00635: 0
+SparseLegalState.part00636: 0
+SparseLegalState.part00637: 0
+SparseLegalState.part00638: 0
+SparseLegalState.part00639: 0
+SparseLegalState.part00640: 0
+SparseLegalState.part00641: 401141
+SparseLegalState.part00642: 2120027
+SparseLegalState.part00643: 0
+SparseLegalState.part00644: 0
+SparseLegalState.part00645: 0
+SparseLegalState.part00646: 0
+SparseLegalState.part00647: 0
+SparseLegalState.part00648: 0
+SparseLegalState.part00649: 0
+SparseLegalState.part00650: 0
+SparseLegalState.part00651: 0
+SparseLegalState.part00652: 0
+SparseLegalState.part00653: 0
+SparseLegalState.part00654: 0
+SparseLegalState.part00655: 0
+SparseLegalState.part00656: 0
+SparseLegalState.part00657: 0
+SparseLegalState.part00658: 0
+SparseLegalState.part00659: 0
+SparseLegalState.part00660: 0
+SparseLegalState.part00661: 367440
+SparseLegalState.part00662: 54728
+SparseLegalState.part00663: 0
+SparseLegalState.part00664: 0
+SparseLegalState.part00665: 0
+SparseLegalState.part00666: 0
+SparseLegalState.part00667: 0
+SparseLegalState.part00668: 0
+SparseLegalState.part00669: 0
+SparseLegalState.part00670: 0
+SparseLegalState.part00671: 676004
+SparseLegalState.part00672: 24699
+SparseLegalState.part00673: 0
+SparseLegalState.part00674: 0
+SparseLegalState.part00675: 0
+SparseLegalState.part00676: 0
+SparseLegalState.part00677: 0
+SparseLegalState.part00678: 0
+SparseLegalState.part00679: 0
+SparseLegalState.part00680: 0
+SparseLegalState.part00681: 0
+SparseLegalState.part00682: 0
+SparseLegalState.part00683: 0
+SparseLegalState.part00684: 0
+SparseLegalState.part00685: 0
+SparseLegalState.part00686: 0
+SparseLegalState.part00687: 0
+SparseLegalState.part00688: 0
+SparseLegalState.part00689: 0
+SparseLegalState.part00690: 56733
+SparseLegalState.part00691: 8681
+SparseLegalState.part00692: 0
+SparseLegalState.part00693: 0
+SparseLegalState.part00694: 0
+SparseLegalState.part00695: 0
+SparseLegalState.part00696: 0
+SparseLegalState.part00697: 0
+SparseLegalState.part00698: 0
+SparseLegalState.part00699: 0
+SparseLegalState.part00700: 259476
+SparseLegalState.part00701: 9684
+SparseLegalState.part00702: 0
+SparseLegalState.part00703: 0
+SparseLegalState.part00704: 0
+SparseLegalState.part00705: 0
+SparseLegalState.part00706: 0
+SparseLegalState.part00707: 0
+SparseLegalState.part00708: 0
+SparseLegalState.part00709: 0
+SparseLegalState.part00710: 0
+SparseLegalState.part00711: 0
+SparseLegalState.part00712: 0
+SparseLegalState.part00713: 0
+SparseLegalState.part00714: 0
+SparseLegalState.part00715: 0
+SparseLegalState.part00716: 0
+SparseLegalState.part00717: 0
+SparseLegalState.part00718: 0
+SparseLegalState.part00719: 0
+SparseLegalState.part00720: 0
+SparseLegalState.part00721: 0
+SparseLegalState.part00722: 0
+SparseLegalState.part00723: 0
+SparseLegalState.part00724: 0
+SparseLegalState.part00725: 0
+SparseLegalState.part00726: 0
+SparseLegalState.part00727: 0
+SparseLegalState.part00728: 0
+SparseLegalState.part00729: 62961
+SparseLegalState.part00730: 23831
+SparseLegalState.part00731: 0
+SparseLegalState.part00732: 0
+SparseLegalState.part00733: 0
+SparseLegalState.part00734: 0
+SparseLegalState.part00735: 0
+SparseLegalState.part00736: 0
+SparseLegalState.part00737: 0
+SparseLegalState.part00738: 0
+SparseLegalState.part00739: 0
+SparseLegalState.part00740: 0
+SparseLegalState.part00741: 0
+SparseLegalState.part00742: 0
+SparseLegalState.part00743: 0
+SparseLegalState.part00744: 0
+SparseLegalState.part00745: 0
+SparseLegalState.part00746: 0
+SparseLegalState.part00747: 0
+SparseLegalState.part00748: 0
+SparseLegalState.part00749: 0
+SparseLegalState.part00750: 0
+SparseLegalState.part00751: 0
+SparseLegalState.part00752: 0
+SparseLegalState.part00753: 0
+SparseLegalState.part00754: 0
+SparseLegalState.part00755: 0
+SparseLegalState.part00756: 0
+SparseLegalState.part00757: 0
+SparseLegalState.part00758: 6594
+SparseLegalState.part00759: 4093
+SparseLegalState.part00760: 0
+SparseLegalState.part00761: 0
+SparseLegalState.part00762: 0
+SparseLegalState.part00763: 0
+SparseLegalState.part00764: 0
+SparseLegalState.part00765: 0
+SparseLegalState.part00766: 0
+SparseLegalState.part00767: 0
+SparseLegalState.part00768: 0
+SparseLegalState.part00769: 0
+SparseLegalState.part00770: 0
+SparseLegalState.part00771: 0
+SparseLegalState.part00772: 0
+SparseLegalState.part00773: 0
+SparseLegalState.part00774: 0
+SparseLegalState.part00775: 0
+SparseLegalState.part00776: 0
+SparseLegalState.part00777: 0
+SparseLegalState.part00778: 0
+SparseLegalState.part00779: 0
+SparseLegalState.part00780: 0
+SparseLegalState.part00781: 0
+SparseLegalState.part00782: 0
+SparseLegalState.part00783: 0
+SparseLegalState.part00784: 0
+SparseLegalState.part00785: 0
+SparseLegalState.part00786: 0
+SparseLegalState.part00787: 0
+SparseLegalState.part00788: 2197
+SparseLegalState.part00789: 1
+eopXD@white:/tmp2/b04705001/test_parallel/SmallBoard/experiment/FindAllPossibleSerial$ [KeopXD@white:/tmp2/b04705001/test_parallel/SmallBoard/experiment/FindAllPossibleSerial$ exit
+exit
