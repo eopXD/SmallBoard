@@ -16,9 +16,9 @@ The Z-Hash is used to check if the board position is repeated. In our small boar
 
 The Z-Hash is initially generated using `GoFunction::CreateZobristHash`, with fixed `uint32_t seed = 0xdeadbeef;`. We prepare Z-Hash for the every possible stone of appearance on the board, which includes "Empty"(0), "Black"(1), "White"(2).
 
-## $1_{st}$ Phase: Find All Possible Serial
+## 1st Phase: Find all legal & reduced serial
 
-Find all possible serial numbers for the given board size.
+Find all "legal & reduced" serial numbers for the given board size.
 
 This phase I created a constructor that takes serial numbers in. It calles `GoBoard::SetStone` to place the stones onto the board without maintaining gaming details of the board. (so it is a modification version of `GoBoard::Move`). If anything eat or self-eat move happens when `SetStone`, the construction will end and the for-loop in `FindAllPossibleSerial/main.cpp` will go on to try the next serial number.
 
@@ -26,7 +26,7 @@ This phase I created a constructor that takes serial numbers in. It calles `GoBo
 
 Actually not that many function is related in this phase, because I only want to initialize the board. However the correctness of this phase also have asserted that `GoBlock` and `GoStone` maintenance is **bug-free**.
 
-### Some Psuedo Codes
+### Psuedo Code
 
 - For all possible `serial`...
 	- `GoBoard(serial)`
@@ -52,7 +52,23 @@ By the master thesis, there are about `414.2G` of states in a `5x5` board. I wou
 - If legel, an `1` bit will be appended
 - else , a `0` bit will be appended.
 
-That means I would need `48.1G` byte to save all the legal states.
-I split the states, into 25 files, `2G` bytes per file. So in this phase I would generate 25 subfiles.
+`48.1G` byte needed to save all the legal states.
 
+## 2nd Phase: Find all possible Ko position
 
+Taking the data generated from the previous phase, this part I would still generate data in a sparse manner. Meaning
+that for a illegal serial (represented as a `0` bit in 1st phase data), I would still output 4 bytes full zero for the
+serial number.
+
+For a serial number, 4 bytes are used to record its possible Ko position. (LSB style) Meaning that if you fetch
+`uint32_t x` representing for this serial number, then `((x>>(id))&1) == 1` means that on position `id` there can be a
+Ko.
+
+Also note that boards now all represent as a state where it is the black's turn. So for the checking I will view on
+available white blocks on the board.
+
+### Remarks
+
+### Psuedo Code
+
+### Generating Data
