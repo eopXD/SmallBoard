@@ -162,14 +162,15 @@ int main ()
 					break;
 				}
 			}
-			if ( serial == end_serial ) {
-				break;
-			}
 			if ( w_buf_idx > 0 ) {
 				fwrite(write_buffer, sizeof(unsigned char), 
 				 BUFFER_SIZE, output_file);	
 				w_buf_idx = 0;
 			}
+			if ( serial == end_serial ) {
+				break;
+			}
+
 		}
 //		assert(serial == end_serial);
 		fclose(input_file);
