@@ -54,10 +54,9 @@ BIT_STATE GetAllKo ( GoSerial const serial ) {
 int main ()
 {
 /*
-	GetAllKo(5664941825);
-	GetAllKo(10023933850);
+	GetAllKo(10546976);
+	return (0);
 */
-
 // the real process to find all possible Ko coordinates
 /* reading the data from previous phase */
 
@@ -65,7 +64,7 @@ int main ()
 /* BEWARE THE CONSTANT OF THIS BEFORE COMPILE AND EXECUTION */
 /* BEWARE THE CONSTANT OF THIS BEFORE COMPILE AND EXECUTION */
 /* BEWARE THE CONSTANT OF THIS BEFORE COMPILE AND EXECUTION */
-	const GoSerial STATE_PER_FILE = (1ll<<20); // 2^32 = 2G
+	const GoSerial STATE_PER_FILE = (1ll<<30); // 2^32 = 2G
 	const GoSerial NUMBER_OF_FILE = MAX_SERIAL/STATE_PER_FILE + 1;
 	const int BUFFER_SIZE = 65536;
 
@@ -87,6 +86,9 @@ int main ()
 	uint64_t maximum_ko_of_file[1005] = {};
 	GoSerial maximum_ko_serial_of_file[1005] = {};
 
+// progress bar
+	uint64_t total_finished_parts = 0;
+
 #pragma omp parallel
 {
 #pragma omp for
@@ -100,6 +102,7 @@ int main ()
 		sprintf(filename, "%sdata/data.SparseLegalState.part%05lu",
 		 read_file_path, file_num);
 		FILE *input_file = fopen(filename, "rb");
+		
 		if ( input_file == NULL ) {
 			printf("NANI!!!! open %s fail\n", filename);
 			exit(1);
@@ -114,6 +117,8 @@ int main ()
 			end_serial = MAX_SERIAL;
 		}
 		
+		fprintf(stdout, "open file_num: %llu, start_serial: %llu\n"
+			, file_num, start_serial);
 		GoSerial serial = start_serial;
 		while ( fread(read_buffer, BUFFER_SIZE, sizeof(unsigned char), input_file) ) {
 			w_buf_idx = 0;
@@ -175,6 +180,10 @@ int main ()
 //		assert(serial == end_serial);
 		fclose(input_file);
 		fclose(output_file);
+		fprintf(stdout, "close file_num: %llu", file_num);
+#pragma omp atomic
+		++total_finished_parts;
+		fprintf(stdout, "finsihed: %llu / %llu\n", total_finished_parts, NUMBER_OF_FILE);
 	}
 
 } // end of parallel
