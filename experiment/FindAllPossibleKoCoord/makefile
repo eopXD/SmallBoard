@@ -10,13 +10,16 @@ PARALLEL=-fopenmp
 5x5=-D ROW=5 -D COL=5 -D ENCODE_LENGTH=58 
 
 INCLUDE=-I ../../include/ 
-NOW=$(4x4)
+NOW=$(5x5)
 
 all:
 	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) -c ../../include/comm.cc
 	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) comm.o -c ../../include/GoBoard.cc
 	$(G_PLUS_PLUS) $(PARALLEL) $(STATE_ULL) $(NOW) $(INCLUDE) *.o main.cpp -o exec.main	
+	$(G_PLUS_PLUS) $(PARALLEL) $(STATE_ULL) $(NOW) $(INCLUDE) *.o check_distribution.cpp -o exec.distribution	
 
+	mkdir -p data
+	
 single:
 	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) -c ../../include/comm.cc
 	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) comm.o -c ../../include/GoBoard.cc

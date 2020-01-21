@@ -35,7 +35,7 @@ int main ()
 /* BEWARE THE CONSTANT OF THIS BEFORE COMPILE AND EXECUTION */
 /* BEWARE THE CONSTANT OF THIS BEFORE COMPILE AND EXECUTION */
 /* BEWARE THE CONSTANT OF THIS BEFORE COMPILE AND EXECUTION */
-	const GoSerial STATE_PER_FILE = (1ll<<20); // 2^32 = 2G
+	const GoSerial STATE_PER_FILE = (1ll<<30); // 2^32 = 2G
 	const GoSerial NUMBER_OF_FILE = MAX_SERIAL/STATE_PER_FILE + 1;
 	const int BUFFER_SIZE = 65536;
 
@@ -51,7 +51,7 @@ int main ()
 	uint64_t id_distribution[SMALLBOARDSIZE] = {};
 	uint64_t id_distribution_of_file[1005][SMALLBOARDSIZE] = {};
 // max_ko
-	const uint32_t MAX_KO = TO_BE_FILLED;
+	const uint32_t MAX_KO = 6;
 	vector<GoSerial> serial_with_max_ko[1005];
 
 #pragma omp parallel
@@ -102,7 +102,6 @@ int main ()
 		}
 //		assert(serial == end_serial);
 		fclose(input_file);
-		fclose(output_file);
 	}
 
 } // end of parallel
@@ -114,7 +113,7 @@ int main ()
 	}
 
 	FOR_EACH_COORD(id) {
-		printf("id: %d, number of ko_state: %lu\n", id_distribution[id]);
+		printf("id: %d, number of ko_state: %lu\n", id, id_distribution[id]);
 	}
 
 	printf("\nserial with maximum ko %d\n", MAX_KO);
