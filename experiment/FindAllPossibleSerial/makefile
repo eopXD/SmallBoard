@@ -11,7 +11,7 @@ PARALLEL=-fopenmp
 5x5=-D ROW=5 -D COL=5 -D ENCODE_LENGTH=58 
 
 INCLUDE=-I ../../include/ 
-NOW=$(4x4)
+NOW=$(5x5)
 
 all:
 	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) -c ../../include/comm.cc
