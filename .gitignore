@@ -3,3 +3,4 @@ exec.*
 data.*
 *.part*
 *.dat
+.ipynb_checkpoints
