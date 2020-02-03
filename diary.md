@@ -741,15 +741,195 @@ file explanation for HC's master thesis:
 今天去開會，報告了這兩個禮拜的進度（到 checkKo 為止的東東），這禮拜要生出一些關於 Ko 的數據，在這裡列出來當作提醒，另外還要學會平行程式設計，這樣才能加速資料的處理。所以以下是這週的 TODO List ：
 
 
-- 學會用 OpenMP 平行處理
-- 算出 koState 中我有算出來而他沒有算出來的是哪些
-- Maximum Ko Per Serial Number  (5x5)
-- For every `id`, number of Ko that happens on that position
-- total legal board of 5x5
+- [x] 學會用 OpenMP 平行處理
+- [ ] 算出 koState 中我有算出來而他沒有算出來的是哪些
+- [ ] Maximum Ko Per Serial Number  (5x5)
+- [ ] For every `id`, number of Ko that happens on that position
+- [x] Total legal board of 5x5
+- [ ] Maximum string of a Go Board (19x19)
 
 今天報告時很糗，反正學長她生出了的 KoState 檔案很怪，第一格他的 serial 居然還是 illegal 的，害我以為我的 construction 有 bug ，原來是 board 丟進去之後顯示出錯誤的盤面，因為我 `GoBoard` 的建構時如果有任何吃或是被吃的動作的話，都會直接 abort 。
 
 除了繼續我的進度之外，我也要看看學長的 code 到底是哪裡出了問題 XD 媽的居然給我捅出這種爛東西。
 
+
+## 12/19
+
+今天先把 OpenMP 的細節處理好。平行處理的話有很多 race condition 需要注意呢。
+
+在 counter 方面，要用 `#pragma omp atomic` 來確定下一行的 operation 是 atomic 的。因為仔細對照之後會發現以 file number 來分的話算出來的數字是一樣的而加總的 total 是不一樣的，也就是 counter 出現了 race condition 的狀況。
+
+經過 `atomic` 調整之後，數字就正常了！原本要跑 40 秒的東東 4 秒就跑好了 ＯＡＯ ～～～～
+
+接下來也要調整 Ko State 的 code ，不過基本上不會差多少。
+
+- 下午 17:35 開跑平行處理的 `FindSerial5x5` , find it at `@white:/tmp2/b04705001/test_parallel/SmallBoard/experiment/FindAllPossibleSerial`
+
+今天也把 KoState 的部分加上平行處理。接下來等 GetSerial 階段跑完之後，就可以跑 CheckKo 。
+
+對 CheckKo 可以也還要再調查在各個位置上面的分佈，這個部分應該滿快的，我來預先把 code 寫好好了。
+
+##### Maximum ko for 4x4 = 3
+
+```
+serial = 10546976
+
+WEWB
+EWBB
+WBBW
+BEWE
+
+0100
+1000
+0000
+0001
+```
+
+反正閒著等東西跑出來，可以來看看之後 HC Master Thesis 做了哪一些動作。
+
+我現在已經做的部分是 CheckLegal 跟 CheckKo
+
+再來要做這兩樣就算是完成 preprocessing phase 了，這個階段會需要 `GoBoard::GetPossibleMove()` 的正確性。
+
+- CheckTerminate
+- CheckOutDegree
+
+完成預處理之後，就是 Retrograde Analysis 。
+
+
+## 12/20
+
+平行處理好神，昨天五點半開始跑，應該等等五點四十就可以完成了。從上禮拜開始跑的 single process 到現在都還沒有完成，真是嘖嘖。
+
+平行處理的跑完了，在這邊紀錄一下結果摘要，並且這個結果符合論文上 `5x5` 的數字。
+
+```
+4x4
+MAX_SERIAL: 					43046721
+total_illegal_state: 			18728556
+total_legal_state: 				24318165
+total_reduced_legal_state: 		21270382
+total_remain_legal_state: 		3047783
+
+left over fraction: 0.07080174585
+
+5x5
+MAX_SERIAL: 					847288609443
+total_illegal_state: 			432993460702
+total_legal_state: 				414295148741
+total_reduced_legal_state: 		362504739986
+total_remain_legal_state: 		51790408755
+
+left over fraction: 0.06112487312
+```
+
+- `4x4`: 7% 殘存的是 legal state.
+- `5x5`: 6% 殘存的是 legal state.
+
+因為 Ko State 的數字跟學長不一樣，這邊我打算再次檢查一下 KoState 的正確性。
+
+- 調查 [id] 上面有多少 ko
+- 我覺得離散化的 ko 應該長得很像，也來看看這樣 4 byte 解碼出來有幾種。
+
+怎麼看都很對呀ＯＡＯ～～～～到底為什麼數字不一樣⋯⋯
+
+- `id = 11` 沒有 ko
+- 但是綜合來說的 ko_state 只有 57 種！好少喔 $2^{16} = 65536$ 呢！ＯＡＯ
+
+```
+total ko state: 167000
+distinct: 15
+0: 19775
+1: 15324
+2: 16348
+3: 23960
+4: 18271
+5: 508
+6: 584
+7: 19091
+8: 19280
+9: 167
+10: 103
+12: 13896
+13: 2104
+14: 119
+15: 17470
+==========
+```
+
+調查了一下 HC 的 `uncompress_ko_state_4x4-16.dat`, 實在是太恐怖了⋯⋯
+
+```
+distinct: 16
+10: 11
+9: 2
+13: 210
+14: 42
+12: 201
+8: 762
+5: 21
+6: 17
+2: 629
+3: 743
+15: 569
+4: 400
+7: 360
+1: 703
+11: 325
+0: 827
+==========
+```
+
+## 2020/01/19
+
+<!--經過了期末風暴之後（還要處理一些進階英文的東東⋯⋯），不過現在該把原來的東西做個結束了！（也快做完了）-->
+
+剛剛把 FindAllPossibleKo 處理完，平行處理約花費 6 個小時。接下來做出 KoState 對 `[id]` 的統計數量。
+
+特別提一下 Maximum Ko 的出現情況... Maximum Ko = 6 (17 Blocks)
+
+![](experiment/FindAllPossibleKoCoord/result/5x5_max_ko_position.png)
+
+Total Legal Reduced State: 		51790408755 (6.1% of all state)
+Total Ko State: 				3473909911 (6.7% of all legal state)
+
+
+```
+Total Legal Reduced State: 		51790408755 (6.1% of all state)
+Total Ko State: 				3473909911 (6.7% of all legal state)
+
+id:  0, number of ko_state: 334276930
+id:  1, number of ko_state: 266712106
+id:  2, number of ko_state: 129322142
+id:  3, number of ko_state: 254411053
+id:  4, number of ko_state: 347478782
+id:  5, number of ko_state: 267862740
+id:  6, number of ko_state: 7292196
+id:  7, number of ko_state: 16970456
+id:  8, number of ko_state: 7275276
+id:  9, number of ko_state: 322885220
+id: 10, number of ko_state: 144625549
+id: 11, number of ko_state: 18916627
+id: 12, number of ko_state: 17690440
+id: 13, number of ko_state: 29200461
+id: 14, number of ko_state: 135103223
+id: 15, number of ko_state: 310552928
+id: 16, number of ko_state: 7915423
+id: 17, number of ko_state: 9027019
+id: 18, number of ko_state: 3191705
+id: 19, number of ko_state: 1446516
+id: 20, number of ko_state: 310127304
+id: 21, number of ko_state: 174615185
+id: 22, number of ko_state: 15297063
+id: 23, number of ko_state: 3645861
+id: 24, number of ko_state: 338067706
+```
+
+```
+serial with maximum ko 6
+
+serial = 212254457379
+serial = 212254634526
+```
 
 
