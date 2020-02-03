@@ -69,6 +69,21 @@ available white blocks on the board.
 
 ### Remarks
 
+Ko mainly distribute on corners or border lines.
+
+#### 5x5
+
+![](experiment/FindAllPossibleKoCoord/result/5x5_by_id.png)
+
 ### Psuedo Code
 
+- For all legal `serial` (decoded from data saved in previous phase)
+	-  For all position of `serial` (saved in 32 bit)
+		-  If there is a ko position for this stone's neighbor
+		-  Set neighbor to a possible ko position
+	- Write the 32 bit into buffer
+- When buffer is full, write to file
+
 ### Generating Data
+
+For each position, generate 32 bit record the ko positions. The `0th` bit (least bit) represents for position `id = 0`. Checkout the data splitting in `result/5x5.log` for argument setting of next phase.
