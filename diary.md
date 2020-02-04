@@ -933,3 +933,152 @@ serial = 212254634526
 ```
 
 
+## 2020/02/04 
+
+資料夾遷移至 `2020Spring/` 底下。
+
+### 小整理。
+
+目前工作分成兩個分支來進行，一個是完成 Retrograde Analysis ，第二個是去調查能不能有更好的 encoding 。
+
+- Check Terminate State
+- Check OutDegree
+
+另外昨天跟老師討論了該如何進行更進一步的研究。
+可能需要對 Distribution 做一些調查：
+
+- 對 Legal State 而言，我們目前是以 Flip / Rotate 來進行 Legal State Reduction ，要提出的問題是這樣的 reduction 是否使 Legal State 是一個 「好」 的分佈？
+- 對 Ko State ，對每個 位置(`id`) 而言，Ko 的分佈數量如何也是需要調查的。
+
+### Check Terminate 問題定義與了解
+
+要知道初始盤面的話需要計算當前盤面的分數。根據過去學長的論文⋯⋯
+
+> A terminate state is where one player cannot make any legal move and the other player is currently winning.
+
+於是我們要檢查兩樣東東：
+
+- Current player does not have legal move
+- The other player is winning
+	- 這一點就需要判定當前盤面的 Score
+
+另外要注意的是， `pass=2` 時都是 terminate score ，但很 trivial 可以之後加上。
+
+承上一個階段，我們處理的盤面是現在輪到 Black ，所以：
+
+- 檢查當前 Black 還有沒有 legal move
+- 該盤面分數 White 領先
+
+<!--對了，HC 的 code 中很爛的地方是開了一條很長的 bool array 來存取該 state 為 Win/Lose/Draw 何者。而這件事情本身也是很慢的超怪，因為你開了很長的陣列，所以 access 時會有 page fault 和 page miss -->
+
+這裏我們要數一下我們要考慮的 candidate 有哪一些：
+
+- 首先是 reduced legal 
+- 再來是根據每個可能的 ko position 來判斷這個盤面為 win/lose/draw/not-terminate
+- 再來是在當前盤面沒有 ko 的情況下可否為 win/lose/draw not-terminate
+
+所以每個 serial 會有 $26 \times 2$ bit 來儲存這個東東。對每個 serial ：
+
+- 第 0, 1 個 bit 用來儲存該盤面第 0 個位置 (`id=0`)有 ko 時為 lose/draw/not-terminate/null-value 何者
+- 第 2, 3 個 bit 用來儲存該盤面第 1 個位置 (`id=1`)有 ko 時為 lose/draw/not-terminate/null-value 何者
+- ...
+- 第 49, 50 個 bit 用來儲存該盤面第 24 個位置 (`id=24`)有 ko 時為 lose/draw/not-terminate/null-value 何者
+- 第 51, 52 個 bit 用來儲存該盤面沒有 ko 時為 lose/draw/not-terminate/null-value 何者
+
+對於不是 reduced legal 的盤面，我們不用去檢查，而對這樣的盤面直接輸出 52 個bit 代表連續的 26 個 non-terminate 。
+這裡取整，因此每 64 bit 代表一個 serial number 的 terminate status 。
+
+編碼：
+
+```
+00: NULL Value
+01: Not terminate
+10: Lose
+11: Draw
+```
+
+這是 HC Thesis 中所使用的 Score Evaluation ，簡而言之就是把白子黑子加起來，空地的部分如果被白色包圍就算白色的，反之就是黑色的，要不然就不計分。
+
+```
+int SmallBoard::evaluateWinCount(Board *b) {
+    int diff = 0;
+  for (int i = 1; i <= ROW; i++)
+    for (int j = 1; j <= COL; j++)
+      if (b->board[i][j] == BLACK)
+        diff++;
+      else if (b->board[i][j] == WHITE)
+          diff--;
+      else {
+          bool isB = true, isW = true, isDetermined = true;
+        for (int d = 0; d < MAXDIRECTION && isDetermined; d++) {
+            switch(b->board[i + DirectionX[d]][j + DirectionY[d]]){
+            case EMPTY:
+                isDetermined = false;
+                break;
+            case BLACK:
+                isW = false;
+                break;
+            case WHITE:
+                isB = false;
+                break;
+            }
+        }
+        if(isDetermined){
+            if (isB && !isW)
+                diff++;
+            else if (!isB && isW)
+                diff--;
+        }
+      }
+  return diff;
+}
+```
+
+可是這樣子這種情形似乎就沒有分數可以計算：
+
+![](misc/score_calc_example.png)
+
+但這不是終結盤面，所以不用去擔心。而對非終結盤面我們最後也可用 retrograde analysis 來得到屬於他的分數。
+
+### 發現 BUG ！！
+
+```
+老師你好，
+
+I think that the coding of checkTerminate phase in HC thesis is bugged.
+
+In the previous phase (checkKo), 
+for reduction all board are assumed to be Black's turn.
+
+
+However in his checkTerminate, 
+it collect boards and assume there is a possible outcome of win, 
+which shall not be assumed because the candidates right now is in Black's turn.
+
+With the current candidate we can only generate for 
+losing set of the black, and obtain the winning set for black 
+by flipping the black/white stone's in the losing set.
+
+
+In other words, 
+the program will identify non-terminate states of 
+black winning into terminate states.
+
+學生 陳約廷 敬上
+```
+
+The fact of finding this bug makes me doubt the whether the correctness of HC's experiment. He had already failed my assertion on checking Ko, and now he also did this phase wrongly. The whole master thesis seems like a fucking fraud.
+
+I think after I finish the retrograde analysis I shall publish my work as a wrappup for this project (no matter of further encoding). I think searching for a better encoding is not an investment worth making.
+
+### Back to Check Terminate 問題定義與了解
+
+當前 candidate 皆屬於 black's turn ，所以對 black's turn 能夠有以下可能：
+
+- White win (Black Lose)
+	- 條件：black no legal move && white is winning 
+- Draw 
+	- 條件：black no legal move && white no legal move
+	- if white has legal move, it shall not be a terminal state since a child node appears
+	- this also means that we need to also maintain a Drawing Set. in the retrograde analysis.
+	- the number of drawing with retrograde analysis shall go to zero, if that is the case, this means that the game is completely searched and solved.
