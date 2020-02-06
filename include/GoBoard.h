@@ -86,13 +86,36 @@ protected:
 
 /* for checking if this board can have a ko at the given position 'id' */
 public:
+// NOTE: 'opponent_color' is set to WHITE, reduce small board's to black's turn
+
 // call this function only when the GoBoard is constructed by GoSerial
 // return value
 // 			-1: no possible Ko for this stone's neighbor
-//	 GoCoordId: the GoCoordId of the 
+//	 GoCoordId: the GoCoordId of the ko
 	GoCoordId CheckKoPosition ( const GoCoordId id, 
  const GoStoneColor opponent_color=GoConstant::WhiteStone );
 
+/* for whether this board is a terminate state */
+public:
+// Conditions for terminate board
+	uint8_t CheckTerminate ( bool black_no_move, bool white_no_move );
+// NOTE: reduce all boards to black's turn (same as the previous phase CheckKo)
+// NOTE: call this function after board is initialized
+// returns a ploynomial of series of 5
+// 0: NULL Value (illegal board, or this ko-position is not)
+// 1: Not terminate
+// 2: Win
+// 3: Lose
+// 4: Draw
+	uint64_t CheckTerminates ( const uint32_t ko_state );
+
+// returns current board score difference (BLACK-WHITE)
+// result also cached in '.board_score' variable
+// > 0: WIN  for current player
+// < 0: LOSE for current player 
+// = 0: DRAW for current player
+	GoCoordId CheckScore ( 
+ GoStoneColor opponent_color=GoConstant::WhiteStone );
 
 protected:
 // returns own color
@@ -135,7 +158,7 @@ private :
 	GoStoneColor board_state[GoConstant::SMALLBOARDSIZE];
 	GoStoneColor current_player, opponent_player;
 	GoCoordId previous_move;
-	GoCoordId ko_position, pass_count;
+	GoCoordId ko_position;
 // status of the board
 	GoCounter game_length;
 	// sequence of existence of blocks, to deternine if need to update block
@@ -144,10 +167,10 @@ private :
 /* Zobrist Hash to forbid Basic Ko (we allow Positional SuperKo) */
 	GoHash record_zobrist[4];
 	GoHash current_zobrist_value;	
-// score calculation: neighbors if consist both black and white, then both
-// add 1, else add score to the corresponding color. Also add stones as
-// scores. score = black - white (since we are reducing)
-// let it be an unsigned integer, so we add ROW*COL to the score.
+// score calculation: only count stones, and empty intersection that is
+// 'fully' surrounded by the same colour of stones.
+// score is cached into this variable when CheckScore is called
+// score = BLACK - WHITE (since we are reducing) 
 	GoScore board_score;
 /* important features */
 // legal_move_map[idx] = 1 means we can play a stone onto that position
