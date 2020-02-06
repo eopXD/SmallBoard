@@ -41,9 +41,9 @@ using GoHash = uint64_t; // for Zobrist Hash
 // boards right now.
 using GoStoneColor = uint8_t; // color of stone on the board
 using GoCoordId = int8_t; // Id that corresponds to the coordination
-using GoScore = uint8_t; // Score of the board
+using GoScore = int8_t; // Score of the board
 using GoBlockId = int8_t; // Blocks on the board (check GoBlock)
-using GoCounter = uint16_t; // size of counters
+using GoCounter = uint16_t; // Size of counters
 
 using GoPosition = std::pair<GoCoordId, GoCoordId>;
 using GoHashPair = std::pair<uint64_t, uint64_t>;
@@ -73,6 +73,13 @@ const GoStoneColor BlackStone = 1;
 const GoStoneColor WhiteStone = 2;
 const char COLOR_CHAR[] = "EBW";
 const char *const COLOR_STRING[] = {"Empty", "Black", "White"};
+
+// Possible Result for Terminate Boards
+const GoCoordId NULL_TERMINATE = 0;
+const GoCoordId NOT_TERMINATE = 1;
+const GoCoordId TERMINATE_WIN = 2;
+const GoCoordId TERMINATE_LOSE = 3;
+const GoCoordId TERMINATE_DRAW = 4;
 
 // GoCoordId
 const GoCoordId BORDER_R = ROW;
@@ -178,6 +185,10 @@ extern void CreateLog2Table ();
 // for all available 'id'
 #define FOR_EACH_COORD(id) for ( GoCoordId id=0; \
  id<GoConstant::SMALLBOARDSIZE; ++id )
+
+// reverse for all available `id`
+#define REV_FOR_EACH_COORD(id) for ( \
+GoCoordId id=GoConstant::SMALLBOARDSIZE-1; id>=0; id-- )
 
 // for all available 'blk_id'
 #define FOR_EACH_BLOCK(id) for ( GoBlockId id=0; \
