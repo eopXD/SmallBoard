@@ -20,7 +20,7 @@ using namespace GoConstant;
 using namespace GoFunction;
 using namespace std;
 
-void display ( BIT_STATE bitstring ) {		
+void display ( uint32_t bitstring ) {		
 	FOR_EACH_COORD(id) {
 		putchar(bitstring&1 ? '1' : '0');
 		bitstring >>= 1;
@@ -31,9 +31,9 @@ void display ( BIT_STATE bitstring ) {
 }
 
 /* GetAllKo() is the main thing we are doing in this phase */
-BIT_STATE GetAllKo ( GoBoard &board ) {
+uint32_t GetAllKo ( GoBoard &board ) {
 	
-	BIT_STATE ko_state = 0;
+	uint32_t ko_state = 0;
 	
 	//board.DisplayBoard();
 
@@ -47,7 +47,7 @@ BIT_STATE GetAllKo ( GoBoard &board ) {
 	//display(ko_state);
 	return (ko_state);
 }
-BIT_STATE GetAllKo ( GoSerial const serial ) {
+uint32_t GetAllKo ( GoSerial const serial ) {
 	GoBoard board(serial);
 	return (GetAllKo(board));
 }
@@ -129,7 +129,7 @@ int main ()
 /* what you are going to do with the bit 'is_reduced_legal */
 /* start */
 					if ( is_reduced_legal ) {
-						BIT_STATE ko_state = GetAllKo(serial);
+						uint32_t ko_state = GetAllKo(serial);
 						uint32_t num_of_ko = __builtin_popcount(ko_state);
 						
 #pragma omp atomic
