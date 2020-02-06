@@ -73,7 +73,7 @@ Ko mainly distribute on corners or border lines.
 
 #### 5x5
 
-![](experiment/FindAllPossibleKoCoord/result/5x5_by_id.png)
+![](experiment/2_FindAllPossibleKoCoord/result/5x5_by_id.png)
 
 ### Psuedo Code
 
