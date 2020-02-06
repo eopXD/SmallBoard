@@ -114,7 +114,7 @@ public:
 // > 0: WIN  for current player
 // < 0: LOSE for current player 
 // = 0: DRAW for current player
-	GoCoordId CheckScore ( 
+	GoCoordId CalcScore ( 
  GoStoneColor opponent_color=GoConstant::WhiteStone );
 
 protected:
