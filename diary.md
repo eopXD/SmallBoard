@@ -948,7 +948,7 @@ serial = 212254634526
 可能需要對 Distribution 做一些調查：
 
 - 對 Legal State 而言，我們目前是以 Flip / Rotate 來進行 Legal State Reduction ，要提出的問題是這樣的 reduction 是否使 Legal State 是一個 「好」 的分佈？
-- 對 Ko State ，對每個 位置(`id`) 而言，Ko 的分佈數量如何也是需要調查的。
+- 對 Ko State ，對每個 位置(`id`) 而言，Ko 的分佈數量如何也是需要調查的。 (reduce 前後都要調查)
 
 ### Check Terminate 問題定義與了解
 
@@ -1069,7 +1069,7 @@ black winning into terminate states.
 
 The fact of finding this bug makes me doubt the whether the correctness of HC's experiment. He had already failed my assertion on checking Ko, and now he also did this phase wrongly. The whole master thesis seems like a fucking fraud.
 
-I think after I finish the retrograde analysis I shall publish my work as a wrappup for this project (no matter of further encoding). I think searching for a better encoding is not an investment worth making.
+I think after I finish the retrograde analysis I shall try to wrappup this project (no matter of further encoding). I think searching for a better encoding is not an investment worth making.
 
 ### Back to Check Terminate 問題定義與了解
 
@@ -1082,3 +1082,27 @@ I think after I finish the retrograde analysis I shall publish my work as a wrap
 	- if white has legal move, it shall not be a terminal state since a child node appears
 	- this also means that we need to also maintain a Drawing Set. in the retrograde analysis.
 	- the number of drawing with retrograde analysis shall go to zero, if that is the case, this means that the game is completely searched and solved.
+
+
+## 2020/02/05
+
+今天是禮拜三，開會。
+
+一起討論了 BUG ，其實當 Black 是領先時，且 Black can pass to White, and White does not have any legal move, then this board will consider a board with Black winning. 
+
+### Terminating Condition
+
+所以我們現在可以得到下列的 termination 條件：
+
+- If Black is _**Winning**_, sending a PASS (ko is canceled), and White has no legal move
+	- Current Board: Black WIN, White LOSE
+- Else-If Black is **_Losing_**, and Black has no legal move
+	- Current Board: Black LOSE, White WIN
+- Else-If **_Black has no legal move_**, sending a PASS (ko is canceled), and **_White has no legal move_**
+	- Current Board: Result will be the current score evaluated
+- Else, this is NOT a terminate board
+
+### Compression on Wavelet Tree
+
+另外還需要建置 Wavelet Tree 的壓縮率表格（density vs compression rate）。
+
