@@ -334,6 +334,134 @@ GoCoordId GoBoard::CheckKoPosition ( const GoCoordId id,
 	return (eat_me);
 }
 
+/* for checking whether a state is a terminal state */
+
+// Encoding for CheckTerminate phase
+// 0: NULL Value (illegal board, or this ko-position is not)
+// 1: Not terminate
+// 2: Win
+// 3: Lose
+// 4: Draw
+uint8_t GoBoard::CheckTerminate ( bool black_no_move, bool white_no_move ) {
+	if ( board_score>0 and white_no_move ) {
+		return (TERMINATE_WIN);
+	} else if ( board_score<0 and black_no_move ) {
+		return (TERMINATE_LOSE);
+	} else if ( black_no_move and white_no_move ) {
+		if ( board_score>0 ) {
+			return (TERMINATE_WIN);
+		} else if ( board_score == 0 ) {
+			return (TERMINATE_DRAW);
+		} else {
+			return (TERMINATE_LOSE);
+		}
+	} else {
+		return (NOT_TERMINATE);
+	}
+}
+
+// NOTE: assume black as the current player
+// return 64-bit with encoded as a polynomial of 5
+// for encode checkout CheckTerminate
+uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
+	
+// black_no_move[SMALLBOARDSIZE] is when assuming no ko on board
+	bool black_no_move[SMALLBOARDSIZE+1]; 		
+
+// NOTICE the assumption on evaluating on all boards in black's turn first
+	current_player = BlackStone;
+	opponent_player = WhiteStone;
+
+// check current board score
+	CalcScore();
+// check possible move for BLACK
+	ko_position = COORD_UNSET;
+	GetPossibleMove(); // moves of BLACK
+	uint8_t black_move_num = __builtin_popcountll(legal_move_map.to_ullong());
+	
+	FOR_EACH_COORD(i) {
+		if ( black_move_num == 0 ) {
+			black_no_move[i] = true;
+			continue;
+		}
+
+		bool can_be_ko = (ko_state>>i)&1;
+		if ( can_be_ko and black_move_num == 1 and legal_move_map[i] ) {
+			black_no_move[i] = true;
+		} else {
+			black_no_move[i] = false;
+		}
+	}
+	black_no_move[SMALLBOARDSIZE] = (black_move_num>0);
+
+// check possible move for WHITE (white don't need to deal with ko)
+	HandOff();
+	GetPossibleMove(); // moves of WHITE
+	uint8_t white_move_num = __builtin_popcountll(legal_move_map.to_ullong());
+	bool white_no_move = (white_move_num>0);
+
+// result for return
+	uint64_t result = 0;
+	result = result*5 + CheckTerminate(black_no_move[SMALLBOARDSIZE], white_no_move);
+
+	// for possible ko positions...
+	REV_FOR_EACH_COORD(i) {
+		bool can_be_ko = (ko_state>>i)&1;
+		if ( can_be_ko ) {
+			CheckTerminate(black_no_move[i], white_no_move);
+		} else {
+			result *= 5; // NULL value
+		}
+	}
+	return (result);
+}
+
+// NOTE: this function cannot calculate non-terminal board score correctly
+// NOTE: only for calculation on terminal positions
+// NOTE: assume black is the current player
+// returns current board score difference (BLACK-WHITE)
+// result also cached in '.board_score' variable
+// > 0: WIN  for current player
+// < 0: LOSE for current player 
+// = 0: DRAW for current player
+GoCoordId GoBoard::CalcScore ( GoStoneColor opponent_color ) {
+	board_score = 0;
+	FOR_EACH_COORD(i) {
+		if ( board_state[i] != EmptyStone ) {
+			if ( board_state[i] == opponent_color ) {
+				board_score--;
+			} else {
+				++board_score;
+			}
+		} else {
+			bool no_empty_neighbor = 1; // assume having no empty neighbor
+			bool friendly_neighbor = 0;
+			bool opponent_neighbor = 0;
+			FOR_NEIGHBOR(i, nb) {
+				if ( board_state[*nb] == EmptyStone ) {
+					no_empty_neighbor = 0;
+					break;
+				} else {
+					if ( board_state[*nb] == opponent_color ) {
+						opponent_neighbor = 1;
+					} else {
+						friendly_neighbor = 1;
+					}
+				}
+			}
+			if ( no_empty_neighbor ) {
+				if ( friendly_neighbor and !opponent_neighbor ) {
+					++board_score;
+				}
+				if ( opponent_neighbor and !friendly_neighbor ) {
+					--board_score;
+				}
+			}
+		}
+	}
+	return (board_score);
+}
+
 
 // returns own color
 GoStoneColor GoBoard::SelfColor () {
