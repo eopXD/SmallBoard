@@ -374,11 +374,26 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 
 // check current board score
 	CalcScore();
+	cerr << "score: " << (int)board_score << "\n";
+
 // check possible move for BLACK
 	ko_position = COORD_UNSET;
 	GetPossibleMove(); // moves of BLACK
 	uint8_t black_move_num = __builtin_popcountll(legal_move_map.to_ullong());
+	cerr << "BLACK legal move: " << (int) black_move_num << "\n";
+	for ( GoCoordId r=0; r<BORDER_R; ++r ) {
+		for ( GoCoordId c=0; c<BORDER_C; ++c ) {
+			cerr << (int)legal_move_map[r*BORDER_C+c];
+		}
+		cerr << "\n";
+	}
 	
+
+/******************************************************/
+// DELETE THIS AFTER SOLVING BUG IN GetPossibleMove
+	return 0;
+/******************************************************/
+
 	FOR_EACH_COORD(i) {
 		if ( black_move_num == 0 ) {
 			black_no_move[i] = true;
@@ -392,14 +407,31 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 			black_no_move[i] = false;
 		}
 	}
-	black_no_move[SMALLBOARDSIZE] = (black_move_num>0);
+	black_no_move[SMALLBOARDSIZE] = (black_move_num==0);
+	cerr << "black_no_move: " << "\n";
+	cerr << "no ko: " << (int)black_no_move[SMALLBOARDSIZE] << "\n";
+	for ( GoCoordId r=0; r<BORDER_R; ++r ) {
+		for ( GoCoordId c=0; c<BORDER_C; ++c ) {
+			cerr << (int)black_no_move[r*BORDER_C+c];
+		}
+		cerr << "\n";
+	}
 
 // check possible move for WHITE (white don't need to deal with ko)
 	HandOff();
 	GetPossibleMove(); // moves of WHITE
 	uint8_t white_move_num = __builtin_popcountll(legal_move_map.to_ullong());
-	bool white_no_move = (white_move_num>0);
-
+	cerr << "WHITE legal move: " << (int) white_move_num << "\n";
+	for ( GoCoordId r=0; r<BORDER_R; ++r ) {
+		for ( GoCoordId c=0; c<BORDER_C; ++c ) {
+			cerr << (int)legal_move_map[r*BORDER_C+c];
+		}
+		cerr << "\n";
+	}
+	
+	bool white_no_move = (white_move_num==0);
+	cerr << "white_no_move: " << (int)white_no_move << "\n";
+	
 // result for return
 	uint64_t result = 0;
 	result = result*5 + CheckTerminate(black_no_move[SMALLBOARDSIZE], white_no_move);
@@ -528,12 +560,24 @@ GoError GoBoard::TryMove ( GoBlock &blk, const GoCoordId target_id,
  	}
  	GoCounter cnt = 0;
  	
- 	//blk.Reset();
  	blk.stone_count = 1;
  	blk.color = SelfColor();
 
  	GetNeighborBlocks(blk, target_id, nb_id);
-
+ 	cerr << "Initial Block:\n";
+ 	cerr << "Stone\n";
+ 	blk.DisplayStone();
+ 	cerr << "Liberty\n";
+ 	blk.DisplayLiberty();
+ 	cerr << "TryMove::nb_id[0]: " << (int)nb_id[0] << "\n";
+ 	for ( GoBlockId i=1; i<=nb_id[0]; ++i ) { // checked stone/liberty correct
+ 		cerr << "nb[" << (int)i << "]: " << (int)nb_id[i] << "\n";
+ 		GoBlock &nb_blk = block_pool[nb_id[i]];
+ 		cerr << "Stone\n";
+ 		nb_blk.DisplayStone();
+ 		cerr << "Liberty\n";
+ 		nb_blk.DisplayLiberty();
+ 	}
  	die_id[0] = 0;
  	for ( GoBlockId i=1; i<=nb_id[0]; ++i ) {
  		GoBlock &nb_blk = block_pool[nb_id[i]];
@@ -548,13 +592,19 @@ GoError GoBoard::TryMove ( GoBlock &blk, const GoCoordId target_id,
  		} 
  	// else it is a friendly block, so I try to merge it...
  		else {
+ 			cerr << "merge!\n";
  			blk.TryMergeBlocks(nb_blk);
+	 		cerr << "Stone: \n";
+ 			blk.DisplayStone();
+ 			cerr << "Liberty: \n";
+ 			blk.DisplayLiberty();
+ 			cerr << "===============\n";
  		}
  	}
 
  	blk.ResetLiberty(target_id);
- 	if ( blk.CountLiberty() >= max_lib ) {
- 		return (cnt);
+ 	if ( blk.CountLiberty() == 0 ) { // self-eat move
+ 		return (-1);
  	}
  	if ( 0 != die_id[0] ) {
  		for ( GoBlockId i=1; i<=die_id[0]; ++i ) {
@@ -593,56 +643,61 @@ void GoBoard::GetPossibleMove () {
 	GoBlockId tmp[2][5];  
 	
 	bool have_empty_neighbor;
-
 	legal_move_map.reset();
-	GetNewBlock(blk_id);
 
-	GoBlock &blk = block_pool[blk_id];
-
-	FOR_EACH_COORD(i) {
-		if ( EmptyStone != board_state[i] ) { // can't put stone on non-empty
+	FOR_EACH_COORD(id) {
+		if ( EmptyStone != board_state[id] ) { // can't put stone on non-empty
 			continue;
 		}
-		if ( ko_position == i ) { // can not put stone on ko
+		if ( ko_position == id ) { // can not put stone on ko
 			continue;
 		}
+		GetNewBlock(blk_id);
+		GoBlock &blk = block_pool[blk_id];
+
+		cerr << (int) id << " " << (int)cached_neighbor_size[id] << "\n";
 		have_empty_neighbor = 0;
-		FOR_NEIGHBOR(i, nb) {
+		FOR_NEIGHBOR(id, nb) {
+			cerr << (int)(id) << ": " << (int)(*nb) << "\n"; 
 			if ( EmptyStone == board_state[*nb] ) {
 				have_empty_neighbor = 1;
-				break;
+				//break;
 			}
-		}
-		legal_move_map.set(i);
+		} cerr << "\n";
+		cerr << "\nempty neighbor: " << have_empty_neighbor << "\n";
+		legal_move_map.set(id);
 		if ( have_empty_neighbor ) {
+			RecycleBlock(blk_id);
 			continue;
 		}
-		
-		TryMove(blk, i, tmp[0], tmp[1]);
+		// no empty neighbor
+		TryMove(blk, id, tmp[0], tmp[1]);
 		blk.CountLiberty();
+		cerr << "block liberty: " << blk.liberty_count << "\n";
 		if ( blk.liberty_count <= 0 ) {
-			legal_move_map.reset(i);
+			legal_move_map.reset(id);
+			RecycleBlock(blk_id);
 			continue;
 		}
 	// check for basic Ko
 		if ( game_length > 2 ) {
 			GoHash new_zobrist_value = current_zobrist_value;
 			
-			new_zobrist_value ^= zobrist_board_hash_weight[SelfColor()][i];
+			new_zobrist_value ^= zobrist_board_hash_weight[SelfColor()][id];
 			new_zobrist_value ^= zobrist_switch_player;
 
 			GoBlockId *die_id = tmp[1];
 			for ( GoBlockId i=1; i<=die_id[0]; ++i ) {
-				FOR_BLOCK_STONE(id, block_pool[die_id[i]],
-					new_zobrist_value ^= zobrist_board_hash_weight[OpponentColor()][id];
+				FOR_BLOCK_STONE(j, block_pool[die_id[i]],
+					new_zobrist_value ^= zobrist_board_hash_weight[OpponentColor()][j];
 				);
 			}
 
 			if ( record_zobrist[(game_length-1+4)&3] == record_zobrist[(game_length-3+4)&3] ) {
-				legal_move_map.reset(i);
+				legal_move_map.reset(id);
 			}
 		}
+		RecycleBlock(blk_id);
 	}
-	RecycleBlock(blk_id);
 }
 
