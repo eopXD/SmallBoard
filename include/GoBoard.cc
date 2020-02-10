@@ -430,9 +430,13 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 	
 // result for return
 	uint64_t result = 0;
-	result = result*5 + CheckTerminate(black_no_move[SMALLBOARDSIZE], white_no_move);
+	result = CheckTerminate(black_no_move[SMALLBOARDSIZE], white_no_move);
+	if ( ko_state == 0 ) { // skip to check on any ko
+		result *= 298023223876953125; // 5**25 = 298023223876953125
+		return (result);
+	}
+
 	//cerr << "no ko: " << (int)CheckTerminate(black_no_move[SMALLBOARDSIZE], white_no_move) << "\n";
-	
 	// for possible ko positions...
 	REV_FOR_EACH_COORD(id) {
 		bool can_be_ko = (ko_state>>id)&1;
@@ -442,7 +446,7 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 			//cerr << (int)CheckTerminate(black_no_move[id], white_no_move);
 		} else {
 			//cerr << 0;
-			result *= 5; // NULL value
+			result = result*5; // NULL value
 		}
 		//if ( id%BORDER_C == 0 ) {
 		//	cerr << "\n";
