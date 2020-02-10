@@ -376,8 +376,10 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 	CalcScore();
 	cerr << "score: " << (int)board_score << "\n";
 
-// check possible move for BLACK
+// ko_state precalculated, no need to set ko_position
 	ko_position = COORD_UNSET;
+
+// check possible move for BLACK
 	GetPossibleMove(); // moves of BLACK
 	uint8_t black_move_num = __builtin_popcountll(legal_move_map.to_ullong());
 	cerr << "BLACK legal move: " << (int) black_move_num << "\n";
@@ -429,16 +431,25 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 // result for return
 	uint64_t result = 0;
 	result = result*5 + CheckTerminate(black_no_move[SMALLBOARDSIZE], white_no_move);
-
+	//cerr << "no ko: " << (int)CheckTerminate(black_no_move[SMALLBOARDSIZE], white_no_move) << "\n";
+	
 	// for possible ko positions...
-	REV_FOR_EACH_COORD(i) {
-		bool can_be_ko = (ko_state>>i)&1;
+	REV_FOR_EACH_COORD(id) {
+		bool can_be_ko = (ko_state>>id)&1;
 		if ( can_be_ko ) {
-			CheckTerminate(black_no_move[i], white_no_move);
+			result = result*5 
+			 + CheckTerminate(black_no_move[id], white_no_move);
+			//cerr << (int)CheckTerminate(black_no_move[id], white_no_move);
 		} else {
+			//cerr << 0;
 			result *= 5; // NULL value
 		}
-	}
+		//if ( id%BORDER_C == 0 ) {
+		//	cerr << "\n";
+		//}
+	} 
+	//cerr << "\n";
+	//cerr << "result: " << result << "\n";
 	return (result);
 }
 
