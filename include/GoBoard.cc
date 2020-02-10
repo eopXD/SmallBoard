@@ -564,20 +564,6 @@ GoError GoBoard::TryMove ( GoBlock &blk, const GoCoordId target_id,
  	blk.color = SelfColor();
 
  	GetNeighborBlocks(blk, target_id, nb_id);
- 	cerr << "Initial Block:\n";
- 	cerr << "Stone\n";
- 	blk.DisplayStone();
- 	cerr << "Liberty\n";
- 	blk.DisplayLiberty();
- 	cerr << "TryMove::nb_id[0]: " << (int)nb_id[0] << "\n";
- 	for ( GoBlockId i=1; i<=nb_id[0]; ++i ) { // checked stone/liberty correct
- 		cerr << "nb[" << (int)i << "]: " << (int)nb_id[i] << "\n";
- 		GoBlock &nb_blk = block_pool[nb_id[i]];
- 		cerr << "Stone\n";
- 		nb_blk.DisplayStone();
- 		cerr << "Liberty\n";
- 		nb_blk.DisplayLiberty();
- 	}
  	die_id[0] = 0;
  	for ( GoBlockId i=1; i<=nb_id[0]; ++i ) {
  		GoBlock &nb_blk = block_pool[nb_id[i]];
@@ -592,13 +578,7 @@ GoError GoBoard::TryMove ( GoBlock &blk, const GoCoordId target_id,
  		} 
  	// else it is a friendly block, so I try to merge it...
  		else {
- 			cerr << "merge!\n";
  			blk.TryMergeBlocks(nb_blk);
-	 		cerr << "Stone: \n";
- 			blk.DisplayStone();
- 			cerr << "Liberty: \n";
- 			blk.DisplayLiberty();
- 			cerr << "===============\n";
  		}
  	}
 
@@ -655,16 +635,13 @@ void GoBoard::GetPossibleMove () {
 		GetNewBlock(blk_id);
 		GoBlock &blk = block_pool[blk_id];
 
-		cerr << (int) id << " " << (int)cached_neighbor_size[id] << "\n";
 		have_empty_neighbor = 0;
 		FOR_NEIGHBOR(id, nb) {
-			cerr << (int)(id) << ": " << (int)(*nb) << "\n"; 
 			if ( EmptyStone == board_state[*nb] ) {
 				have_empty_neighbor = 1;
-				//break;
+				break;
 			}
-		} cerr << "\n";
-		cerr << "\nempty neighbor: " << have_empty_neighbor << "\n";
+		}
 		legal_move_map.set(id);
 		if ( have_empty_neighbor ) {
 			RecycleBlock(blk_id);
@@ -673,7 +650,6 @@ void GoBoard::GetPossibleMove () {
 		// no empty neighbor
 		TryMove(blk, id, tmp[0], tmp[1]);
 		blk.CountLiberty();
-		cerr << "block liberty: " << blk.liberty_count << "\n";
 		if ( blk.liberty_count <= 0 ) {
 			legal_move_map.reset(id);
 			RecycleBlock(blk_id);
