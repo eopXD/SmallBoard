@@ -603,8 +603,8 @@ GoError GoBoard::TryMove ( GoBlock &blk, const GoCoordId target_id,
  	}
 
  	blk.ResetLiberty(target_id);
- 	if ( blk.CountLiberty() == 0 ) { // self-eat move
- 		return (-1);
+ 	if ( blk.CountLiberty() >= max_lib ) {
+ 		return (cnt);
  	}
  	if ( 0 != die_id[0] ) {
  		for ( GoBlockId i=1; i<=die_id[0]; ++i ) {
