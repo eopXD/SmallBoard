@@ -388,12 +388,6 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 		cerr << "\n";
 	}
 	
-
-/******************************************************/
-// DELETE THIS AFTER SOLVING BUG IN GetPossibleMove
-	return 0;
-/******************************************************/
-
 	FOR_EACH_COORD(i) {
 		if ( black_move_num == 0 ) {
 			black_no_move[i] = true;
