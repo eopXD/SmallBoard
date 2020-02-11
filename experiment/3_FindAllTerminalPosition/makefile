@@ -10,7 +10,7 @@ PARALLEL=-fopenmp
 5x5=-D ROW=5 -D COL=5 -D ENCODE_LENGTH=58 
 
 INCLUDE=-I ../../include/ 
-NOW=$(5x5)
+NOW=$(4x4)
 
 all:
 	mkdir -p data

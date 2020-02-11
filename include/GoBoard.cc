@@ -383,14 +383,6 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 	GetPossibleMove(); // moves of BLACK
 	uint8_t black_move_num = __builtin_popcountll(legal_move_map.to_ullong());
 	
-	/*cerr << "BLACK legal move: " << (int) black_move_num << "\n";
-	for ( GoCoordId r=0; r<BORDER_R; ++r ) {
-		for ( GoCoordId c=0; c<BORDER_C; ++c ) {
-			cerr << (int)legal_move_map[r*BORDER_C+c];
-		}
-		cerr << "\n";
-	}*/
-	
 	FOR_EACH_COORD(i) {
 		if ( black_move_num == 0 ) {
 			black_no_move[i] = true;
@@ -406,31 +398,12 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 	}
 	black_no_move[SMALLBOARDSIZE] = (black_move_num==0);
 	
-	/*cerr << "black_no_move: " << "\n";
-	cerr << "no ko: " << (int)black_no_move[SMALLBOARDSIZE] << "\n";
-	for ( GoCoordId r=0; r<BORDER_R; ++r ) {
-		for ( GoCoordId c=0; c<BORDER_C; ++c ) {
-			cerr << (int)black_no_move[r*BORDER_C+c];
-		}
-		cerr << "\n";
-	}*/
-
 // check possible move for WHITE (white don't need to deal with ko)
 	HandOff();
 	GetPossibleMove(); // moves of WHITE
 	uint8_t white_move_num = __builtin_popcountll(legal_move_map.to_ullong());
-	/*
-	cerr << "WHITE legal move: " << (int) white_move_num << "\n";
-	for ( GoCoordId r=0; r<BORDER_R; ++r ) {
-		for ( GoCoordId c=0; c<BORDER_C; ++c ) {
-			cerr << (int)legal_move_map[r*BORDER_C+c];
-		}
-		cerr << "\n";
-	}*/
-	
 	bool white_no_move = (white_move_num==0);
-	//cerr << "white_no_move: " << (int)white_no_move << "\n";
-	
+		
 // result for return
 	uint64_t result = 0;
 	result = CheckTerminate(black_no_move[SMALLBOARDSIZE], white_no_move);
@@ -438,25 +411,52 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 		result *= 298023223876953125; // 5**25 = 298023223876953125
 		return (result);
 	}
+	
+	if ( ko_state != 0 ) {
+		cerr << "result when no ko: " << 
+	 	 (int)CheckTerminate(black_no_move[SMALLBOARDSIZE], white_no_move) << "\n";
+		cerr << "BLACK legal move: " << (int) black_move_num << "\n";
+		for ( GoCoordId r=0; r<BORDER_R; ++r ) {
+			for ( GoCoordId c=0; c<BORDER_C; ++c ) {
+				cerr << (int)legal_move_map[r*BORDER_C+c];
+			}
+			cerr << "\n";
+		}
+		cerr << "black_no_move: " << "\n";
+		cerr << "assume no ko: " << (int)black_no_move[SMALLBOARDSIZE] << "\n";
+		for ( GoCoordId r=0; r<BORDER_R; ++r ) {
+			for ( GoCoordId c=0; c<BORDER_C; ++c ) {
+				cerr << (int)black_no_move[r*BORDER_C+c];
+			}
+			cerr << "\n";
+		}
+		cerr << "WHITE legal move: " << (int) white_move_num << "\n";
+		for ( GoCoordId r=0; r<BORDER_R; ++r ) {
+			for ( GoCoordId c=0; c<BORDER_C; ++c ) {
+				cerr << (int)legal_move_map[r*BORDER_C+c];
+			}
+			cerr << "\n";
+		}
+		cerr << "white_no_move: " << (int)white_no_move << "\n";
+	}
 
-	//cerr << "no ko: " << (int)CheckTerminate(black_no_move[SMALLBOARDSIZE], white_no_move) << "\n";
 	// for possible ko positions...
 	REV_FOR_EACH_COORD(id) {
 		bool can_be_ko = (ko_state>>id)&1;
 		if ( can_be_ko ) {
 			result = result*5 
 			 + CheckTerminate(black_no_move[id], white_no_move);
-			//cerr << (int)CheckTerminate(black_no_move[id], white_no_move);
+			cerr << (int)CheckTerminate(black_no_move[id], white_no_move);
 		} else {
-			//cerr << 0;
+			cerr << 0;
 			result = result*5; // NULL value
 		}
-		//if ( id%BORDER_C == 0 ) {
-		//	cerr << "\n";
-		//}
+		if ( id%BORDER_C == 0 ) {
+			cerr << "\n";
+		}
 	} 
-	//cerr << "\n";
-	//cerr << "result: " << result << "\n";
+	cerr << "\n";
+	cerr << "result: " << result << "\n";
 	return (result);
 }
 

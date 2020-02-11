@@ -71,7 +71,7 @@ namespace GoConstant {
 const GoStoneColor EmptyStone = 0;
 const GoStoneColor BlackStone = 1;
 const GoStoneColor WhiteStone = 2;
-const char COLOR_CHAR[] = "EBW";
+const char COLOR_CHAR[] = "-BW";
 const char *const COLOR_STRING[] = {"Empty", "Black", "White"};
 
 // Possible Result for Terminate Boards

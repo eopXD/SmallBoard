@@ -100,7 +100,7 @@ WBWBW
 /* BEWARE THE CONSTANT OF THIS BEFORE COMPILE AND EXECUTION */
 /* BEWARE THE CONSTANT OF THIS BEFORE COMPILE AND EXECUTION */
 /* BEWARE THE CONSTANT OF THIS BEFORE COMPILE AND EXECUTION */
-	const GoSerial STATE_PER_FILE = (1ll<<30); // 2^32 = 2G
+	const GoSerial STATE_PER_FILE = (1ll<<20); // 2^32 = 2G
 	const GoSerial NUMBER_OF_FILE = MAX_SERIAL/STATE_PER_FILE + 1;
 	const int BUFFER_SIZE = 65536;
 
@@ -121,7 +121,7 @@ WBWBW
 		// read legal-reduced
 		unsigned char *read_legal_reduce = new unsigned char [BUFFER_SIZE+5]; 
 		// reads ko_state
-		uint32_t *read_ko = new uint32_t [BUFFER_SIZE+5]; 
+		uint32_t *read_ko = new uint32_t [8*BUFFER_SIZE+5]; 
 		
 		// write terminal state
 		char write_filename[105];
@@ -164,33 +164,44 @@ WBWBW
 	
 		// buffer index
 		int legal_buf_idx;
-		int ko_buf_idx = -1;
+		int ko_buf_idx;
 		int w_buf_idx = 0;
 
-		while ( fread(read_legal_reduce, BUFFER_SIZE, sizeof(unsigned char), input_legal) ) {
-			
+		//while ( fread(read_legal_reduce, BUFFER_SIZE, sizeof(unsigned char), input_legal) ) {
+		while ( 1 ) {
+			//cerr << "XD\n";
+			fread(read_legal_reduce, BUFFER_SIZE, sizeof(unsigned char), input_legal);
+			fread(read_ko, 8*BUFFER_SIZE, sizeof(uint32_t), input_ko);
+			legal_buf_idx = ko_buf_idx = 0;
+			//cerr << "QAQ\n";
 			for ( legal_buf_idx=0; legal_buf_idx<BUFFER_SIZE; ++legal_buf_idx ) {
 				unsigned char compact = read_legal_reduce[legal_buf_idx];
 				for ( int pos=7; pos>=0; pos-- ) {
 				/* from previous phase */
 					bool is_reduced_legal = compact&(1<<pos);				
-					if ( ko_buf_idx < 0 or ko_buf_idx == BUFFER_SIZE ) {
-						fread(read_ko, BUFFER_SIZE, sizeof(uint32_t), input_ko);			
-						ko_buf_idx = 0;
-					}
 					uint32_t ko_state = read_ko[ko_buf_idx++];
 				/* from previous phase */
 /* start */
 					if ( is_reduced_legal ) {
 						GoBoard board(serial);
+						if ( ko_state != 0 ) {
+							board.DisplayBoard();
+							display2(GetAllKo(serial));
+						}
 						write_buffer[w_buf_idx++] = board.CheckTerminates(ko_state);
+						if ( ko_state != 0 ) {
+							getchar();
+						}
 					} else {
 						write_buffer[w_buf_idx++] = 0;
 					}
 /* end */
 					if ( w_buf_idx == BUFFER_SIZE ) {
-
+						fwrite(write_buffer, sizeof(uint64_t), 
+				 		 BUFFER_SIZE, output_file);	
+						w_buf_idx = 0;
 					}
+					//cerr << "serial: " << serial << "\n";
 					++serial;
 					if ( serial == end_serial ) {
 						break;
@@ -213,7 +224,7 @@ WBWBW
 		fclose(input_legal);
 		fclose(input_ko);
 		fclose(output_file);
-		fprintf(stdout, "close file_num: %llu", file_num);
+		fprintf(stdout, "close file_num: %llu\n", file_num);
 	}
 
 	return (0);
