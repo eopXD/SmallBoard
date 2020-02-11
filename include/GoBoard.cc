@@ -382,7 +382,16 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 // check possible move for BLACK
 	GetPossibleMove(); // moves of BLACK
 	uint8_t black_move_num = __builtin_popcountll(legal_move_map.to_ullong());
-	
+	if ( ko_state != 0 ) {
+		cerr << "BLACK legal move: " << (int) black_move_num << "\n";
+		for ( GoCoordId r=0; r<BORDER_R; ++r ) {
+			for ( GoCoordId c=0; c<BORDER_C; ++c ) {
+				cerr << (int)legal_move_map[r*BORDER_C+c];
+			}
+			cerr << "\n";
+		}
+	}
+
 	FOR_EACH_COORD(i) {
 		if ( black_move_num == 0 ) {
 			black_no_move[i] = true;
@@ -415,13 +424,6 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 	if ( ko_state != 0 ) {
 		cerr << "result when no ko: " << 
 	 	 (int)CheckTerminate(black_no_move[SMALLBOARDSIZE], white_no_move) << "\n";
-		cerr << "BLACK legal move: " << (int) black_move_num << "\n";
-		for ( GoCoordId r=0; r<BORDER_R; ++r ) {
-			for ( GoCoordId c=0; c<BORDER_C; ++c ) {
-				cerr << (int)legal_move_map[r*BORDER_C+c];
-			}
-			cerr << "\n";
-		}
 		cerr << "black_no_move: " << "\n";
 		cerr << "assume no ko: " << (int)black_no_move[SMALLBOARDSIZE] << "\n";
 		for ( GoCoordId r=0; r<BORDER_R; ++r ) {
