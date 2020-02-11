@@ -112,7 +112,7 @@ WBWBW
 	char read_ko_state_filepath[105] = "../FindAllPossibleKo/4x4data";
 
 // progress bar
-	uint64_t total_finished_parts = 0;
+//	uint64_t total_finished_parts = 0;
 
 	for ( GoSerial file_num=0; file_num<NUMBER_OF_FILE; ++file_num ) {
 		char LegalStateFilename[105];
@@ -128,7 +128,7 @@ WBWBW
 		
 		sprintf(LegalStateFilename, "%s/data.SparseLegalState.part%05lu",
 		 read_legal_reduced_filepath, file_num);
-		sprintf(KoStateFilename, "%s/data.SparseKoBitState.part%05li",
+		sprintf(KoStateFilename, "%s/data.SparseKoBitState.part%05lu",
 		 read_ko_state_filepath, file_num);
 
 		FILE *input_legal = fopen(LegalStateFilename, "rb");
@@ -171,20 +171,20 @@ WBWBW
 			for ( legal_buf_idx=0; legal_buf_idx<BUFFER_SIZE; ++legal_buf_idx ) {
 				unsigned char compact = read_legal_reduce[legal_buf_idx];
 				for ( int pos=7; pos>=0; pos-- ) {
-					bool is_reduced_legal = compact&(1<<pos);
-					
+				/* from previous phase */
+					bool is_reduced_legal = compact&(1<<pos);				
 					if ( ko_buf_idx < 0 or ko_buf_idx == BUFFER_SIZE ) {
 						fread(read_ko, BUFFER_SIZE, sizeof(uint32_t), input_ko);			
 						ko_buf_idx = 0;
 					}
 					uint32_t ko_state = read_ko[ko_buf_idx++];
-					
-/* what you are going to do with the bit 'is_reduced_legal */
+				/* from previous phase */
 /* start */
 					if ( is_reduced_legal ) {
-
+						GoBoard board(serial);
+						write_buffer[w_buf_idx++] = board.CheckTerminates(ko_state);
 					} else {
-
+						write_buffer[w_buf_idx++] = 0;
 					}
 /* end */
 					if ( w_buf_idx == BUFFER_SIZE ) {
@@ -207,10 +207,10 @@ WBWBW
 			if ( serial == end_serial ) {
 				break;
 			}
-
 		}
 //		assert(serial == end_serial);
-		fclose(input_file);
+		fclose(input_legal);
+		fclose(input_ko);
 		fclose(output_file);
 		fprintf(stdout, "close file_num: %llu", file_num);
 	}
