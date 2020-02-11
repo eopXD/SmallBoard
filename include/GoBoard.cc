@@ -374,7 +374,7 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 
 // check current board score
 	CalcScore();
-	cerr << "score: " << (int)board_score << "\n";
+	//cerr << "score: " << (int)board_score << "\n";
 
 // ko_state precalculated, no need to set ko_position
 	ko_position = COORD_UNSET;
@@ -382,13 +382,14 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 // check possible move for BLACK
 	GetPossibleMove(); // moves of BLACK
 	uint8_t black_move_num = __builtin_popcountll(legal_move_map.to_ullong());
-	cerr << "BLACK legal move: " << (int) black_move_num << "\n";
+	
+	/*cerr << "BLACK legal move: " << (int) black_move_num << "\n";
 	for ( GoCoordId r=0; r<BORDER_R; ++r ) {
 		for ( GoCoordId c=0; c<BORDER_C; ++c ) {
 			cerr << (int)legal_move_map[r*BORDER_C+c];
 		}
 		cerr << "\n";
-	}
+	}*/
 	
 	FOR_EACH_COORD(i) {
 		if ( black_move_num == 0 ) {
@@ -404,29 +405,31 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 		}
 	}
 	black_no_move[SMALLBOARDSIZE] = (black_move_num==0);
-	cerr << "black_no_move: " << "\n";
+	
+	/*cerr << "black_no_move: " << "\n";
 	cerr << "no ko: " << (int)black_no_move[SMALLBOARDSIZE] << "\n";
 	for ( GoCoordId r=0; r<BORDER_R; ++r ) {
 		for ( GoCoordId c=0; c<BORDER_C; ++c ) {
 			cerr << (int)black_no_move[r*BORDER_C+c];
 		}
 		cerr << "\n";
-	}
+	}*/
 
 // check possible move for WHITE (white don't need to deal with ko)
 	HandOff();
 	GetPossibleMove(); // moves of WHITE
 	uint8_t white_move_num = __builtin_popcountll(legal_move_map.to_ullong());
+	/*
 	cerr << "WHITE legal move: " << (int) white_move_num << "\n";
 	for ( GoCoordId r=0; r<BORDER_R; ++r ) {
 		for ( GoCoordId c=0; c<BORDER_C; ++c ) {
 			cerr << (int)legal_move_map[r*BORDER_C+c];
 		}
 		cerr << "\n";
-	}
+	}*/
 	
 	bool white_no_move = (white_move_num==0);
-	cerr << "white_no_move: " << (int)white_no_move << "\n";
+	//cerr << "white_no_move: " << (int)white_no_move << "\n";
 	
 // result for return
 	uint64_t result = 0;

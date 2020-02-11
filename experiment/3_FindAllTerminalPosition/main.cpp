@@ -93,6 +93,7 @@ WBWBW
 	display2(ko_state);
 
 	board.CheckTerminates(ko_state);
+	return (0);
 */
 
 /* BEWARE THE CONSTANT OF THIS BEFORE COMPILE AND EXECUTION */
@@ -109,7 +110,7 @@ WBWBW
 
 // read path from previous phases
 	char read_legal_reduced_filepath[105] = "../FindAllPossibleSerial/4x4data";
-	char read_ko_state_filepath[105] = "../FindAllPossibleKo/4x4data";
+	char read_ko_state_filepath[105] = "../FindAllPossibleKoCoord/4x4data";
 
 // progress bar
 //	uint64_t total_finished_parts = 0;
