@@ -12,13 +12,17 @@ PARALLEL=-fopenmp
 INCLUDE=-I ../../include/ 
 NOW=$(4x4)
 
-all:
+interface:
+	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) -c ../../include/comm.cc
+	$(G_PLUS_PLUS) $(STATE_ULL) -D DISPLAY_TERMINATE $(NOW) $(INCLUDE) comm.o -c ../../include/GoBoard.cc
+	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) *.o interface.cpp -o exec.interface
+main:
 	mkdir -p data
 	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) -c ../../include/comm.cc
 	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) comm.o -c ../../include/GoBoard.cc
 	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) *.o main.cpp -o exec.main	
 	
 clean: 
-	rm *.o
-	rm data/data.*
-	rm exec.*
+	rm -rf *.o
+	rm -rf data/data.*
+	rm -rf exec.*
