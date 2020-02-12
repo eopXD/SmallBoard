@@ -157,8 +157,8 @@ WBWBW
 			end_serial = MAX_SERIAL;
 		}
 		
-		fprintf(stdout, "open file_num: %llu, start_serial: %llu\n"
-			, file_num, start_serial);
+		fprintf(stdout, "open file_num: %llu, start_serial: %llu, end_serial: %llu\n"
+			, file_num, start_serial, end_serial);
 
 		GoSerial serial = start_serial;
 	
@@ -169,11 +169,10 @@ WBWBW
 
 		//while ( fread(read_legal_reduce, BUFFER_SIZE, sizeof(unsigned char), input_legal) ) {
 		while ( 1 ) {
-			//cerr << "XD\n";
 			fread(read_legal_reduce, BUFFER_SIZE, sizeof(unsigned char), input_legal);
 			fread(read_ko, 8*BUFFER_SIZE, sizeof(uint32_t), input_ko);
 			legal_buf_idx = ko_buf_idx = 0;
-			//cerr << "QAQ\n";
+			
 			for ( legal_buf_idx=0; legal_buf_idx<BUFFER_SIZE; ++legal_buf_idx ) {
 				unsigned char compact = read_legal_reduce[legal_buf_idx];
 				for ( int pos=7; pos>=0; pos-- ) {
@@ -184,14 +183,7 @@ WBWBW
 /* start */
 					if ( is_reduced_legal ) {
 						GoBoard board(serial);
-						if ( ko_state != 0 ) {
-							board.DisplayBoard();
-							display2(GetAllKo(serial));
-						}
 						write_buffer[w_buf_idx++] = board.CheckTerminates(ko_state);
-						if ( ko_state != 0 ) {
-							getchar();
-						}
 					} else {
 						write_buffer[w_buf_idx++] = 0;
 					}
@@ -212,6 +204,9 @@ WBWBW
 				}
 			}
 			if ( w_buf_idx > 0 ) {
+				while ( w_buf_idx < BUFFER_SIZE ) {
+					write_buffer[w_buf_idx++] = 0;
+				}
 				fwrite(write_buffer, sizeof(uint64_t), 
 				 BUFFER_SIZE, output_file);	
 				w_buf_idx = 0;

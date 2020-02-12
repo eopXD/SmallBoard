@@ -382,16 +382,7 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 // check possible move for BLACK
 	GetPossibleMove(); // moves of BLACK
 	uint8_t black_move_num = __builtin_popcountll(legal_move_map.to_ullong());
-	if ( ko_state != 0 ) {
-		cerr << "BLACK legal move: " << (int) black_move_num << "\n";
-		for ( GoCoordId r=0; r<BORDER_R; ++r ) {
-			for ( GoCoordId c=0; c<BORDER_C; ++c ) {
-				cerr << (int)legal_move_map[r*BORDER_C+c];
-			}
-			cerr << "\n";
-		}
-	}
-
+	
 	FOR_EACH_COORD(i) {
 		if ( black_move_num == 0 ) {
 			black_no_move[i] = true;
@@ -416,14 +407,12 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 // result for return
 	uint64_t result = 0;
 	result = CheckTerminate(black_no_move[SMALLBOARDSIZE], white_no_move);
-	if ( ko_state == 0 ) { // skip to check on any ko
-		result *= 298023223876953125; // 5**25 = 298023223876953125
-		return (result);
-	}
-	
-	if ( ko_state != 0 ) {
-		cerr << "result when no ko: " << 
-	 	 (int)CheckTerminate(black_no_move[SMALLBOARDSIZE], white_no_move) << "\n";
+
+	/*if ( serial == 7431900ll  ) {
+		cerr << "serial: " << serial << "\n";
+		DisplayBoard();
+		cerr << "BLACK legal move: " << (int) black_move_num << "\n";	
+		cerr << "result when no ko: " << result << "\n";
 		cerr << "black_no_move: " << "\n";
 		cerr << "assume no ko: " << (int)black_no_move[SMALLBOARDSIZE] << "\n";
 		for ( GoCoordId r=0; r<BORDER_R; ++r ) {
@@ -440,6 +429,12 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 			cerr << "\n";
 		}
 		cerr << "white_no_move: " << (int)white_no_move << "\n";
+		getchar();
+	}*/
+
+	if ( ko_state == 0 ) { // skip to check on any ko
+		result *= 298023223876953125; // 5**25 = 298023223876953125
+		return (result);
 	}
 
 	// for possible ko positions...
@@ -448,17 +443,15 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 		if ( can_be_ko ) {
 			result = result*5 
 			 + CheckTerminate(black_no_move[id], white_no_move);
-			cerr << (int)CheckTerminate(black_no_move[id], white_no_move);
+			//cerr << (int)CheckTerminate(black_no_move[id], white_no_move);
 		} else {
-			cerr << 0;
+			//cerr << 0;
 			result = result*5; // NULL value
 		}
-		if ( id%BORDER_C == 0 ) {
+		/*if ( id%BORDER_C == 0 ) {
 			cerr << "\n";
-		}
+		}*/
 	} 
-	cerr << "\n";
-	cerr << "result: " << result << "\n";
 	return (result);
 }
 
