@@ -1106,3 +1106,147 @@ I think after I finish the retrograde analysis I shall try to wrappup this proje
 
 另外還需要建置 Wavelet Tree 的壓縮率表格（density vs compression rate）。
 
+## 2020/02/06
+
+今天開始做 CheckTerminate 的 Coding 。
+
+經過討論， Win/Lose/Draw 都是可能的結果，所以加上 Not-Terminate 還有 NULL-Value 的話就是五種可能的 value 。
+
+### 實作細節
+
+value range: 0~4
+
+``` 
+0: NULL-Value (illegal board, or this ko-position is not)
+1: Not-Terminate
+2: Win
+3: Lose
+4: Draw
+```
+
+而為了塞下 64-bit 當中，所以對一個 serial number 至多有 26 種需要考慮的位置。
+
+$\log_2 (5^{26}) \approx 60.37$
+
+所以每一個 64-bit 都是一個 $5^x$ 的多項式，來純存 26 個需要考慮的位置的結果。
+
+- $x \times 5^0$ 為 `ko position = 0` 時的結果
+- $x \times 5^1$ 為 `ko position = 1` 時的結果
+- ...
+- $x \times 5^{24}$ 為 `ko position = 24` 時的結果
+- $x \times 5^{25}$ 為 `no ko position` 時的結果
+
+### 儲存方式
+
+現在計算一下會儲存的東西，因爲 legal reduced state 只佔有 6% 。前兩個階段因為是儲存幾乎都是以 bit state ，所以連 illegal/non-reduce state 都 pad 0 上去。
+
+但是現在這個資料有一點大，大概 6 T 左右。我的建議是沒有關係！因為這邊還是以 sparse 的方式進行儲存，因為到時候等到要 retrograde analysis 的時候才是需要開始做編碼設計的時候。
+
+All preprocessing phase are all saved in a sparse matter, which shall reflect on the compression rate significantly after we designs the encoding.
+
+- phase 1: legal reduced 
+- phase 2: ko_state
+- phase 3: terminate state Not-Terminate/Win/Lose/Draw
+- phase 4: out-degree for a board positions
+
+## 2020/02/10
+
+今天要來 debug `GetPossibleMove()` 。
+
+- 看起來是 每次 TryMove 之前的 Block 沒有正確 Reset 好。
+
+- 1st TestData
+
+	```
+	serial = 212254634526
+	-W-W-
+	WBWBW
+	BBB-B
+	WBWBW
+	-W-W-
+	```
+- 2nd TestData
+	
+	```
+	0202022222022222210200220 (ternary)
+	212684278659 (decimal)
+	
+	-WW--
+	W-BWW
+	WWWW-
+	WWWWW
+	-W-W-
+	```
+
+- 3rd TestData
+	- This testdata is effective because it also includes ko and black only has 1 move, 
+
+	```
+	0122012122121221211020221 (ternary)
+	180016049671 (decimal)
+	
+	BWW-W
+	-BBWB
+	WWBWB
+	WWBWB
+	-WWB-
+	```
+
+原來是 define 的 conventional for-loop 有個 implicit counter 用到變數 `i` ，而外層 for 迴圈也使用 `i` 的關係，導致 neighbor 的 access 出問題。變數 RRR ～～～
+
+看起來應該是修好了，可以產生正確的 `GetPossibleMove()` 。再來就是把 CheckTerminate 跑的流程確定之後就可以開跑這個階段了。
+
+## 2020/02/11
+
+今天來把 4x4 做出來並檢查，再寫平行，再跑 5x5 。等 5x5 的時候來做 ko 的 density 調查。
+
+剛剛印 log 以為 GetPossibleMove 又出錯，其實只是印 log 時順序錯誤，虛驚一場。
+
+
+- Good Test Case
+
+	```
+serial: 7431900
+-WBW
+WB-W
+BWWW
+BBB-
+BLACK legal move: 1
+result when no ko: 1
+black_no_move:
+assume no ko: 0
+1000
+0000
+0000
+0000
+WHITE legal move: 2
+0000
+0010
+0000
+0001
+white_no_move: 0
+result with ko:
+0000
+0000
+0000
+0003
+	```
+
+## 2020/02/12 （三）
+
+開會報告結果之後，寫了一個 interface 來給大家用用看。
+還去檢查了 HC 的資料，結果裡面都是 0 ，真的很頭痛⋯⋯
+這樣可以拿碩士學位實在是讓人懷疑這間實驗室的水分⋯⋯
+
+接下來這禮拜完成 CheckTerminate 還有 Ko 的分布調查。
+
+### 關於 CheckOutDegree
+
+關於 CheckOutDegree 很簡單，
+如果 `GetPossibleMove()` 是沒問題的話，接下來就是把 `Move()` 做對。
+
+
+
+
+
+
