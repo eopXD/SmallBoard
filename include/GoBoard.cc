@@ -374,7 +374,6 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 
 // check current board score
 	CalcScore();
-	//cerr << "score: " << (int)board_score << "\n";
 
 // ko_state precalculated, no need to set ko_position
 	ko_position = COORD_UNSET;
@@ -398,6 +397,25 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 	}
 	black_no_move[SMALLBOARDSIZE] = (black_move_num==0);
 	
+#ifdef DISPLAY_TERMINATE
+	cout << "Score: " << (int)board_score << "\n";
+	cout << "\nBlack's legal move: " << (int)black_move_num << "\n";
+	for ( GoCoordId r=0; r<BORDER_R; ++r ) {
+		for ( GoCoordId c=0; c<BORDER_C; ++c ) {
+			cout << (int)legal_move_map[r*BORDER_C+c];
+		}
+		cout << "\n";
+	}
+	cout << "\nTrue/False if black has no move: \n";
+	cout << "If no ko: " << (int) black_no_move[SMALLBOARDSIZE] << "\n";
+	for ( GoCoordId r=0; r<BORDER_R; ++r ) {
+		for ( GoCoordId c=0; c<BORDER_C; ++c ) {
+			cout << (int)black_no_move[r*BORDER_C+c];
+		}
+		cout << "\n";
+	}
+#endif
+
 // check possible move for WHITE (white don't need to deal with ko)
 	HandOff();
 	GetPossibleMove(); // moves of WHITE
@@ -408,30 +426,18 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 	uint64_t result = 0;
 	result = CheckTerminate(black_no_move[SMALLBOARDSIZE], white_no_move);
 
-	/*if ( serial == 7431900ll  ) {
-		cerr << "serial: " << serial << "\n";
-		DisplayBoard();
-		cerr << "BLACK legal move: " << (int) black_move_num << "\n";	
-		cerr << "result when no ko: " << result << "\n";
-		cerr << "black_no_move: " << "\n";
-		cerr << "assume no ko: " << (int)black_no_move[SMALLBOARDSIZE] << "\n";
-		for ( GoCoordId r=0; r<BORDER_R; ++r ) {
-			for ( GoCoordId c=0; c<BORDER_C; ++c ) {
-				cerr << (int)black_no_move[r*BORDER_C+c];
-			}
-			cerr << "\n";
+#ifdef DISPLAY_TERMINATE
+	cout << "\nWHITE legal move: " << (int) white_move_num << "\n";
+	for ( GoCoordId r=0; r<BORDER_R; ++r ) {
+		for ( GoCoordId c=0; c<BORDER_C; ++c ) {
+			cout << (int)legal_move_map[r*BORDER_C+c];
 		}
-		cerr << "WHITE legal move: " << (int) white_move_num << "\n";
-		for ( GoCoordId r=0; r<BORDER_R; ++r ) {
-			for ( GoCoordId c=0; c<BORDER_C; ++c ) {
-				cerr << (int)legal_move_map[r*BORDER_C+c];
-			}
-			cerr << "\n";
-		}
-		cerr << "white_no_move: " << (int)white_no_move << "\n";
-		getchar();
-	}*/
-
+		cout << "\n";
+	}
+	cout << "white_no_move: " << (int)white_no_move << "\n";
+	cout << "\nResult:\n";
+	cout << "If no ko: " << (int)result << "\n";
+#endif
 	if ( ko_state == 0 ) { // skip to check on any ko
 		result *= 298023223876953125; // 5**25 = 298023223876953125
 		return (result);
@@ -443,14 +449,15 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 		if ( can_be_ko ) {
 			result = result*5 
 			 + CheckTerminate(black_no_move[id], white_no_move);
-			//cerr << (int)CheckTerminate(black_no_move[id], white_no_move);
 		} else {
-			//cerr << 0;
 			result = result*5; // NULL value
 		}
-		/*if ( id%BORDER_C == 0 ) {
-			cerr << "\n";
-		}*/
+#ifdef DISPLAY_TERMINATE
+		cout << result%5;
+		if ( id%BORDER_C == 0 ) {
+			cout << "\n";
+		}
+#endif
 	} 
 	return (result);
 }
@@ -465,9 +472,9 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 // = 0: DRAW for current player
 GoCoordId GoBoard::CalcScore ( GoStoneColor opponent_color ) {
 	board_score = 0;
-	FOR_EACH_COORD(i) {
-		if ( board_state[i] != EmptyStone ) {
-			if ( board_state[i] == opponent_color ) {
+	FOR_EACH_COORD(id) {
+		if ( board_state[id] != EmptyStone ) {
+			if ( board_state[id] == opponent_color ) {
 				board_score--;
 			} else {
 				++board_score;
@@ -476,7 +483,7 @@ GoCoordId GoBoard::CalcScore ( GoStoneColor opponent_color ) {
 			bool no_empty_neighbor = 1; // assume having no empty neighbor
 			bool friendly_neighbor = 0;
 			bool opponent_neighbor = 0;
-			FOR_NEIGHBOR(i, nb) {
+			FOR_NEIGHBOR(id, nb) {
 				if ( board_state[*nb] == EmptyStone ) {
 					no_empty_neighbor = 0;
 					break;
