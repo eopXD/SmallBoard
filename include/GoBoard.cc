@@ -76,7 +76,7 @@ GoError GoBoard::Move ( const GoCoordId id ) {
 	}	
 	if ( IsPass(id) ) {
 		HandOff();
-		GetPossibleMove();
+		//GetPossibleMove();
 		record_zobrist[(game_length-1+4)&3] = current_zobrist_value;
 	}	
 // nb_id[0] and die_id[0] is counter, 
@@ -136,7 +136,7 @@ GoError GoBoard::Move ( const GoCoordId id ) {
 	board_state[id] = SelfColor();
 
 	HandOff();
-	GetPossibleMove();
+	//GetPossibleMove();
 	record_zobrist[(game_length-1+4)&3] = current_zobrist_value;
 	return (0);
 
@@ -382,17 +382,17 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 	GetPossibleMove(); // moves of BLACK
 	uint8_t black_move_num = __builtin_popcountll(legal_move_map.to_ullong());
 	
-	FOR_EACH_COORD(i) {
+	FOR_EACH_COORD(id) {
 		if ( black_move_num == 0 ) {
-			black_no_move[i] = true;
+			black_no_move[id] = true;
 			continue;
 		}
 
-		bool can_be_ko = (ko_state>>i)&1;
-		if ( can_be_ko and black_move_num == 1 and legal_move_map[i] ) {
-			black_no_move[i] = true;
+		bool can_be_ko = (ko_state>>id)&1;
+		if ( can_be_ko and black_move_num == 1 and legal_move_map[id] ) {
+			black_no_move[id] = true;
 		} else {
-			black_no_move[i] = false;
+			black_no_move[id] = false;
 		}
 	}
 	black_no_move[SMALLBOARDSIZE] = (black_move_num==0);
