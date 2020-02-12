@@ -71,7 +71,8 @@ GoError GoBoard::Move ( const GoCoordId id ) {
 	{
 		current_zobrist_value ^= zobrist_switch_player;
 		if ( not IsPass(id) ) {
-			current_zobrist_value ^= zobrist_board_hash_weight[SelfColor()][id];
+			current_zobrist_value ^= 
+			 zobrist_board_hash_weight[SelfColor()][id];
 		}
 	}	
 	if ( IsPass(id) ) {
@@ -87,7 +88,8 @@ GoError GoBoard::Move ( const GoCoordId id ) {
 	GetNewBlock(blk_id);
 	GoBlock &blk = block_pool[blk_id];
 
-	if ( (cnt = TryMove(blk, id, nb_id, die_id)) < 0 ) { // this is a self-eat move
+	// this is a self-eat move
+	if ( (cnt = TryMove(blk, id, nb_id, die_id)) < 0 ) { 
 		return (-2);
 	}
 	stones[id].Reset(blk_id);
@@ -104,7 +106,8 @@ GoError GoBoard::Move ( const GoCoordId id ) {
 	}
 	visited_position[blk_id] = game_length;
 	for ( GoBlockId i=1; i<=die_id[0]; ++i ) {
-		if ( (1 == block_pool[die_id[i]].stone_count) and (1 == blk.stone_count) 
+		if ( (1 == block_pool[die_id[i]].stone_count) 
+		 and (1 == blk.stone_count) 
 		 and (1 == blk.CountLiberty()) ) {
 		// this is a Ko!
 			ko_position = block_pool[die_id[i]].head;
@@ -196,7 +199,8 @@ void GoBoard::RotateClockwise () {
 void GoBoard::FlipLR () {
 	for ( GoCoordId x=0; x<BORDER_R; ++x ) {
 		for ( GoCoordId y=0; y<BORDER_C/2; ++y ) {
-			swap(board_state[CoordToId(x, y)], board_state[CoordToId(x, BORDER_C-1-y)]);
+			swap(board_state[CoordToId(x, y)], 
+			 board_state[CoordToId(x, BORDER_C-1-y)]);
 		}
 	}
 }
@@ -231,13 +235,15 @@ playing on the phase 'CheckKoStates'*/
 }
 
 // Place stones onto the board, but don't need maintenance of detail
-// board position or check if it is legal, only check for self-eat or eat move
+// board position or check if it is legal
+// only check for self-eat or eat move
 // The stone will be placed onto the board_state.
 // error code:
 //   0: success
 //	-1: self-eat move
 //  -2: eat-opponent move
-GoError GoBoard::SetStone ( const GoCoordId id, const GoStoneColor stone_color ) {
+GoError GoBoard::SetStone ( const GoCoordId id, 
+ const GoStoneColor stone_color ) {
 // nb_id[0] is counter, 
 	GoBlockId blk_id, nb_id[5];
 	
@@ -307,7 +313,8 @@ GoCoordId GoBoard::CheckKoPosition ( const GoCoordId id,
 	}
 	GoBlock &blk = block_pool[blk_id];
 	
-	if ( blk.color!= opponent_color or blk.CountStone()!=1 or blk.CountLiberty()!=1 ) {
+	if ( blk.color!= opponent_color or blk.CountStone()!=1 
+	 or blk.CountLiberty()!=1 ) {
 		return (-1);
 	}
 	GoCoordId eat_me = blk.FirstLiberty();
@@ -323,7 +330,7 @@ GoCoordId GoBoard::CheckKoPosition ( const GoCoordId id,
 	// if it is not surrounded, it is impossible to be a Ko position
 		return (-1);
 	}
-// if all surrounded by white stone, then the liberty position is a potential Ko
+// if all surrounded by white stone, then liberty position is a potential Ko
 // for the black stone.
 	for ( GoBlockId i=1; i<=nb_id[0]; ++i ) {
 		GoBlock &nb_blk = block_pool[nb_id[i]];
@@ -437,6 +444,7 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 	cout << "white_no_move: " << (int)white_no_move << "\n";
 	cout << "\nResult:\n";
 	cout << "If no ko: " << (int)result << "\n";
+	uint64_t term_result[SMALLBOARDSIZE];
 #endif
 	if ( ko_state == 0 ) { // skip to check on any ko
 		result *= 298023223876953125; // 5**25 = 298023223876953125
@@ -453,12 +461,17 @@ uint64_t GoBoard::CheckTerminates ( const uint32_t ko_state ) {
 			result = result*5; // NULL value
 		}
 #ifdef DISPLAY_TERMINATE
-		cout << result%5;
-		if ( id%BORDER_C == 0 ) {
-			cout << "\n";
-		}
+		term_result[id] = result%5;
 #endif
-	} 
+	}
+#ifdef DISPLAY_TERMINATE
+	for ( GoCoordId r=0; r<BORDER_R; ++r ) {
+		for ( GoCoordId c=0; c<BORDER_C; ++c ) {
+			cout << term_result[r*BORDER_C+c];
+		}
+		cout << "\n";
+	}
+#endif
 	return (result);
 }
 
@@ -679,11 +692,13 @@ void GoBoard::GetPossibleMove () {
 			GoBlockId *die_id = tmp[1];
 			for ( GoBlockId i=1; i<=die_id[0]; ++i ) {
 				FOR_BLOCK_STONE(j, block_pool[die_id[i]],
-					new_zobrist_value ^= zobrist_board_hash_weight[OpponentColor()][j];
+					new_zobrist_value ^= 
+					 zobrist_board_hash_weight[OpponentColor()][j];
 				);
 			}
 
-			if ( record_zobrist[(game_length-1+4)&3] == record_zobrist[(game_length-3+4)&3] ) {
+			if ( record_zobrist[(game_length-1+4)&3] 
+			 == record_zobrist[(game_length-3+4)&3] ) {
 				legal_move_map.reset(id);
 			}
 		}

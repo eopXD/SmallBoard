@@ -86,7 +86,7 @@ protected:
 
 /* for checking if this board can have a ko at the given position 'id' */
 public:
-// NOTE: 'opponent_color' is set to WHITE, reduce small board's to black's turn
+// NOTE: 'opponent_color' is set WHITE, reduce small board's to black's turn
 
 // call this function only when the GoBoard is constructed by GoSerial
 // return value
@@ -99,7 +99,7 @@ public:
 public:
 // Conditions for terminate board
 	uint8_t CheckTerminate ( bool black_no_move, bool white_no_move );
-// NOTE: reduce all boards to black's turn (same as the previous phase CheckKo)
+// NOTE: reduce all boards to black's turn (same as previous phase CheckKo)
 // NOTE: call this function after board is initialized
 // returns a ploynomial of series of 5
 // 0: NULL Value (illegal board, or this ko-position is not)
