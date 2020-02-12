@@ -1,10 +1,6 @@
 // Copyright (C) 2019 Yueh-Ting Chen (eopXD)
-/*! \file FindAllTerminalPosition/main.cpp
-	\brief Find all terminal position given 
-	 reduced-legal serial and possible ko positions, 
-	 for every serial outputs a 64-bit encoded data
-	 shall have zero liberty.
-
+/*! \file FindAllTerminalPosition/interface.cpp
+	\brief Interface for human assertion on this phase
 	\author Yueh-Ting Chen (eopXD)
 	\project Efficient & Succinct Small Board Go
 */
