@@ -1238,15 +1238,38 @@ result with ko:
 還去檢查了 HC 的資料，結果裡面都是 0 ，真的很頭痛⋯⋯
 這樣可以拿碩士學位實在是讓人懷疑這間實驗室的水分⋯⋯
 
-接下來這禮拜完成 CheckTerminate 還有 Ko 的分布調查。
+接下來完成 CheckTerminate 還有 Ko 的分布調查。
+
+## 2020/02/17
 
 ### 關於 CheckOutDegree
 
 關於 CheckOutDegree 很簡單，
 如果 `GetPossibleMove()` 是沒問題的話，接下來就是把 `Move()` 做對。
 
+接下來也要來了解一下儲存的方式。
+盤面的子盤面會因為該位置 (`id`) 產生 ko 而無法達到那個子盤面。不過在這裡因為是 preprocessing 所以我們不需要去在意 ko 的部分，而是去判斷每個 serial number 他的可能子盤面。檢查子盤面的數量主要是為了在 retrograde analysis 時， backward propagation 他可以計算還有幾個 child 沒有被回溯到，從而判定該 parent node 是否可以斷定為 Lose （因為要產生一個 Lose 的母節點需要所有子節點都要屬於 Win 集合裡）。
 
+這裡我突然想到，是否可以 pre-preprocess 該 serial number 的 possible move ？
+應該問，是否有必要。
 
+Out-degree 的主要目的是因為我們現在是以 reduce 過後的盤面來進行操作，所以 out-degree 的產生不等於 `GetPossibleMove()` ，而是 reduce 後的結果。
 
+所以 psuedo code 寫起來像是：
+
+- For a legal-reduced `serial` number
+	- Find all possible move with `GetPossibleMove()`
+	- Maintain a set of reduced serial numbers of child node, `S`
+	- For each possible move, `m`
+		- Create `GoBoard(serial)`
+		- Apply `m` to the board
+		- Get the minimal representation of the board after the move
+		- Insert the min-representation into `S`
+	- Out-degree of `serial` is the size of `S`
+
+今天先寫了一個 interface 來玩這些盤面。
+‼️ 我的 GetPossibleMove 裡面有包括了 ko ，所以如果要不受 ko 影響，要把 `ko_position = COORD_UNSET`
+
+先來去跑步，等等把 GetMinimal 從 `class GoBoard` 裡頭抽出來這樣才可以無後顧之憂的使用。
 
 
