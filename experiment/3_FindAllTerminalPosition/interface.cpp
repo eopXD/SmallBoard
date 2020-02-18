@@ -57,6 +57,11 @@ uint32_t GetAllKo ( GoSerial const serial ) {
 
 #define CLEAR_SCREEN cout << "\033[H\033[J";
 
+void PressAnyKey () {
+	cout << "Press any key to continue...\n";
+	getchar();
+	getchar();
+}
 int main () 
 {
 /*
@@ -103,10 +108,12 @@ WBWBW
 			cin >> s[i];
 		}
 		uint64_t serial = 0;
+		bool bad = 0;
 		for ( int i=3; i>=0; --i ) {
 			if ( strlen(s[i]) != 4 ) {
 				cout << "error: bad board size\n";
-				exit(1);
+				PressAnyKey();
+				bad = 1;
 			}
 			for ( int j=3; j>=0; --j ) {
 				serial *= 3;
@@ -118,9 +125,13 @@ WBWBW
 					serial += 0;
 				} else {
 					cout << "error: illegal symbol\n";
-					exit(1);
+					PressAnyKey();
+					bad = 1;
 				}
 			}
+		}
+		if ( bad ) {
+			continue;
 		}
 		cout << "\n\nSerial: " << serial << "\n";
 		GoBoard board(serial);
@@ -137,10 +148,7 @@ WBWBW
 		display2(ko_state); cout << "\n";
 		
 		board.CheckTerminates(ko_state);
-		cout << "Press any key to continue...\n";
-		getchar();
-		getchar();
-
+		PressAnyKey();
 	}
 
 	return (0);
