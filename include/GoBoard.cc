@@ -79,6 +79,7 @@ GoError GoBoard::Move ( const GoCoordId id ) {
 		HandOff();
 		//GetPossibleMove();
 		record_zobrist[(game_length-1+4)&3] = current_zobrist_value;
+		return (0);
 	}	
 // nb_id[0] and die_id[0] is counter, 
 	GoBlockId blk_id, nb_id[5], die_id[5];
@@ -157,6 +158,18 @@ void GoBoard::DisplayBoard () {
 		putchar(COLOR_CHAR[board_state[id]]);
 	} putchar('\n');
 }
+void GoBoard::DisplayLegalMove () {
+	FOR_EACH_COORD(id) {
+		if ( id and ((id%BORDER_C)==0) ) {
+			putchar('\n');
+		}
+		if ( legal_move_map[id] == 0 ) {
+			putchar('0');
+		} else {
+			putchar('1');
+		}
+	} putchar('\n');
+}
 
 // get the minimal representation serial representation of this board
 GoSerial GoBoard::GetMinimal () {
@@ -183,6 +196,10 @@ GoSerial GoBoard::GetSerial () {
 	return (serial);
 }
 
+GoCoordId GoBoard::GetKo () {
+	return (ko_position);
+}
+
 // rotate clock-wise (90 degree)
 void GoBoard::RotateClockwise () {
 	GoStoneColor tmp[SMALLBOARDSIZE];
@@ -203,6 +220,10 @@ void GoBoard::FlipLR () {
 			 board_state[CoordToId(x, BORDER_C-1-y)]);
 		}
 	}
+}
+
+bool GoBoard::IsDoublePass () {
+	return (is_double_pass);
 }
 
 // Uses SetStone to setup the board, 'initialze' can be set to 1 if want
@@ -536,7 +557,7 @@ inline void GoBoard::HandOff () {
 }
 // return whether the move is legal
 inline bool GoBoard::IsLegal ( const GoCoordId id ) {
-	return ((id == IsPass(id)) or legal_move_map[id]);
+	return (IsPass(id) or legal_move_map[id]);
 }
 
 // this finds the most "head" parent_id of the block (since blocks are 

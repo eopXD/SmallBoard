@@ -52,18 +52,24 @@ public:
 /* Display, only for debug purpose */
 public:
 	void DisplayBoard ();
-
+	void DisplayLegalMove ();
 /* Board Manipulation for checking if state if reduce-able */
 public:
 // check if this board is in its minimal serial number
+// NOTE: this function cannot be used in real gameplay
+// because the flipping and rotation will messup the board
 	GoSerial GetMinimal ();
 // get serial of the current board
 	GoSerial GetSerial ();
+// get ko of the current board
+	GoCoordId GetKo ();
 //protected:
 // rotate clock-wise (90 degree)
 	void RotateClockwise ();
 // flip in a LR symmetric matter
 	void FlipLR ();
+// returns if 2 passes is consecutively used (during gameplay)
+	bool IsDoublePass ();
 
 
 /* for initialization via serial number */
@@ -117,6 +123,15 @@ public:
 	GoCoordId CalcScore ( 
  GoStoneColor opponent_color=GoConstant::WhiteStone );
 
+/* Interface to interact with private assets */
+	void SetTurn ( GoStoneColor me, GoStoneColor you ) {
+		current_player = me;
+		opponent_player = you;
+	}
+	void SetKo ( GoCoordId id ) {
+		ko_position = id;
+	}
+
 protected:
 // returns own color
 	GoStoneColor SelfColor ();
@@ -143,6 +158,7 @@ protected:
 	GoError TryMove ( GoBlock &blk, const GoCoordId target_id, 
  GoBlockId *nb_id, GoBlockId* die_id, 
  GoCoordId max_lib=GoConstant::SMALLBOARDSIZE );
+public:
 // get all possible move for the current board position
 	void GetPossibleMove ();
 
