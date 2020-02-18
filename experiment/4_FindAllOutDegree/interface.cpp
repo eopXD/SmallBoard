@@ -75,6 +75,7 @@ int main ()
 			cout << "===============================\n";
 			cout << "Current serial: " << board.GetSerial() << "\n";
 			cout << "Ko: " << (int)board.GetKo() << "\n";
+			cout << "Score: " << (int)board.CalcScore() << "\n";
 			board.DisplayBoard();
 			if ( turn == 0 ) {
 				cout << "\nBlack's turn...\n";
@@ -102,9 +103,9 @@ int main ()
 
 			turn = !turn;
 		}
-		cout << "\n\nGameplay is ended by double pass\n";
-		PressAnyKey();
+		cout << "\n\nGameplay is ended by double pass\n\n";
 
+		PressAnyKey();
 	}
 
 	return (0);
