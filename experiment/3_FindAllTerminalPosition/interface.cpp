@@ -138,7 +138,11 @@ WBWBW
 		if ( board.error_code < 0 ) {
 			cout << (int)board.error_code << "\n";
 			cout << "error: illegal board\n";
-			exit(1);
+			PressAnyKey();
+			bad = 1;
+		}
+		if ( bad ) {
+			continue;
 		}
 //		cout << "Display board:\n";
 //		board.DisplayBoard(); cout << "\n";
