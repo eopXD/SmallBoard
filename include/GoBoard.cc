@@ -265,7 +265,7 @@ playing on the phase 'CheckKoStates'*/
 //   0: success
 //	-1: self-eat move
 //  -2: eat-opponent move
-GoError GoBoard::SetStone ( const GoCoordId id, 
+GoError GoBoard::SetStone ( const GoCoordId target_id, 
  const GoStoneColor stone_color ) {
 // nb_id[0] is counter, 
 	GoBlockId blk_id, nb_id[5];
@@ -279,7 +279,7 @@ GoError GoBoard::SetStone ( const GoCoordId id,
 	blk.stone_count = 1;
 	blk.color = stone_color;
 
-	GetNeighborBlocks(blk, id, nb_id);
+	GetNeighborBlocks(blk, target_id, nb_id);
 // check if we are killing anybody
 	for ( GoBlockId	i=1; i<=nb_id[0]; ++i ) {
 		GoBlock &nb_blk = block_pool[nb_id[i]];
@@ -293,27 +293,27 @@ GoError GoBoard::SetStone ( const GoCoordId id,
 		}
 	}
 
-	blk.ResetLiberty(id);
+	blk.ResetLiberty(target_id);
 
 	if ( 0 == blk.CountLiberty() ) { 
 	// self-eat!
 		return (-1);
 	}
 
-	stones[id].Reset(blk_id);
+	stones[target_id].Reset(blk_id);
 	blk.in_use = true;
-	blk.head = blk.tail = id;
+	blk.head = blk.tail = target_id;
 	for ( GoBlockId i=1; i<=nb_id[0]; ++i ) {
 		GoBlock &nb_blk = block_pool[nb_id[i]];
-		nb_blk.ResetLiberty(id);
+		nb_blk.ResetLiberty(target_id);
 		if ( stone_color == nb_blk.color ) {
 			blk.MergeBlocks(nb_blk);
 
 			RecycleBlock(nb_id[i]);
 		}
 	}
-	board_state[id] = stone_color;
-	current_zobrist_value ^= zobrist_board_hash_weight[stone_color][id];
+	board_state[target_id] = stone_color;
+	current_zobrist_value ^= zobrist_board_hash_weight[stone_color][target_id];
 	return (0);
 /*
 NOTES: you can compare this function to GoBoard::Move(id), because this
