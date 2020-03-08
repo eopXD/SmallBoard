@@ -32,32 +32,46 @@ int main ()
 
 	while ( 1 ) {
 		CLEAR_SCREEN;
-		cout << "Insert a 4x4 board 'B', 'W', '-'(dash)\n";
-		for ( int i=0; i<4; ++i ) {
-			cin >> s[i];
-		}
-		uint64_t serial = 0;
+		cout << "\n1: Input 4x4 board\n2: Input serial number\nInsert 1 or 2: ";
+		int num; cin >> num;
+		uint64_t serial;
 		bool bad = 0;
-		for ( int i=3; i>=0; --i ) {
-			if ( strlen(s[i]) != 4 ) {
-				cout << "error: bad board size\n";
-				PressAnyKey();
-				bad = 1;
+
+		if ( num == 1 ) {
+			cout << "Insert a 4x4 board 'B', 'W', '-'(dash)\n";
+			for ( int i=0; i<4; ++i ) {
+				cin >> s[i];
 			}
-			for ( int j=3; j>=0; --j ) {
-				serial *= 3;
-				if ( s[i][j] == 'B' ) {
-					serial += 1;
-				} else if ( s[i][j] == 'W' ) {
-					serial += 2;
-				} else if ( s[i][j] == '-' ) {
-					serial += 0;
-				} else {
-					cout << "error: illegal symbol\n";
+			serial = 0;
+			for ( int i=3; i>=0; --i ) {
+				if ( strlen(s[i]) != 4 ) {
+					cout << "error: bad board size\n";
 					PressAnyKey();
 					bad = 1;
 				}
+				for ( int j=3; j>=0; --j ) {
+					serial *= 3;
+					if ( s[i][j] == 'B' ) {
+						serial += 1;
+					} else if ( s[i][j] == 'W' ) {
+						serial += 2;
+					} else if ( s[i][j] == '-' ) {
+						serial += 0;
+					} else {
+						cout << "error: illegal symbol\n";
+						PressAnyKey();
+						bad = 1;
+					}
+				}
 			}
+		} else if ( num == 2 ) {
+			cout << "Maximum serial: " << MAX_SERIAL-1 << "\n";
+			cout << "Insert serial number: ";
+			cin >> serial;
+		} else {
+			cout << "Received unknonwn number\n";
+			PressAnyKey();
+			continue;
 		}
 		if ( bad ) {
 			continue;
@@ -74,7 +88,11 @@ int main ()
 			}
 			cout << "===============================\n";
 			cout << "Current serial: " << board.GetSerial() << "\n";
-			cout << "Ko: " << (int)board.GetKo() << "\n";
+			if ( board.GetKo() == -2 ) {
+				cout << "Currently no ko\n";
+			} else {
+				cout << "Ko: " << (int)board.GetKo() << "\n";
+			}
 			cout << "Score: " << (int)board.CalcScore() << "\n";
 			board.DisplayBoard();
 			if ( turn == 0 ) {
