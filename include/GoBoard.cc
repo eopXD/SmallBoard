@@ -27,6 +27,8 @@ GoBoard::GoBoard () {
 	block_in_use = 0;
 	
 	current_player = BlackStone;
+	opponent_player = WhiteStone;
+
 	ko_position = COORD_UNSET;
 	is_double_pass = false;
 	
@@ -311,6 +313,7 @@ GoError GoBoard::SetStone ( const GoCoordId id,
 		}
 	}
 	board_state[id] = stone_color;
+	current_zobrist_value ^= zobrist_board_hash_weight[stone_color][id];
 	return (0);
 /*
 NOTES: you can compare this function to GoBoard::Move(id), because this
