@@ -46,7 +46,8 @@ void CreateEncoding()
             }
         }
         if (start_bit < -1) {
-            elog("64 bit is not enough to encode the given ROW & COL\n");
+            fprintf(stderr,
+                    "64 bit is not enough to encode the given ROW & COL\n");
             exit(1);
         }
     });

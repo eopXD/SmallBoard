@@ -85,7 +85,7 @@ public:
      *  0: success
      * -1: illegal (self-eat)
      * -2: illegal (eat-opponent)
-	 * -3: target_id is occupied */
+     * -3: target_id is occupied */
     GoError SetStone(const GoCoordId target_id, const GoStoneColor stone_color);
     /* removes the stone from board, calls RefreshBlock
      * return value:
@@ -203,10 +203,10 @@ private:
 #define FOR_BLOCK_STONE(id, blk, loop_body)                                    \
     {                                                                          \
         GoCoordId id = (blk).head;                                             \
-        GoCoordId head = (blk).head;                                           \
-        do {                                                                   \
-            loop_body id = stones[id].next_id;                                 \
-        } while (id != head);                                                  \
+        while (1) {                                                            \
+            loop_body if (id == stones[id].next_id) { break; }                 \
+            id = stones[id].next_id;                                           \
+        }                                                                      \
     }
 
 #endif

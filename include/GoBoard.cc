@@ -231,6 +231,7 @@ bool GoBoard::IsDoublePass() { return (is_double_pass); }
 GoBoard::GoBoard(GoSerial _serial, bool initialize) : GoBoard()
 {
     serial = _serial;
+    error_code = 0;
     FOR_EACH_COORD(id)
     {
         GoStoneColor stone_color = _serial % 3;
@@ -242,11 +243,9 @@ GoBoard::GoBoard(GoSerial _serial, bool initialize) : GoBoard()
         GoError err = SetStone(id, stone_color);
         if (err != 0) { // see error code below
             error_code = -1;
-            goto END_CONSTRUCT;
+            break;
         }
     }
-    error_code = 0;
-END_CONSTRUCT:
     /* build initialization of board detail for
      * playing on the phase 'CheckKoStates'*/
     if (initialize) {
@@ -261,21 +260,23 @@ END_CONSTRUCT:
  * error code:
  *  0: success
  * -1: self-eat move
- * -2: eat-opponent move 
+ * -2: eat-opponent move
  * -3: target_id is occupied */
 GoError GoBoard::SetStone(const GoCoordId target_id,
                           const GoStoneColor stone_color)
 {
-	if ( board_state[target_id] != EmptyStone ) {
-		return (-3);
-	}
+    if (board_state[target_id] != EmptyStone) {
+        return (-3);
+    }
     // nb_id[0] is counter,
     GoBlockId blk_id, nb_id[5];
     GetNewBlock(blk_id);
     GoBlock &blk = block_pool[blk_id];
 
+    stones[target_id].Reset(blk_id);
     blk.stone_count = 1;
     blk.color = stone_color;
+    blk.head = blk.tail = target_id;
 
     GetNeighborBlocks(blk, target_id, nb_id);
     // check if we are killing anybody
@@ -298,8 +299,6 @@ GoError GoBoard::SetStone(const GoCoordId target_id,
         return (-1);
     }
 
-    stones[target_id].Reset(blk_id);
-    blk.head = blk.tail = target_id;
     for (GoBlockId i = 1; i <= nb_id[0]; ++i) {
         GoBlock &nb_blk = block_pool[nb_id[i]];
         nb_blk.ResetLiberty(target_id);
@@ -355,7 +354,6 @@ void GoBoard::RefreshBlock(GoBlock &blk)
         ++comp_cnt;
     }
     assert(comp_cnt <= 4);
-
     GoBlockId blk_id[4];
     GoCoordId prev[4];
     for (int i = 0; i < comp_cnt; ++i) {
@@ -408,7 +406,7 @@ GoError GoBoard::ResetStone(const GoCoordId target_id)
     current_zobrist_value ^=
         zobrist_board_hash_weight[board_state[target_id]][target_id];
 
-    GoBlock &blk = block_pool[stones[target_id].block_id];
+    GoBlock &blk = block_pool[GetBlockIdByCoord(target_id)];
     if (1 == blk.stone_count) {
         RecycleBlock(stones[target_id].block_id);
         stones[target_id].Reset();
@@ -663,7 +661,7 @@ inline bool GoBoard::IsLegal(const GoCoordId id)
     return (IsPass(id) or legal_move_map[id]);
 }
 
-/* this finds the most "head" parent_id of the block (since blocks are
+/* this finds the most "head" parent_id of the block (since stones are
  * connected by disjoint set) */
 GoCoordId GoBoard::FindCoord(const GoCoordId target_id)
 {
@@ -678,9 +676,6 @@ GoCoordId GoBoard::FindCoord(const GoCoordId target_id)
 /* get GoBlockId of 'target_id' */
 GoBlockId GoBoard::GetBlockIdByCoord(const GoCoordId target_id)
 {
-    if (EmptyStone == board_state[target_id]) {
-        return (BLOCK_UNSET);
-    }
     // find ancestor stone and its corresponding block_id
     return (stones[FindCoord(target_id)].block_id);
 }

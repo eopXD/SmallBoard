@@ -100,13 +100,12 @@ struct GoBlock {
     // manipulating on GoBoard.stones[]
     void MergeBlocks(const GoBlock &a)
     {
-        /* circular-singly linked-list */
-        this->GetTail()->next_id = a.GetHead()->self_id;
+        /* singly linked-list */
         a.GetTail()->next_id = this->GetHead()->self_id;
-
+        this->head = a.head;
         /* disjoint-set */
         a.GetHead()->parent_id = a.GetTail()->parent_id =
-            this->GetHead()->self_id;
+            this->GetTail()->self_id;
     }
 
     /* display for debugging */
