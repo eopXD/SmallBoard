@@ -38,7 +38,7 @@ struct GoBlock {
 	BIT_STATE stone_state;
 
 	void Reset () { // reset the block (for re-use)
-		in_use = false;
+		in_use = true;
 		liberty_count = stone_count = 0;
 		liberty_state = virtual_liberty_state = stone_state = 0;
 	}
@@ -80,6 +80,9 @@ struct GoBlock {
 	inline GoCounter CountStone () {
 		return (stone_count = __builtin_popcount(stone_state));
 	}
+	inline bool IsStone ( const GoCoordId id ) {
+		return ((stone_state >> id) & 1);
+	}
 	bool IsNoLiberty () {
 		return (0 == this->CountLiberty());
 	}
@@ -107,7 +110,7 @@ struct GoBlock {
 		a.GetTail()->next_id = this->GetHead()->self_id;
 		this->head = a.head;
 	/* disjoint-set, let a's tail link to this->tail */
-		a.GetHead()->parent_id = a.GetTail()->parent_id = this->GetTail()->self_id;
+		a.GetHead()->parent_id = a.GetTail()->parent_id = this->GetHead()->self_id;
 	}
 
 /* display for debugging */

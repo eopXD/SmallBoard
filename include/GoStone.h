@@ -17,7 +17,7 @@
 struct GoStone {
 	GoCoordId self_id;      // Id of this stone
 	GoBlockId block_id;     // Id of its block
-	GoCoordId next_id;      // one-way linked-list to connect stones
+	GoCoordId next_id;      // circular linked-list to connect stones
 	GoCoordId parent_id;    // Use like union-find-set (rooted by tail)
 
 	// inline void SetSelfId(GoCoordId id) { self_id = id; }
