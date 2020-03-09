@@ -1,8 +1,5 @@
-// Copyright (C) 2019 Yueh-Ting Chen (eopXD)
 /*! \file play/main.cpp
 	\brief Test for gameplay
-	\author Yueh-Ting Chen (eopXD)
-	\project Efficient & Succinct Small Board Go
 */
 
 #include <cstdio>

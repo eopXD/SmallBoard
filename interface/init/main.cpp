@@ -1,8 +1,5 @@
-// Copyright (C) 2019 Yueh-Ting Chen (eopXD)
 /*! \file init/main.cpp
-        \brief Test for functionality of SetStone and ResetStone
-        \author Yueh-Ting Chen (eopXD)
-        \project Efficient & Succinct Small Board Go
+    \brief Test for functionality of SetStone and ResetStone
 */
 
 #include <algorithm>
