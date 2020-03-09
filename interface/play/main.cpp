@@ -1,6 +1,6 @@
 // Copyright (C) 2019 Yueh-Ting Chen (eopXD)
-/*! \file FindAllOutDegree/interface.cpp
-	\brief Gameplay for testing
+/*! \file play/main.cpp
+	\brief Test for gameplay
 	\author Yueh-Ting Chen (eopXD)
 	\project Efficient & Succinct Small Board Go
 */
