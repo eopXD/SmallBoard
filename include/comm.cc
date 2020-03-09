@@ -66,6 +66,7 @@ GoHash zobrist_player_hash_weight[3];
 GoHash zobrist_board_hash_weight[3][SMALLBOARDSIZE];
 GoHash zobrist_ko_hash_weight[SMALLBOARDSIZE];
 GoHash zobrist_switch_player; 
+GoHash zobrist_empty_board;
 
 GoCoordId cached_neighbor_size[SMALLBOARDSIZE];
 GoCoordId cached_neighbor_id[SMALLBOARDSIZE][4];
@@ -185,6 +186,11 @@ void CreateZobristHash () {
 	zobrist_switch_player = 0;
 	zobrist_switch_player ^= zobrist_player_hash_weight[BlackStone];
 	zobrist_switch_player ^= zobrist_player_hash_weight[WhiteStone];
+
+	zobrist_empty_board = 0;
+	for ( int i=0; i<SMALLBOARDSIZE; ++i ) {
+		zobrist_empty_board ^= zobrist_board_hash_weight[0][i];
+	}
 }
 
 void CreateNeighborCache () {
