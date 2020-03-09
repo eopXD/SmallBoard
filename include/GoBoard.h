@@ -80,7 +80,7 @@ public:
 	GoBoard ( const GoSerial _serial, bool initialize=0 );
 	/* for error handling, can be direct accessed by outside */
 	GoError error_code;
-protected:
+public:
 // Place stones onto the board, but don't need maintenance of detail
 // board position or check if it is legal, only check for self-eat or eat move
 // The stone will be placed onto the board_state.
@@ -88,7 +88,14 @@ protected:
 //   0: ok
 //	-1: self-eat move 
 //	-2: eat-opponent move
-	GoError SetStone ( const GoCoordId id, const GoStoneColor stone_color );
+	GoError SetStone ( const GoCoordId target_id, const GoStoneColor stone_color );
+// Refresh GoBlock status after calling ResetStone
+	void RefreshBlock ( GoBlock &blk );
+// Removes the stone from the board
+// error code:
+//   0: success
+//  -1: target_id is already empty
+	GoError ResetStone ( const GoCoordId target_id );
 
 /* for checking if this board can have a ko at the given position 'id' */
 public:
@@ -166,9 +173,11 @@ private :
 // serial number
 	GoSerial serial;
 /* GoBlock pool and some maintenance */
+public :
 	GoBlock block_pool[GoConstant::MAX_BLOCK_SIZE];
-	std::stack<GoBlockId> recycled_block;
 	GoCounter block_in_use;
+private:
+	std::stack<GoBlockId> recycled_block;
 /* Naiive informations of Board State */
 	GoStone stones[GoConstant::SMALLBOARDSIZE]; // one-way linked-list
 	GoStoneColor board_state[GoConstant::SMALLBOARDSIZE];
@@ -197,8 +206,7 @@ private :
 /* conventional for-loop */
 
 // for all the GoBlocks such that in_use = true
-#define FOR_BLOCK_IN_USE(i)\
- for ( GoBlockId i=0; i<block_in_use; ++i )
+#define FOR_BLOCK_IN_USE(blk_id) for(GoBlockId blk_id=0; blk_id<block_in_use; ++blk_id)
 
 // stones[] are maintained in a linked-list style
 // iteration around stones of a GoBoard

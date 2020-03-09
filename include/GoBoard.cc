@@ -1,3 +1,5 @@
+#include <queue>
+
 #include "comm.h"
 #include "GoBoard.h"
 
@@ -33,7 +35,7 @@ GoBoard::GoBoard () {
 	is_double_pass = false;
 	
 	game_length = 0;
-	current_zobrist_value = 0;
+	current_zobrist_value = zobrist_empty_board;
 }
 GoBoard::GoBoard ( const GoBoard &rhs ) : GoBoard() {
 	CopyFrom(rhs);
@@ -59,25 +61,28 @@ void GoBoard::FixBlockInfo () {
 // error code:
 //	-1: not a legal move
 //	-2: a self-eat move
-GoError GoBoard::Move ( const GoCoordId id ) {
-	if ( not IsLegal(id) ) {
+GoError GoBoard::Move ( const GoCoordId target_id ) {
+	if ( not IsLegal(target_id) ) {
 		return (-1);
 	}
 	++game_length;
 	
-	is_double_pass = IsPass(previous_move) and IsPass(id);
-	previous_move = id;
+	is_double_pass = IsPass(previous_move) and IsPass(target_id);
+	previous_move = target_id;
 	ko_position = COORD_UNSET;
 
 // update Zobrist Hash
 	{
 		current_zobrist_value ^= zobrist_switch_player;
-		if ( not IsPass(id) ) {
+		if ( not IsPass(target_id) ) {
 			current_zobrist_value ^= 
-			 zobrist_board_hash_weight[SelfColor()][id];
-		}
+			 zobrist_board_hash_weight[board_state[target_id]][target_id];
+			board_state[target_id] = SelfColor();
+			current_zobrist_value ^= 
+			 zobrist_board_hash_weight[board_state[target_id]][target_id];
+		} 
 	}	
-	if ( IsPass(id) ) {
+	if ( IsPass(target_id) ) {
 		HandOff();
 		//GetPossibleMove();
 		record_zobrist[(game_length-1+4)&3] = current_zobrist_value;
@@ -92,16 +97,15 @@ GoError GoBoard::Move ( const GoCoordId id ) {
 	GoBlock &blk = block_pool[blk_id];
 
 	// this is a self-eat move
-	if ( (cnt = TryMove(blk, id, nb_id, die_id)) < 0 ) { 
+	if ( (cnt = TryMove(blk, target_id, nb_id, die_id)) < 0 ) { 
 		return (-2);
 	}
-	stones[id].Reset(blk_id);
-	blk.in_use = true;
-	blk.head = blk.tail = id;
+	stones[target_id].Reset(blk_id);
+	blk.head = blk.tail = target_id;
 	for ( GoBlockId i=1; i<=nb_id[0]; ++i ) {
 		GoBlock &nb_blk = block_pool[nb_id[i]];
 		visited_position[nb_id[i]] = game_length;
-		nb_blk.ResetLiberty(id);
+		nb_blk.ResetLiberty(target_id);
 		if ( SelfColor() == nb_blk.color ) {
 			blk.MergeBlocks(nb_blk);
 			RecycleBlock(nb_id[i]);
@@ -139,7 +143,6 @@ GoError GoBoard::Move ( const GoCoordId id ) {
 			block_pool[i].CountLiberty();
 		}
 	}
-	board_state[id] = SelfColor();
 
 	HandOff();
 	//GetPossibleMove();
@@ -301,19 +304,21 @@ GoError GoBoard::SetStone ( const GoCoordId target_id,
 	}
 
 	stones[target_id].Reset(blk_id);
-	blk.in_use = true;
 	blk.head = blk.tail = target_id;
 	for ( GoBlockId i=1; i<=nb_id[0]; ++i ) {
 		GoBlock &nb_blk = block_pool[nb_id[i]];
 		nb_blk.ResetLiberty(target_id);
 		if ( stone_color == nb_blk.color ) {
 			blk.MergeBlocks(nb_blk);
-
+			FOR_BLOCK_STONE(id, nb_blk, 
+			 stones[id].block_id = blk_id;
+			);
 			RecycleBlock(nb_id[i]);
 		}
 	}
+	current_zobrist_value ^= zobrist_board_hash_weight[board_state[target_id]][target_id];
 	board_state[target_id] = stone_color;
-	current_zobrist_value ^= zobrist_board_hash_weight[stone_color][target_id];
+	current_zobrist_value ^= zobrist_board_hash_weight[board_state[target_id]][target_id];
 	return (0);
 /*
 NOTES: you can compare this function to GoBoard::Move(id), because this
@@ -321,6 +326,102 @@ is a reduced version of move, because we only care about initializing the
 stones onto the board and don't need to do any maintanence on the gaming
 detail.
 */
+}
+
+// Paints the connected compone
+
+// This function is called when so GoBlocks maitain their correctness
+// A broken GoBlock at most breaks into 4 components
+void GoBoard::RefreshBlock ( GoBlock &blk ) {
+	/* count for seperate components */
+	int comp[SMALLBOARDSIZE], comp_cnt = 0;
+	int used[SMALLBOARDSIZE];
+	memset(comp, -1, sizeof(comp));
+	memset(used, 0, sizeof(used));
+
+	FOR_EACH_COORD(id) {
+		if ( !blk.IsStone(id) or comp[id]!=-1 or used[id] ) {
+			continue;
+		}
+		queue<int> q;
+		q.push(id);
+		used[id] = 1;
+		comp[id] = comp_cnt;
+		while ( !q.empty() ) {
+			int now_id = q.front(); q.pop();
+			FOR_NEIGHBOR(now_id, nb) {
+				if ( blk.IsStone(*nb) and used[*nb]==0 ) {
+					used[*nb] = 1;
+					comp[*nb] = comp_cnt;
+					q.push(*nb);
+				}
+			}
+		}
+		++comp_cnt;
+	}
+	assert(comp_cnt<=4);
+	
+	GoBlockId blk_id[4];
+	GoCoordId prev[4];
+	for ( int i=0; i<comp_cnt; ++i ) {
+		GetNewBlock(blk_id[i]);
+		prev[i] = -1;
+	}
+
+	FOR_EACH_COORD(id) {
+		if ( comp[id]<0 ) {
+			continue;
+		}
+		GoBlock &new_blk = block_pool[blk_id[comp[id]]];
+		stones[id].Reset(blk_id[comp[id]]);
+		new_blk.SetStone(id);
+		FOR_NEIGHBOR(id, nb) {
+			new_blk.SetVirtLiberty(*nb);
+			if ( board_state[*nb] == EmptyStone ) {
+				new_blk.SetLiberty(*nb);
+			}
+		}
+		if ( prev[comp[id]] == -1 ) {
+			new_blk.head = id;
+		} else {
+			stones[prev[comp[id]]].next_id = id;
+		}
+		prev[comp[id]] = id;
+	}
+	for ( int i=0; i<comp_cnt; ++i ) {
+		GoBlock &new_blk = block_pool[blk_id[i]];
+		new_blk.color = blk.color;
+		new_blk.tail = prev[comp[i]];
+		stones[prev[comp[i]]].next_id = new_blk.head;
+	}
+
+}
+
+// Removes the stone from the board
+// error code:
+//   0: success
+//  -1: target_id is already empty
+GoError GoBoard::ResetStone ( const GoCoordId target_id ) {
+	if ( board_state[target_id] == EmptyStone ) {
+		return (-1);
+	}
+
+	current_zobrist_value ^= zobrist_board_hash_weight[board_state[target_id]][target_id];
+	board_state[target_id] = EmptyStone;
+	current_zobrist_value ^= zobrist_board_hash_weight[board_state[target_id]][target_id];
+
+	GoBlock &blk = block_pool[stones[target_id].block_id];
+	if ( 1 == blk.stone_count ) {
+		RecycleBlock(stones[target_id].block_id);
+		stones[target_id].Reset();
+		return (0);
+	}
+	
+	stones[target_id].Reset();
+	blk.ResetStone(target_id);
+	RefreshBlock(blk);
+	RecycleBlock(blk.self_id);
+	return (0);
 }
 
 /* For checking all possible Ko position of a serial numebr */ 
@@ -663,7 +764,13 @@ void GoBoard::GetNewBlock ( GoBlockId &blk_id ) {
 	} else {
 		blk_id = block_in_use++;
 	}
+	if ( blk_id >= MAX_BLOCK_SIZE ) {
+		cerr << "GoBlock insufficient to support for this board size\n";
+		cerr << "Modify GoConstant::MAX_BLOCK_SIZE to continue\n";
+		exit(1);
+	}
 	block_pool[blk_id].Reset();
+
 }
 
 // get all possible move for the current board position
