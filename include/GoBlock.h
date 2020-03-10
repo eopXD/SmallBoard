@@ -8,6 +8,7 @@
 
 #include "GoStone.h"
 #include "comm.h"
+#include <iostream>
 
 using BIT_STATE = uint32_t;
 
@@ -28,8 +29,8 @@ struct GoBlock {
      * liberty_state[idx] = 1 means that there is liberty on the position 'idx'
      */
     BIT_STATE liberty_state;
-    /* virtual liberty represents the place not occupied by the GoBlock
-     *  virtual_liberty_state[idx] = 1 means the position 'idx' is not occupied
+    /* virtual liberty is possible liberty area of the GoBlock
+     * maintained for convenience when MergeBlock is called
      */
     BIT_STATE virtual_liberty_state;
     // stone_state[idx] = 1 means that there us a stone on the position 'idx'
@@ -78,6 +79,10 @@ struct GoBlock {
     {
         return (stone_count = __builtin_popcount(stone_state));
     }
+    inline GoCounter CountVirtLiberty()
+    {
+        return (__builtin_popcount(virtual_liberty_state));
+    }
     inline bool IsStone(const GoCoordId id)
     {
         return ((stone_state >> id) & 1);
@@ -97,9 +102,16 @@ struct GoBlock {
         this->liberty_state &= virtual_liberty_state;
     }
 
-    // manipulating on GoBoard.stones[]
     void MergeBlocks(const GoBlock &a)
     {
+        GoStone *head = a.GetHead();
+        while ( 1 ) {
+            head->block_id = this->GetHead()->block_id;
+            if ( head->next_id == head->self_id ) {
+                break;
+            }
+            head = stones+head->next_id;
+        }
         /* singly linked-list */
         a.GetTail()->next_id = this->GetHead()->self_id;
         this->head = a.head;
@@ -124,5 +136,22 @@ struct GoBlock {
     }
     void DisplayStone() const { DisplayBitBoard(stone_state); }
     void DisplayLiberty() const { DisplayBitBoard(liberty_state); }
+    void DisplayVirtLiberty() const { DisplayBitBoard(virtual_liberty_state); }
+
+    void DisplayLinkedList() const {
+        std::cout << "GoStone linked-list:=======\n";
+        std::cout << "Head: " << (int)head << ", Tail: " << (int)tail << "\n"; 
+        GoStone *now = this->GetHead();
+        while ( 1 ) {
+            std::cout << "id: " << (int)now->self_id << "\n";
+            std::cout << "next_id: " << (int)now->next_id << "\n";
+            std::cout << "block_id: " << (int)now->block_id << "\n";
+            if ( now->next_id == now->self_id ) {
+                break;
+            }  
+            now = stones+now->next_id;
+        }
+        std::cout << "GoStone linked-list:*******\n";
+    }
 };
 #endif
