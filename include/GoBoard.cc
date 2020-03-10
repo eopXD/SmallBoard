@@ -59,6 +59,7 @@ GoError GoBoard::Move(const GoCoordId target_id)
 
     is_double_pass = IsPass(previous_move) and IsPass(target_id);
     previous_move = target_id;
+    previous_ko = ko_position;
     ko_position = COORD_UNSET;
 
     // update Zobrist Hash
@@ -74,8 +75,8 @@ GoError GoBoard::Move(const GoCoordId target_id)
     }
     if (IsPass(target_id)) {
         HandOff();
-        // GetPossibleMove();
         record_zobrist[(game_length - 1 + 4) & 3] = current_zobrist_value;
+        current_zobrist_value ^= zobrist_switch_player;
         return (0);
     }
     // nb_id[0] and die_id[0] is counter,
@@ -89,6 +90,7 @@ GoError GoBoard::Move(const GoCoordId target_id)
     }
     stones[target_id].Reset(blk_id);
     blk.head = blk.tail = target_id;
+    blk.color = SelfColor();
     for (int i = 1; i <= nb_id[0]; ++i) {
         GoBlock &nb_blk = block_pool[nb_id[i]];
         visited_position[nb_id[i]] = game_length;
@@ -98,8 +100,10 @@ GoError GoBoard::Move(const GoCoordId target_id)
             RecycleBlock(nb_id[i]);
         }
     }
+    prev_eat_from[0] = die_id[0];
     visited_position[blk_id] = game_length;
     for (int i = 1; i <= die_id[0]; ++i) {
+        prev_eat_from[i] = block_pool[die_id[i]].FirstStone();
         if ((1 == block_pool[die_id[i]].stone_count) and
             (1 == blk.stone_count) and (1 == blk.CountLiberty())) {
             // this is a Ko!
@@ -122,6 +126,7 @@ GoError GoBoard::Move(const GoCoordId target_id)
             zobrist_board_hash_weight[OpponentColor()][dead_stone];);
         RecycleBlock(die_id[i]);
     }
+
     // update the blocks that is effected in this move, update the liberty
     FOR_BLOCK_IN_USE(i)
     {
@@ -136,6 +141,111 @@ GoError GoBoard::Move(const GoCoordId target_id)
 GoError GoBoard::Move(const GoCoordId x, const GoCoordId y)
 {
     return (Move(CoordToId(x, y)));
+}
+
+GoError GoBoard::UndoMove(const GoCoordId target_id, const GoCoordId prev_ko,
+                          const GoCoordId *ate_from)
+{
+    /* error: no stone to undo */
+    if (board_state[target_id] == EmptyStone) {
+        return (-1);
+    }
+    int comp[SMALLBOARDSIZE], comp_cnt = 0;
+    int used[SMALLBOARDSIZE];
+    memset(comp, -1, sizeof(comp));
+    memset(used, 0, sizeof(used));
+
+    if (ate_from != NULL) {
+        for (int i = 1; i <= ate_from[0]; ++i) {
+            queue<int> q;
+            q.push(ate_from[i]);
+            used[ate_from[i]] = 1;
+            comp[ate_from[i]] = comp_cnt;
+            while (!q.empty()) {
+                int now_id = q.front();
+                q.pop();
+                FOR_NEIGHBOR(now_id, nb)
+                {
+                    /* error: specified ate_from components intersect */
+                    if (used[*nb] != 0 and comp[*nb] != comp_cnt) {
+                        return (-2);
+                    }
+                    if (board_state[*nb] == EmptyStone and used[*nb] == 0) {
+                        used[*nb] = 1;
+                        comp[*nb] = comp_cnt;
+                        q.push(*nb);
+                    }
+                }
+            }
+            ++comp_cnt;
+        }
+        FOR_EACH_COORD(id)
+        {
+            if (id % BORDER_C == 0) {
+                cout << "\n";
+            }
+            if (comp[id] == -1) {
+                cout << "-";
+            } else {
+                cout << comp[id];
+            }
+        }
+        cout << "\n";
+    }
+    // GoStoneColor me = board_state[target_id];
+    // GoStoneColor you = 3 - me;
+    // assert(me != current_player);
+    ko_position = prev_ko;
+    current_zobrist_value ^= zobrist_switch_player;
+    HandOff();
+
+    FOR_EACH_COORD(id)
+    {
+        if (comp[id] == -1) {
+            continue;
+        }
+        FOR_NEIGHBOR(id, nb)
+        {
+            /* error: ate_from component was not eaten by previous move */
+            if (board_state[*nb] == OpponentColor()) {
+                return (-2);
+            }
+        }
+    }
+    ResetStone(target_id);
+    FOR_NEIGHBOR(target_id, nb)
+    {
+        if (board_state[*nb] != OpponentColor()) {
+            continue;
+        }
+        GoBlock &nb_blk = block_pool[GetBlockIdByCoord(*nb)];
+        if (nb_blk.color == OpponentColor()) {
+            nb_blk.SetLiberty(target_id);
+        }
+    }
+    FOR_EACH_COORD(id)
+    {
+        if (comp[id] == -1) {
+            continue;
+        }
+        SetStone(id, OpponentColor());
+    }
+    if (prev_ko != COORD_UNSET) {
+        /* error: prev_ko is not a possible ko position for recovered board */
+        if (CheckKoPosition(cached_neighbor_id[prev_ko][0], SelfColor()) !=
+            prev_ko) {
+            FOR_EACH_COORD(id)
+            {
+                if (comp[id] == -1) {
+                    continue;
+                }
+                ResetStone(id);
+            }
+            SetStone(target_id, SelfColor());
+            return (-3);
+        }
+    }
+    return (0);
 }
 
 void GoBoard::DisplayBoard()
@@ -164,6 +274,27 @@ void GoBoard::DisplayLegalMove()
         }
     }
     putchar('\n');
+}
+void GoBoard::DisplayGoBlock(bool no_use)
+{
+    cout << "Current GoBlock status ================\n";
+    for (int i = 0; i < block_in_use; ++i) {
+        if (!no_use and 0 == block_pool[i].in_use) {
+            continue;
+        }
+        GoBlock &blk = block_pool[i];
+        cout << "BlockId: " << (int) i << ", ";
+        cout << "Color: " << COLOR_STRING[blk.color] << ", ";
+        cout << "Stone: " << (int) blk.CountStone() << ", ";
+        cout << "In-Use: " << (int) blk.in_use << "\n";
+        blk.DisplayStone();
+        cout << "Liberty: " << (int) blk.CountLiberty() << "\n";
+        blk.DisplayLiberty();
+        cout << "Virt-Liberty: " << (int) blk.CountVirtLiberty() << "\n";
+        blk.DisplayVirtLiberty();
+        blk.DisplayLinkedList();
+    }
+    cout << "End GoBlock status ****************\n";
 }
 
 // get the minimal representation serial representation of this board
@@ -304,7 +435,6 @@ GoError GoBoard::SetStone(const GoCoordId target_id,
         nb_blk.ResetLiberty(target_id);
         if (stone_color == nb_blk.color) {
             blk.MergeBlocks(nb_blk);
-            FOR_BLOCK_STONE(id, nb_blk, stones[id].block_id = blk_id;);
             RecycleBlock(nb_id[i]);
         }
     }
@@ -382,11 +512,12 @@ void GoBoard::RefreshBlock(GoBlock &blk)
         }
         prev[comp[id]] = id;
     }
+
     for (int i = 0; i < comp_cnt; ++i) {
         GoBlock &new_blk = block_pool[blk_id[i]];
         new_blk.color = blk.color;
-        new_blk.tail = prev[comp[i]];
-        stones[prev[comp[i]]].next_id = new_blk.head;
+        new_blk.tail = prev[i];
+        stones[prev[i]].next_id = prev[i];
     }
 }
 

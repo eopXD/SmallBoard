@@ -49,8 +49,14 @@ public:
      *  0: success
      * -1: illegal (non-self-eat)
      * -2: illegal (self-eat) */
-    GoError Move(const GoCoordId id);
+    GoError Move(const GoCoordId target_id);
     GoError Move(const GoCoordId x, const GoCoordId y);
+
+    GoError UndoMove(const GoCoordId target_id,
+                     const GoCoordId set_ko = GoConstant::COORD_UNSET,
+                     const GoCoordId *ate_from = NULL);
+    // GoError UndoMove(const GoCoordId x, const GoCoordId y, const GoCoordId
+    // set_ko, const GoCoordId *ate_from);
 
 protected:
     /* try if move is possible on 'target_id' */
@@ -62,7 +68,10 @@ protected:
 public:
     void DisplayBoard();
     void DisplayLegalMove();
-    /* board manipulation for checking if state is reduce-able */
+    /* no_use = 1, also display used but not using GoBlocks */
+    void DisplayGoBlock(bool no_use = 0);
+
+    /******** board manipulation for checking if state is reduce-able ********/
 public:
     /* NOTE: this function cannot be used in real gameplay because the
      * flipping and rotation will messup the board check if this board is its
@@ -167,17 +176,19 @@ protected:
 public:
     GoBlock block_pool[GoConstant::MAX_BLOCK_SIZE];
     GoCounter block_in_use;
+    GoCoordId previous_move, previous_ko;
+    GoCoordId prev_eat_from[5];
+    GoStone
+        stones[GoConstant::SMALLBOARDSIZE]; /* circular-singly linked-list */
 
-private:
+    // private:
+public:
     GoSerial serial;
     std::stack<GoBlockId> recycled_block;
 
     /************* naiive information *************/
-    GoStone
-        stones[GoConstant::SMALLBOARDSIZE]; /* circular-singly linked-list */
     GoStoneColor board_state[GoConstant::SMALLBOARDSIZE];
     GoStoneColor current_player, opponent_player;
-    GoCoordId previous_move;
     GoCoordId ko_position;
     GoCounter game_length;
     GoCounter visited_position[GoConstant::MAX_BLOCK_SIZE];
