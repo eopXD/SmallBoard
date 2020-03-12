@@ -134,7 +134,7 @@ public:
      * = 0: draw */
     GoCoordId CalcScore(GoStoneColor opponent_color = GoConstant::WhiteStone);
 
-    /************* interface to modify private asset *************/
+    /************* interface to modify asset *************/
 public:
     void SetTurn(GoStoneColor me, GoStoneColor you)
     {
@@ -142,8 +142,6 @@ public:
         opponent_player = you;
     }
     void SetKo(GoCoordId id) { ko_position = id; }
-
-protected:
     /* return current_player */
     GoStoneColor SelfColor();
     /* return opponent_player */
@@ -153,6 +151,8 @@ protected:
     /* return whether the move is legal
      * NOTE: only call after legal_move_map is set */
     inline bool IsLegal(const GoCoordId id);
+
+protected:
     /* finds use to find block_id of the ancestor stone */
     GoCoordId FindCoord(const GoCoordId id);
     /* get GoBlockId of 'id' */
@@ -174,19 +174,18 @@ protected:
     void GetNewBlock(GoBlockId &blk_id);
 
 public:
-    GoBlock block_pool[GoConstant::MAX_BLOCK_SIZE];
-    GoCounter block_in_use;
-    GoCoordId previous_move, previous_ko;
-    GoCoordId prev_eat_from[5];
+    /************* GoBoard data *************/
+    GoSerial serial;
     GoStone
         stones[GoConstant::SMALLBOARDSIZE]; /* circular-singly linked-list */
-
-    // private:
-public:
-    GoSerial serial;
+    /* NOTE: information of previous maybe extracted to a new class? */
+    GoCoordId previous_move, previous_ko;
+    GoCoordId prev_eat_from[5];
+    /* GoBlock resource*/
     std::stack<GoBlockId> recycled_block;
-
-    /************* naiive information *************/
+    GoBlock block_pool[GoConstant::MAX_BLOCK_SIZE];
+    GoCounter block_in_use;
+    /* naiive information */
     GoStoneColor board_state[GoConstant::SMALLBOARDSIZE];
     GoStoneColor current_player, opponent_player;
     GoCoordId ko_position;
@@ -194,23 +193,23 @@ public:
     GoCounter visited_position[GoConstant::MAX_BLOCK_SIZE];
     bool is_double_pass;
     GoScore board_score;
-
     /* Zobrist Hash to forbid Basic Ko (we allow Positional SuperKo) */
     GoHash record_zobrist[4];
     GoHash current_zobrist_value;
-    /* NOTE: important features
-     * legal_move_map[idx] = 1 means we can play a stone onto that position */
+    /* legal_move_map[idx] = 1 means we can play a stone onto that position */
     std::bitset<GoConstant::SMALLBOARDSIZE> legal_move_map;
 };
 
 
 /************* conventional for-loop *************/
-/* for all GoBlock */
+/* for all GoBlock
+ * NOTE: only for GoBoard internal use */
 #define FOR_BLOCK_IN_USE(blk_id)                                               \
     for (GoBlockId blk_id = 0; blk_id < block_in_use; ++blk_id)
 
 /* GoBoard.stones[] are maintained in a linked-list style
- * iteration around stones of a GoBoard */
+ * iteration around stones of a GoBoard 
+ * NOTE: only for GoBoard internal use */
 #define FOR_BLOCK_STONE(id, blk, loop_body)                                    \
     {                                                                          \
         GoCoordId id = (blk).head;                                             \
