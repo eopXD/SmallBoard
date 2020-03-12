@@ -134,7 +134,7 @@ void GoBoardGui::PrevMove()
 
 void Play(GoSerial serial)
 {
-    if (serial == -1) {
+    if (serial == MAX_SERIAL) {
         serial = dialog0();
     }
     GoBoardGui b(serial);

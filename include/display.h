@@ -61,6 +61,6 @@ public:
 
 };
 /* high-lv, call this to start everything */
-extern void Play (GoSerial serial = -1);
+extern void Play (GoSerial serial = GoConstant::MAX_SERIAL);
 
 #endif

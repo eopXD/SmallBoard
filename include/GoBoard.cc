@@ -511,7 +511,7 @@ void GoBoard::RefreshBlock(GoBlock &blk)
         }
         ++comp_cnt;
     }
-    assert(comp_cnt <= 4);
+    //assert(comp_cnt <= 4);
     GoBlockId blk_id[4];
     GoCoordId prev[4];
     for (int i = 0; i < comp_cnt; ++i) {
