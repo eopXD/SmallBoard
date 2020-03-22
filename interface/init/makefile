@@ -12,11 +12,13 @@ PARALLEL=-fopenmp
 INCLUDE=-I ../../include/ 
 NOW=$(4x4)
 
-all:
-	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) -c ../../include/comm.cc
-	$(G_PLUS_PLUS) $(STATE_ULL) -D DISPLAY_TERMINATE $(NOW) $(INCLUDE) comm.o -c ../../include/GoBoard.cc
+main: comm.o GoBoard.o
 	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) *.o main.cpp -o exec.main
-
+	rm -rf *.o
+comm.o:
+	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) -c ../../include/comm.cc
+GoBoard.o: comm.o
+	$(G_PLUS_PLUS) $(STATE_ULL) -D DISPLAY_TERMINATE $(NOW) $(INCLUDE) *.o -c ../../include/GoBoard.cc
 
 clean: 
 	rm -rf *.o
