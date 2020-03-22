@@ -7,6 +7,8 @@
 
 #include <bitset>
 #include <utility>
+#include <iostream>
+#include <vector>
 
 #include "comm.h"
 #include "GoStone.h"
@@ -18,14 +20,12 @@ struct History {
     GoCoordId ko;
     GoCoordId ate[5];
     History () {}
-    History ( GoCoordId m, GoCoordId k, GoCoordId *a = NULL ) {
+    History ( GoCoordId m, GoCoordId k, GoCoordId a[] ) {
         move = m;
         ko = k;
-        if ( a != NULL ) {
-            ate[0] = a[0];
-            for ( int i=1; i<=a[0]; ++i ) {
-                ate[i] = a[i];
-            }
+        ate[0] = a[0];
+        for ( int i=1; i<=a[0]; ++i ) {
+            ate[i] = a[i];
         }
     }
 };
@@ -35,18 +35,16 @@ class GoBoardGui : public GoBoard
 public:
     GoCoordId hl_id = GoConstant::COORD_UNSET; // current hl coord
     bool no_hl = 0; // option to close hl for pure display
-    std::bitset<GoConstant::SMALLBOARDSIZE>
-        available_hl; // availble hl coord
     GoStoneColor first_ply = GoConstant::BlackStone;
     GoStoneColor ply_turn = GoConstant::BlackStone;
     
-    int clr_line_sz = GoConstant::BORDER_R+3; // how many lines to clear
+    int clr_line_sz = GoConstant::BORDER_R+4; // how many lines to clear
     /* gameplay history*/
     int hs_idx = 0, hs_size = 0;
     History hs[1003];
 
     GoBoardGui () : GoBoard() {}
-    GoBoardGui ( GoSerial serial ) : GoBoard(serial) {}
+    GoBoardGui ( GoSerial serial, bool initialize = 0 ) : GoBoard(serial, initialize) {}
     
 public:
     void Turn();
@@ -57,7 +55,11 @@ public:
 
     /* if prev/next is available in history */
     void PrevMove ();
-    void NextMove ( GoCoordId target_id = -1 ); 
+    void NextMove ( GoCoordId target_id = -10 ); 
+
+    void RefreshHL();
+    /* high-lv to refresh current GoBoard display */
+    void Refresh();
 
 };
 /* high-lv, call this to start everything */

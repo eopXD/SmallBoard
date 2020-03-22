@@ -45,7 +45,7 @@ void prologue0()
     cout << "\033[1;37mSmall Board Go " << (int)BORDER_R << "x" << (int)BORDER_C
          << "\033[0m\n";
     cout << "Move: \033[1mJ(up/left)/K(down/right)\033[0m\n";
-    cout << "Apply/Undo/Next move: \033[1mZ/X/C\033[0m\n";
+    cout << "Apply/Undo/Next/Pass move: \033[1mZ/X/C/A\033[0m\n";
     // cout << "Add stone: \033[1mD\033[0m\n";
     // cout << "Restart game: \033[1mR\033[0m\n";
     cout << "\n";
@@ -62,20 +62,20 @@ std::ostream &operator<<(std::ostream &os, GoBoardGui &b)
     } else {
         os << (int) b.GetKo();
     }
-    os << ", HL: " << (int) b.hl_id;
-    os << ", hs_idx: " << (int)b.hs_idx;
+    //os << ", HL: " << (int) b.hl_id;
+    //os << ", hs_idx: " << (int)b.hs_idx;
     os << "\n\n";
 
-    FOR_EACH_COORD(id) {
+    /*FOR_EACH_COORD(id) {
         if (id and id % BORDER_C == 0) {
             os << "\n";
         }
-        if ( b.available_hl[id] ) {
+        if ( b.legal_move_map[id] ) {
             os << 1;
         } else {
             os << 0;
         }
-    } os << "\n";
+    } os << "\n";*/
 
     FOR_EACH_COORD(id)
     {
@@ -88,7 +88,7 @@ std::ostream &operator<<(std::ostream &os, GoBoardGui &b)
         os << COLOR_CHAR[b.board_state[id]];
         os << "\033[0m";
     }
-    os << "\n";
+    os << "\n\n";
     return (os);
 }
 
@@ -96,7 +96,7 @@ void GoBoardGui::RecvArrow(int dir)
 {
     GoCoordId nxt_hl = max(0, hl_id + dir);
     while (nxt_hl >= 0 and nxt_hl < SMALLBOARDSIZE) {
-        if (available_hl[nxt_hl]) {
+        if (legal_move_map[nxt_hl]) {
             hl_id = nxt_hl;
             break;
         }
@@ -106,7 +106,7 @@ void GoBoardGui::RecvArrow(int dir)
 
 void GoBoardGui::NextMove(GoCoordId target_id)
 {
-    if (target_id == -1) {
+    if (target_id == -10) {
         if (hs_idx == hs_size) {
             cout << "\a";
             return;
@@ -116,8 +116,14 @@ void GoBoardGui::NextMove(GoCoordId target_id)
         }
     } else {
         Move(target_id);
-        hs[hs_idx] = History(target_id, ko_position, prev_eat_from);
-        cout << "Record move: " << (int)hs[hs_idx].move << " " << (int)hs[hs_idx].ko << " " << (int)hs[hs_idx].ate[0] << "\n";    
+        hs[hs_idx].move = target_id;
+        hs[hs_idx].ko = ko_position;
+        hs[hs_idx].ate[0] = prev_eat_from[0];
+        for ( int i=1; i<=prev_eat_from[0]; ++i ) {
+            hs[hs_idx].ate[i] = prev_eat_from[i];
+        }
+        //hs[hs_idx] = History(target_id, ko_position, prev_eat_from);
+        //cout << "Record move: " << (int)hs[hs_idx].move << " " << (int)hs[hs_idx].ko << " " << (int)hs[hs_idx].ate[0] << "\n";    
         ++hs_idx;
         hs_size = hs_idx;
     }
@@ -128,8 +134,20 @@ void GoBoardGui::PrevMove()
         return;
     }
     hs_idx--;
-    cout << "Trigger undo: " << (int)hs[hs_idx].move << " " << (int)hs[hs_idx].ko << " " << (int)hs[hs_idx].ate[0] << "\n";
+    //cout << "Trigger undo: " << (int)hs[hs_idx].move << " " << (int)hs[hs_idx].ko << " " << (int)hs[hs_idx].ate[0] << "\n";
     UndoMove(hs[hs_idx].move, hs[hs_idx].ko, hs[hs_idx].ate);
+}
+void GoBoardGui::RefreshHL () {
+    if ( legal_move_map.count() == 0 ) {
+        no_hl = 1;
+    } else {
+        no_hl = 0;
+        RecvArrow(-1), RecvArrow(+1);
+    }
+}
+void GoBoardGui::Refresh () {
+    GetPossibleMove();
+    RefreshHL();
 }
 
 void Play(GoSerial serial)
@@ -137,42 +155,37 @@ void Play(GoSerial serial)
     if (serial == MAX_SERIAL) {
         serial = dialog0();
     }
-    GoBoardGui b(serial);
+    GoBoardGui b(serial, 1);
     prologue0();
     int ____ = 1;
     while (1) {
         if (____) {
             b.hs_idx = 0;
-            b.GetPossibleMove();
-            b.available_hl = b.legal_move_map;
-            b.RecvArrow(+1);
+            b.Refresh();
         } else {
-            //CLR_LINES(b.clr_line_sz);
+            CLR_LINES(b.clr_line_sz);
         }
         cout << b;
         char c = getch();
         switch (c) {
         case 'z': // Apply move
             b.NextMove(b.hl_id);
-            b.GetPossibleMove();
-            b.available_hl = b.legal_move_map;
-            b.RecvArrow(-1), b.RecvArrow(+1);
+            b.Refresh();
             break;
         case 'x': // Prev move
             b.PrevMove();
-            b.GetPossibleMove();
-            b.available_hl = b.legal_move_map;
-            b.RecvArrow(-1), b.RecvArrow(+1);
+            b.Refresh();
             break;
-        case 's': // Next move
+        case 'c': // Next move
             b.NextMove();
-            b.GetPossibleMove();
-            b.available_hl = b.legal_move_map;
-            b.RecvArrow(-1), b.RecvArrow(+1);
+            b.Refresh();
+            break;
+        case 'a': // Pass move
+            b.NextMove(-1);
+            b.Refresh();
             break;
         case 'j':
         case 'k': // Modify highlight
-            b.available_hl = b.legal_move_map;
             b.RecvArrow(c == 'j' ? -1 : +1);
             break;
         default:
@@ -180,5 +193,17 @@ void Play(GoSerial serial)
             break;
         }
         ____ = 0;
+        if ( b.is_double_pass ) {
+            break;
+        }
+    }
+    cout << "Receive double pass, game end.\n";
+    cout << "Result: ";
+    if ( b.CalcScore() > 0 ) {
+        cout << "Black win\n";
+    } else if ( b.CalcScore() < 0 ) {
+        cout << "White win\n";
+    } else {
+        cout << "Draw\n";
     }
 }
