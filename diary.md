@@ -1270,6 +1270,200 @@ Out-degree 的主要目的是因為我們現在是以 reduce 過後的盤面來�
 今天先寫了一個 interface 來玩這些盤面。
 ‼️ 我的 GetPossibleMove 裡面有包括了 ko ，所以如果要不受 ko 影響，要把 `ko_position = COORD_UNSET`
 
-先來去跑步，等等把 GetMinimal 從 `class GoBoard` 裡頭抽出來這樣才可以無後顧之憂的使用。
+## 2020/02/19 （三）
+
+本週
+
+- serial number 建立盤面
+
+TODO 的調查：
+
+- 對所有盤面來說，有「提子」動作的盤面佔多少百分比
+
+## 2020/03/07 （六）
+
+兵單來了， 3/24 入伍。
+
+等於我有兩週的時間可以試著全力把 retrograde 完成。
+
+首先要來列出待辦清單，並逐項完成。所以接下來會是一大陣的碎碎念XDD 首先要做的就是達成 undo move 。繼續來把 undo move 往下拆解：
+
+<!--
+- Determine closed regions for the board
+	- Color the board with BFS
+	- Determine if the closed-region is "surrounded" by 
+- For removing a `GoStone`
+	- Was the `GoStone` potentially a "Eat-Move"?
+		- If this `GoStone` has a neighboring closed-region
+-->
+
+Determine close region 是個難處， O( BOARDSIZE ) 可以做到但是難處在於常數挺大的。以 BFS 來塗色的話有辦法解決這個問題。也就是對一個 serial 產生的盤面，對所有空格做 BFS 的塗色。塗色完之後還要檢查該色塊是否被同一個顏色的棋子所圍繞 (surround)。藉此來找到 closed region 。
+
+<!--而 "surround" 這個東東也要特別處理。試想你只在 5x5 的盤面中下了一個黑子。但是你對空地做 BFS 全部都會被塗成同一個顏色。而 5x5 board 已經是個 closed-region 了，所以其實你那顆黑子廣義來說也確實 surround 這了剩餘的空地，因為剩餘的空地都是連結的。也就是我們要更進一步的要求 surround 的定義。-->
+
+不！經過思考過後，不應該限縮 surround ！因為這樣代表黑子的確有可能上一步把那一大片的白子吃掉，所以這的確是一個 closed-region！而之前所產生的盤面都是 black's turn ，所以我們對這一些盤面要找的 previous move 是 WhiteStone 所下的地方。
+
+
+這樣就沒問題了。讓我們先用口語來整理一遍。兩玩家為 `Current` 與 `Opponent` 。`Current` 為落下那個 `GoStone` 的人。而我們之前的盤面都是處理接下來為 Black's turn ，所以這裡 `Current` 會是 `WhiteStone`。
+
+對顏色為 `Current` 的，檢查其四方位中 `EmptyStone` 的位置並做 BFS 塗色。創建一個 `GoBlock` 來嘗試塗色，去維護 `stone_state` 還有 `liberty_state` 。塗色完畢後檢查 liberty_state 是否「全部都是 `Current`」，如果是的話即為封閉且可為 eat move 。因為有維護 `stone_state` ，所以可以用 `pop_count` 來知道有幾顆石頭。
+
+另一個 idea 是維護顏色為 `EmptyStone` 的 `GoBlock`，但是這樣的話等於你對 `GoBlock` 來要多出 divide, merge 這兩種功能。這兩種功能會把原本的物件導向打亂，也就是盤面初始化（生成）的函式要重寫。
+
+### `UndoMove`
+
+來把一下初步對 `UndoMove` 的構想：
+
+```
+int UndoMove ( int target_id, StoneColor "Stone's Color of color", int ate_from, int set_ko_id );
+```
+- `ate_from` can be set from `0~3` (checkout `comm.h::COORD_DX[]`), or `-1` if this move to be undone is not an eat_move
+
+- return 0, undo success
+- return -1, no stone on `target_id`
+- return -2, "cannot be a eating move" but `ate_from` is set
+- return -3, `set_ko_id` is set in an illegal place, or `set_ko_id` is specified but `is_eat_move` is not set to `1`
+
+CAUTION!!! If we are rewinding, there maybe possible ko we need to set.
+
+
+接下來要把 Psuedo code 寫出來：
+
+- `UndoMove ( int target_id, StoneColor my_color, bool is_eat_move, int set_ko_id )`
+	- If `ate_from` is set
+		- Assert that the direction of `ate_from` is an `EmptyStone`
+		- `blk_id` = `FillEmptyRegion(target_id+DX[ate_from]/DY[ate_from])`
+		- If blocked filled is not surrounded by `my_color`, return error
+		- Else,
+			- Call `ResetStone` on `target_id` (need to update Zobrist value)
+			- Fill `blk_id` into the board (need to update Zobrist value)
+	- Else,
+		- `RemoveStone` on `target_id` (need to update Zobrist value)
+	- `game_length = max(0, game_length-1)`
+
+<!-- ## FOUND BUG!!! `SetStone` 沒有維護 Zobrist Hash！！！！ SOLVED-->
+
+### `GoBoard::ResetStone`
+
+跟 `SetStone` 寫起來應該要很像才對
+
+- `GoBlock` 中， `ResetStone`, `ResetLiberty`, `ResetVirtualLiberty`
+- `GoStone` 中, `Reset`
+- Update Zobrist Hash 
+
+另外要處理錯誤的部分，如果已經是 `EmptyStone` 就直接 return 。
+
+## 2020/03/08 （日）
+
+今天去黑露咖啡！嘿嘿終於去一家沒跟郭晴去過的咖啡廳了。
+
+首先先把 `SetStone` 修好。
+
+注意， `class GoBoard` 的初始化預設 `current_player = BlackStone`.
+等等！
+我發現不管怎麼樣如果要做到 `RemoveStone` 的話都需要做 Divide Block 的動作！所以也需要把 `DivideBlock` 刻出來！不過現在的難處是如何更新 `GoStone` 的 Disjoint 。
+
+Key Question: 知道拔除這個 `GoStone` 是否使 connected component 一分為二。
+
+有可能一分為 4 ，對壞掉的 `GoBlock` BFS 塗色來拆分他們。
+ 
+完成 `RefreshBlock` 來切分 `GoBlock`～～～～
+
+`RefreshBlock	` is called after `GoBoard::ResetStone`.
+
+
+## 2020/03/09 （ㄧ）
+
+其實想一想呈現也是非常需要的，所以寫出來不算是壞事！
+
+在能夠成功 `ResetStone` 之後，來試著把 `UndoMove` 做出來。
+
+但今天有點想要來把 code 整理得更好！用 `clang-format` 一股勁的整理好 `include/`, `investigate/` 。 `experiment` 的部分再等一下，今天想要完成 `UndoMove`。
+
+### `UndoMove`
+
+A move to undo may include eating, that means to undo a current board requires information such as:
+
+- which directions this stone ate (recover blocks by filling in those close regions, the array given can consist of `[0]` as size and the rest to be the values)
+	- assertion: we do BFS on the specified directions, and see if the filled directions does not intersect. 
+	- assertion: also need to check that stones surrounding the same region are of the same colour
+- do we need to set ko (simply set `ko_position`)
+	- after recovering (filled eaten blocks)
+	- assertion: check if the recovered board can form potential go on the given posision
+
+
+So we need the following error code to handle exceptions
+	
+```
+0: success
+-1: previous ate blocks not set correctly
+-2: ko position is impossible
+```
+
+For failure, `UndoMove` will fail and nothing will be changed.
+
+## 2020/03/10 （二）
+
+昨天 `UndoMove` 還沒有 bug ，今天繼續寫。（另外今天重訓好累，回去要好好把腰滾一下）
+
+應該是 linked-list 出問題導致 `FOR_BLOCK_STONE` 來做的 stone removal 出錯。
+
+經過除錯發現是 block_id 沒有設置成功。而且原本就沒有好好設置⋯⋯= =，讓人有點擔心之前實驗的結果。但是改了之後還是錯ㄟ！！！ 繼續除錯XDDD
+
+不只是 `GoStone::block_id` ！！！ `GoBlock::tail` 沒有好好維護導致串接造成失敗！應該是 `RemoveStone` 造成的！我來想想。
+
+`RemoveStone` 中的對 `GoStone` linked-list 沒有處理好，移除的是尾端但是沒有把 `blk.tail` 重新設定好。原來是陣列的 index 打錯了，真是要人命，這 bug 搞了四個小時。
+
+找到另外的 BUG 了，也就是在 Undo 的時候也要幫相鄰的敵對 `GoBlock` 恢復 liberty 才行。
+
+看起來 `UndoMove` 已經可以了，接下來是做 terminal gameplay 的選項好了。
+
+## 2020/03/12 （四）
+
+今天要做 terminal gameplay 的指令捕捉。
+
+首先要做的事 display 時的選項，需要做的如下：
+
+- highlight 當前座標
+- 捕捉上下左右(WASD)來移動 highlight 
+- case sensitively, `z(Z)` for placing a stone for the current player, `P` for doing a pass move, `u(U)` for undo. 
+
+Extra enhancement: 
+
+- undo for all available history (maintain its `previous_ko`, `prev_ate_from` array in own process, not in the structure.
+
+完成基本的 terminal 之後，意外的發現額外 `UndoMove` 的 bug 。進行兩次重複的 吃 + undo 時，第二次的 undo 會出現問題。
+
+居然問題出在 `GetNewBlock()` ！？
+
+超級怪⋯⋯ `pop()` 這個動作造成 bug ⋯⋯
+
+我發現在資工系工作站上，錯誤發生的情形與在 macOS 上不同，看來又碰到了神奇的 bug ，照理來說 STL 應該不會碰到 initialize 的問題才對⋯⋯ＯＡＯ
+
+## 2020/03/18 （二）
+
+今天來嘗試切換不同的 STL ，因為經過測試之後 bug 都是卡在 STL 內部的 operation ，以使用者的角度來說是 atomic 的。
+
+- 工作站(Arch Linux)：`std::stack::push` 時產生 segmentation fault 。
+- 本地點腦(MacOs)：`std::stack::pop` 時產生 segmentation fault 。
+
+我是我在想應該是 queue 對 `int8_t` 的記憶體管理出了問題。
+
+#### 嘗試一：切換成 `std::queue` 。
+
+原來 `game_length` 沒有好好維護造成 zobrist_hash 判定為重複盤面而使得沒有任何 move 產生。
+
+算是解出 BUG 了！因為現在可以成功無限的做 undo 然後吃子的那一個步驟了。
+
+再來下個 BUG 是在 eat -> undo -> eat -> undo -> pass -> pass 之後結束遊戲，成功輸出，但是在 free object 的時候產生 double free 的情況。
+
+
+
+
+
+
+
+
+ 
 
 
