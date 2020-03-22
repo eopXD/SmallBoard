@@ -1457,7 +1457,22 @@ Extra enhancement:
 
 再來下個 BUG 是在 eat -> undo -> eat -> undo -> pass -> pass 之後結束遊戲，成功輸出，但是在 free object 的時候產生 double free 的情況。
 
+測試資料如下：
 
+```
+$ cat input
+130973654
+kkzzxzxaa
+$ ./exec.test < input
+
+... （內容省略）
+
+Receive double pass, game end.
+Result: Black win
+exec.main(76848,0x11c2b75c0) malloc: *** error for object 0x4000000000000000: pointer being freed was not allocated
+exec.main(76848,0x11c2b75c0) malloc: *** set a breakpoint in malloc_error_break to debug
+Abort trap: 6
+```
 
 
 
