@@ -12,7 +12,10 @@ GoBoard::GoBoard()
 {
     CreateGlobalVariable();
 
-    FOR_EACH_COORD(id) { stones[id].self_id = id; }
+    FOR_EACH_COORD(id) { 
+        stones[id].self_id = id; 
+        stones[id].Reset();
+    }
     FOR_EACH_BLOCK(blk_id)
     {
         block_pool[blk_id].in_use = false;
@@ -34,7 +37,6 @@ GoBoard::GoBoard()
     current_zobrist_value = zobrist_empty_board;
 }
 GoBoard::GoBoard(const GoBoard &rhs) : GoBoard() { CopyFrom(rhs); }
-GoBoard::~GoBoard(){};
 
 void GoBoard::CopyFrom(const GoBoard &src)
 {
@@ -180,7 +182,7 @@ GoError GoBoard::UndoMove(const GoCoordId target_id, const GoCoordId prev_ko,
             }
             ++comp_cnt;
         }
-        FOR_EACH_COORD(id)
+        /*FOR_EACH_COORD(id)
         {
             if (id % BORDER_C == 0) {
                 cout << "\n";
@@ -191,7 +193,7 @@ GoError GoBoard::UndoMove(const GoCoordId target_id, const GoCoordId prev_ko,
                 cout << comp[id];
             }
         }
-        cout << "\n";
+        cout << "\n";*/
     }
     // GoStoneColor me = board_state[target_id];
     // GoStoneColor you = 3 - me;
@@ -199,8 +201,7 @@ GoError GoBoard::UndoMove(const GoCoordId target_id, const GoCoordId prev_ko,
     ko_position = prev_ko;
     current_zobrist_value ^= zobrist_switch_player;
     HandOff();
-    cout << "my color: " << COLOR_CHAR[SelfColor()] << "\n";
-    cout << "opp color: " << COLOR_CHAR[OpponentColor()] << "\n";
+    game_length--;
     FOR_EACH_COORD(id)
     {
         if (comp[id] == -1) {
@@ -215,38 +216,24 @@ GoError GoBoard::UndoMove(const GoCoordId target_id, const GoCoordId prev_ko,
         }
     }
     ResetStone(target_id);
-    cout << "After reset\n";
-    cout << "target_id: " << (int)target_id << "\n";
     FOR_NEIGHBOR(target_id, nb)
     {
-        cout << "XDDDDDD\n";
-        cout << (int)*nb << COLOR_CHAR[board_state[*nb]] << "\n";
         if (board_state[*nb] != OpponentColor()) {
             continue;
         }
-        cout << "HAHAHA\n";
-        cout << "nb: " << (int)*nb << ", block_id: " <<  (int)GetBlockIdByCoord(*nb) << "\n";
         GoBlock &nb_blk = block_pool[GetBlockIdByCoord(*nb)];
         if (nb_blk.color == OpponentColor()) {
             nb_blk.SetLiberty(target_id);
         }
     }
-    cout << "After SetLiberty\n";
-    DisplayBoard();
-    //DisplayGoBlock();
     FOR_EACH_COORD(id)
     {
-        cout << (int)id << ":" << comp[id] << "\n";
+        //cout << (int)id << ":" << comp[id] << "\n";
         if (comp[id] == -1) {
             continue;
         }
-        cout << "SET\n";
         SetStone(id, OpponentColor());
-        cout << "SETTED\n";
-        DisplayBoard();        
     }
-
-    cout << "After SetStone\n";
     if (prev_ko != COORD_UNSET) {
         /* error: prev_ko is not a possible ko position for recovered board */
         if (CheckKoPosition(cached_neighbor_id[prev_ko][0], SelfColor()) !=
@@ -398,6 +385,7 @@ GoBoard::GoBoard(GoSerial _serial, bool initialize) : GoBoard()
      * playing on the phase 'CheckKoStates'*/
     if (initialize) {
         /* do some initialization */
+
     }
 }
 
@@ -418,18 +406,19 @@ GoError GoBoard::SetStone(const GoCoordId target_id,
     }
     // nb_id[0] is counter,
     GoBlockId blk_id, nb_id[5];
-    cout << "GetNewBlock()\n";
+    /*cout << "GetNewBlock()\n";
     cout << "block in use: " << (int)block_in_use << "\n";
-    cout << "recycled_block: " << recycled_block.size() << "\n";
+    cout << "recycled_block: " << recycled_block.size() << "\n";*/
 
-    if ( recycled_block.size() ) {
+    /*if ( recycled_block.size() ) {
         for ( int i=0; i<block_in_use; ++i ) {
             cout << i << ": " << block_pool[i].in_use << "\n";
         }
-        cout << "recycled_block.top(): " << (int) recycled_block.top() << "\n";
-    }
+        cout << "recycled_block.top(): " << (int) recycled_block.front() << "\n";
+        
+    }*/
     GetNewBlock(blk_id);
-    cout << "blk_id: " << (int)blk_id << "\n";
+    //cout << "blk_id: " << (int)blk_id << "\n";
     GoBlock &blk = block_pool[blk_id];
 
     stones[target_id].Reset(blk_id);
@@ -914,7 +903,7 @@ GoError GoBoard::TryMove(GoBlock &blk, const GoCoordId target_id,
 // recycle the block, save it into stack
 void GoBoard::RecycleBlock(const GoBlockId blk_id)
 {
-    cout << (int) blk_id << " is recycled\n";
+//    cout << (int) blk_id << " is recycled\n";
     block_pool[blk_id].in_use = false;
     recycled_block.push(blk_id);
 }
@@ -924,12 +913,8 @@ void GoBoard::GetNewBlock(GoBlockId &blk_id)
 {
     blk_id = BLOCK_UNSET;
     if (!recycled_block.empty()) {;
-        blk_id = recycled_block.top();
-        cout << "Assigned\n";
-        cout << "size: " << (int)recycled_block.size() << "\n";
-        cout << "top: " << (int)recycled_block.top() << "\n";
+        blk_id = recycled_block.front();
         recycled_block.pop();
-        cout << "POP\n";
     } else {
         blk_id = block_in_use++;
     }

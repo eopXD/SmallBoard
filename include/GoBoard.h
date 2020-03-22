@@ -11,6 +11,7 @@
 #include <cstring>
 #include <iostream>
 #include <stack>
+#include <queue>
 
 #include "GoBlock.h"
 #include "GoStone.h"
@@ -27,14 +28,12 @@ public:
      * game_length = 0 */
     GoBoard();
     GoBoard(const GoBoard &rhs);
-    ~GoBoard();
     void CopyFrom(const GoBoard &src);
     /* call SetStone to setup
      * initialize = 1, for gameplay
      * initialize = 0, for pure calculation
      * error_code is set for error handling */
     GoBoard(const GoSerial _serial, bool initialize = 0);
-    GoError error_code;
 
 protected:
     /* redirect '*stone' pointer in GoBlock to the stones[] after CopyFrom() */
@@ -176,13 +175,15 @@ protected:
 public:
     /************* GoBoard data *************/
     GoSerial serial;
+    GoError error_code;
     GoStone
         stones[GoConstant::SMALLBOARDSIZE]; /* circular-singly linked-list */
     /* NOTE: information of previous maybe extracted to a new class? */
     GoCoordId previous_move, previous_ko;
     GoCoordId prev_eat_from[5];
     /* GoBlock resource*/
-    std::stack<GoBlockId> recycled_block;
+    //std::stack<GoBlockId> recycled_block;
+    std::queue<GoBlockId> recycled_block;
     GoBlock block_pool[GoConstant::MAX_BLOCK_SIZE];
     GoCounter block_in_use;
     /* naiive information */
