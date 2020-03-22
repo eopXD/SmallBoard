@@ -12,10 +12,7 @@ PARALLEL=-fopenmp
 INCLUDE=-I ../../include/ 
 NOW=$(4x4)
 
-test: display.o comm.o GoBoard.o 
-	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) *.o test.cpp -o exec.test
-	rm -rf *.o
-main: comm.o GoBoard.o
+main: comm.o GoBoard.o display.o
 	$(G_PLUS_PLUS) $(STATE_ULL) $(NOW) $(INCLUDE) *.o main.cpp -o exec.main
 	rm -rf *.o
 
